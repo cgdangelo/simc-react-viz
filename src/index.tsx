@@ -1,29 +1,38 @@
 import AppBar from '@material-ui/core/AppBar/AppBar'
 import CssBaseline from '@material-ui/core/CssBaseline'
+import ExpansionPanel from '@material-ui/core/ExpansionPanel'
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
 import Grid from '@material-ui/core/Grid'
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme'
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
+import { ExpandMore } from '@material-ui/icons'
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import Chip from './Chip'
 import registerServiceWorker from './registerServiceWorker'
 
 // TODO: Remove when Highcharts is in.
-const numberFormat = (n: any, ...args: any[]) => n
+const numberFormat = (n: any, ...args: any[]) => n.toLocaleString()
 
 const reportData = require('./report.json') // tslint:disable-line no-var-requires
 
 const theme = createMuiTheme({
   palette: {type: 'dark'},
-  typography: {fontFamily: 'Roboto Slab'},
+  typography: {fontFamily: 'Roboto'},
 })
 
 const Report = (report: IJsonReport) => (
-  <TitleBar buildDate={report.build_date} buildTime={report.build_time} fightStyle={report.sim.options.fight_style}
-            iterations={report.sim.options.iterations} maxTime={report.sim.options.max_time}
-            targetError={report.sim.options.target_error} varyCombatLength={report.sim.options.vary_combat_length}/>
+  <React.Fragment>
+    <TitleBar buildDate={report.build_date} buildTime={report.build_time} fightStyle={report.sim.options.fight_style}
+              iterations={report.sim.options.iterations} maxTime={report.sim.options.max_time}
+              targetError={report.sim.options.target_error} varyCombatLength={report.sim.options.vary_combat_length}/>
+
+    <RaidSummary players={report.sim.players} raidDps={report.sim.statistics.raid_dps.mean}
+                 raidEvents={report.sim.raid_events} totalDamage={report.sim.statistics.total_dmg.mean}/>
+  </React.Fragment>
 )
 
 const TitleBar = (props: {
@@ -59,6 +68,27 @@ const TitleBar = (props: {
     </AppBar>
   )
 }
+
+const RaidSummary = (props: {
+  players: IActor[]
+  raidDps: number
+  raidEvents: IRaidEvent[]
+  totalDamage: number
+}) => (
+  <ExpansionPanel defaultExpanded={true}>
+    <ExpansionPanelSummary expandIcon={<ExpandMore/>}>
+      <Typography variant='title'>Raid Summary</Typography>
+    </ExpansionPanelSummary>
+    <ExpansionPanelDetails>
+      <Grid container={true}>
+        <Grid item={true} xs={12}>
+          <Chip label="Damage (Mean)" value={numberFormat(props.totalDamage, 0)}/>
+          <Chip label="DPS (Mean)" value={numberFormat(props.raidDps, 0)}/>
+        </Grid>
+      </Grid>
+    </ExpansionPanelDetails>
+  </ExpansionPanel>
+)
 
 ReactDOM.render(
   <React.Fragment>
