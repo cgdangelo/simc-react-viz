@@ -16,8 +16,8 @@ Highcharts.setOptions({
   },
   chart: {
     backgroundColor: grey[900],
-    borderColor: grey[500],
-    borderWidth: 2,
+    // borderColor: grey[500],
+    // borderWidth: 2,
     spacing: [25, 50, 25, 25],
     style: {
       fontFamily: 'Roboto',

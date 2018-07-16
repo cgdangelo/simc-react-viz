@@ -64,22 +64,24 @@ const RaidSummary = (props: {
             item={true}
             xs={12}
           >
-            <HighchartsReact
-              highcharts={Highcharts}
-              options={{
-                title: {
-                  text: 'Raid DPS',
-                },
-                xAxis: {
-                  categories: playersByDps.map(player => player.name),
-                },
-                series: [{
-                  type: 'bar',
-                  name: 'DPS',
-                  data: playersByDps,
-                }],
-              }}
-            />
+            <div style={{width: '100%', overflowX: 'hidden'}}>
+              <HighchartsReact
+                highcharts={Highcharts}
+                options={{
+                  title: {
+                    text: 'Raid DPS',
+                  },
+                  xAxis: {
+                    categories: playersByDps.map(player => player.name),
+                  },
+                  series: [{
+                    type: 'bar',
+                    name: 'DPS',
+                    data: playersByDps,
+                  }],
+                }}
+              />
+            </div>
           </Grid>
           <Grid
             item={true}
@@ -112,8 +114,7 @@ const RaidSummary = (props: {
             <HighchartsReact
               highcharts={Highcharts}
               options={{
-                plotOptions: {
-                },
+                plotOptions: {},
                 title: {
                   text: 'DPS Variance Percentage',
                 },
