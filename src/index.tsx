@@ -9,13 +9,20 @@ import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import { ExpandMore } from '@material-ui/icons'
+import Highcharts from 'highcharts'
+import HighchartsReact from 'highcharts-react-official'
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import Chip from './Chip'
 import registerServiceWorker from './registerServiceWorker'
 
-// TODO: Remove when Highcharts is in.
-const numberFormat = (n: any, ...args: any[]) => n.toLocaleString()
+Highcharts.setOptions({
+  lang: {
+    thousandsSep: ',',
+  },
+})
+
+const {numberFormat} = Highcharts
 
 const reportData = require('./report.json') // tslint:disable-line no-var-requires
 
@@ -64,15 +71,39 @@ const TitleBar = (props: {
   }
 
   return (
-    <AppBar position="static" color="default">
+    <AppBar
+      position="static"
+      color="default"
+    >
       <Toolbar>
-        <Typography variant="title" color="inherit">SimulationCraft</Typography>
-        <Grid container={true} justify="flex-end">
-          <Chip label="Timestamp" value={`${props.buildDate} ${props.buildTime}`} />
-          <Chip label="Iterations" value={props.iterations} />
-          <Chip label="Target Error" value={props.targetError} />
-          <Chip label="Fight Length" value={fightLengthString} />
-          <Chip label="Fight Style" value={props.fightStyle} />
+        <Typography
+          variant="title"
+          color="inherit"
+        >SimulationCraft</Typography>
+        <Grid
+          container={true}
+          justify="flex-end"
+        >
+          <Chip
+            label="Timestamp"
+            value={`${props.buildDate} ${props.buildTime}`}
+          />
+          <Chip
+            label="Iterations"
+            value={props.iterations}
+          />
+          <Chip
+            label="Target Error"
+            value={props.targetError}
+          />
+          <Chip
+            label="Fight Length"
+            value={fightLengthString}
+          />
+          <Chip
+            label="Fight Style"
+            value={props.fightStyle}
+          />
         </Grid>
       </Toolbar>
     </AppBar>
@@ -91,9 +122,32 @@ const RaidSummary = (props: {
     </ExpansionPanelSummary>
     <ExpansionPanelDetails>
       <Grid container={true}>
-        <Grid item={true} xs={12}>
-          <Chip label="Damage (Mean)" value={numberFormat(props.totalDamage, 0)} />
-          <Chip label="DPS (Mean)" value={numberFormat(props.raidDps, 0)} />
+        <Grid
+          item={true}
+          xs={12}
+        >
+          <Chip
+            label="DPS (Mean)"
+            value={numberFormat(props.raidDps, 0)}
+          />
+          <Chip
+            label="Damage (Mean)"
+            value={numberFormat(props.totalDamage, 0)}
+          />
+        </Grid>
+        <Grid item={true}>
+          <HighchartsReact
+            style={{flexBasis: '100%'}}
+            highcharts={Highcharts}
+            options={{
+              title: {
+                text: 'Raid DPS',
+              },
+              series: [{
+                data: [1, 2, 3],
+              }],
+            }}
+          />
         </Grid>
       </Grid>
     </ExpansionPanelDetails>
