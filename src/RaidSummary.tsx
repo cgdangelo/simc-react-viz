@@ -14,42 +14,58 @@ const RaidSummary = (props: {
   raidDps: number
   raidEvents: IRaidEvent[]
   totalDamage: number
-}) => (
-  <ExpansionPanel defaultExpanded={true}>
-    <ExpansionPanelSummary expandIcon={<ExpandMore />}>
-      <Typography variant="title">Raid Summary</Typography>
-    </ExpansionPanelSummary>
-    <ExpansionPanelDetails>
-      <Grid container={true}>
+}) => {
+  const playersByDps = props.players.map(player => ({name: player.name, y: player.collected_data.dps.mean}))
+  playersByDps.sort((a, b) => b.y - a.y)
+
+  return (
+    <ExpansionPanel defaultExpanded={true}>
+      <ExpansionPanelSummary expandIcon={<ExpandMore />}>
+        <Typography variant="title">Raid Summary</Typography>
+      </ExpansionPanelSummary>
+      <ExpansionPanelDetails>
         <Grid
-          item={true}
-          xs={12}
+          container={true}
+          spacing={16}
         >
-          <Chip
-            label="DPS (Mean)"
-            value={numberFormat(props.raidDps, 0)}
-          />
-          <Chip
-            label="Damage (Mean)"
-            value={numberFormat(props.totalDamage, 0)}
-          />
+          <Grid
+            item={true}
+            xs={12}
+          >
+            <Chip
+              label="DPS (Mean)"
+              value={numberFormat(props.raidDps, 0)}
+            />
+            <Chip
+              label="Damage (Mean)"
+              value={numberFormat(props.totalDamage, 0)}
+            />
+          </Grid>
+          <Grid
+            item={true}
+            xs={12}
+          >
+            <HighchartsReact
+              highcharts={Highcharts}
+              options={{
+                title: {
+                  text: 'Raid DPS',
+                },
+                xAxis: {
+                  categories: playersByDps.map(player => player.name),
+                },
+                series: [{
+                  type: 'bar',
+                  name: 'Damage per second',
+                  data: playersByDps,
+                }],
+              }}
+            />
+          </Grid>
         </Grid>
-        <Grid item={true}>
-          <HighchartsReact
-            highcharts={Highcharts}
-            options={{
-              title: {
-                text: 'Raid DPS',
-              },
-              series: [{
-                data: [1, 2, 3],
-              }],
-            }}
-          />
-        </Grid>
-      </Grid>
-    </ExpansionPanelDetails>
-  </ExpansionPanel>
-)
+      </ExpansionPanelDetails>
+    </ExpansionPanel>
+  )
+}
 
 export default RaidSummary

@@ -1,3 +1,4 @@
+import { grey } from '@material-ui/core/colors'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme'
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
@@ -7,17 +8,82 @@ import * as ReactDOM from 'react-dom'
 import registerServiceWorker from './registerServiceWorker'
 import Report from './Report'
 
+const reportData = require('./report.json') // tslint:disable-line no-var-requires
+
 Highcharts.setOptions({
+  credits: {
+    enabled: false,
+  },
+  chart: {
+    backgroundColor: grey[900],
+    borderColor: grey[500],
+    borderWidth: 2,
+    spacing: [25, 50, 25, 25],
+    style: {
+      fontFamily: 'Roboto',
+    },
+  },
   lang: {
     thousandsSep: ',',
   },
+  legend: {
+    enabled: false,
+  },
+  plotOptions: {
+    bar: {
+      borderColor: 'transparent',
+      dataLabels: {
+        align: 'right',
+        crop: false,
+        enabled: true,
+        format: '{point.y:,.0f}',
+        y: 3,
+        style: {
+          fontSize: '1rem',
+        },
+      },
+    },
+    boxplot: {
+      color: grey[50],
+      fillColor: 'rgba(255, 255, 255, 0.15)',
+      lineWidth: 2,
+      whiskerLength: '50%',
+    },
+  },
+  title: {
+    style: {
+      color: grey[50],
+      fontWeight: 'bold',
+    },
+  },
+  tooltip: {
+    valueDecimals: 2,
+  },
+  xAxis: {
+    labels: {
+      style: {
+        color: grey[50],
+        fontSize: '1rem',
+      },
+      y: 6,
+    },
+    lineWidth: 0,
+    tickLength: 0,
+    gridLineColor: 'transparent',
+  },
+  yAxis: {
+    gridLineColor: grey[800],
+    title: {
+      enabled: false,
+    },
+    label: {
+      enabled: false,
+    },
+  },
 })
-
-const reportData = require('./report.json') // tslint:disable-line no-var-requires
 
 const theme = createMuiTheme({
   palette: {type: 'dark'},
-  typography: {fontFamily: 'Roboto'},
 })
 
 ReactDOM.render(
