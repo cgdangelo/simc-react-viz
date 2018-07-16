@@ -33,7 +33,8 @@ Highcharts.setOptions({
     bar: {
       borderColor: 'transparent',
       dataLabels: {
-        align: 'right',
+        inside: true,
+        align: 'left',
         crop: false,
         enabled: true,
         format: '{point.y:,.0f}',

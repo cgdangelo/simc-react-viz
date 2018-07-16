@@ -8,6 +8,7 @@ import Highcharts, { numberFormat } from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 import * as React from 'react'
 import Chip from './Chip'
+import { getColorBySpecialization } from './specializations'
 
 const RaidSummary = (props: {
   players: IActor[]
@@ -15,8 +16,26 @@ const RaidSummary = (props: {
   raidEvents: IRaidEvent[]
   totalDamage: number
 }) => {
-  const playersByDps = props.players.map(player => ({name: player.name, y: player.collected_data.dps.mean}))
+  const playersByDps = props.players.map(player => ({
+    name: player.name,
+    color: getColorBySpecialization(player.specialization),
+    y: player.collected_data.dps.mean,
+  }))
   playersByDps.sort((a, b) => b.y - a.y)
+
+  const playersByApm = props.players.map(player => ({
+    name: player.name,
+    color: getColorBySpecialization(player.specialization),
+    y: player.collected_data.executed_foreground_actions.mean / player.collected_data.fight_length.mean * 60,
+  }))
+  playersByApm.sort((a, b) => b.y - a.y)
+
+  const playersByDpsVariance = props.players.map(player => ({
+    name: player.name,
+    color: getColorBySpecialization(player.specialization),
+    y: player.collected_data.dps.std_dev / player.collected_data.dps.mean * 100,
+  }))
+  playersByDpsVariance.sort((a, b) => b.y - a.y)
 
   return (
     <ExpansionPanel defaultExpanded={true}>
@@ -56,8 +75,58 @@ const RaidSummary = (props: {
                 },
                 series: [{
                   type: 'bar',
-                  name: 'Damage per second',
+                  name: 'DPS',
                   data: playersByDps,
+                }],
+              }}
+            />
+          </Grid>
+          <Grid
+            item={true}
+            xs={6}
+          >
+            <HighchartsReact
+              highcharts={Highcharts}
+              options={{
+                title: {
+                  text: 'Actions per Minute',
+                },
+                xAxis: {
+                  categories: playersByApm.map(player => player.name),
+                },
+                series: [{
+                  type: 'bar',
+                  dataLabels: {
+                    format: '{point.y:,.2f}',
+                  },
+                  name: 'APM',
+                  data: playersByApm,
+                }],
+              }}
+            />
+          </Grid>
+          <Grid
+            item={true}
+            xs={6}
+          >
+            <HighchartsReact
+              highcharts={Highcharts}
+              options={{
+                plotOptions: {
+                },
+                title: {
+                  text: 'DPS Variance Percentage',
+                },
+                xAxis: {
+                  categories: playersByDpsVariance.map(player => player.name),
+                },
+                series: [{
+                  type: 'bar',
+                  dataLabels: {
+                    format: '{point.y:,.2f}',
+                  },
+                  name: 'Variance (%)',
+                  data: playersByDpsVariance,
                 }],
               }}
             />
