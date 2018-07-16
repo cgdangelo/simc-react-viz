@@ -5,7 +5,14 @@ import Typography from '@material-ui/core/Typography'
 import * as React from 'react'
 
 const Chip = ({label, value, ...muiProps}: ChipProps & { value: any }) => (
-  <MuiChip label={<Typography><b>{label}</b> {value}</Typography>} {...muiProps}/>
+  <MuiChip
+    label={
+      <Typography>
+        <b>{label}</b> {value}
+      </Typography>
+    }
+    {...muiProps}
+  />
 )
 
 const styles = ((theme: Theme) => ({

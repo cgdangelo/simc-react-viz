@@ -8,6 +8,8 @@
   },
   "rules": {
     "object-literal-sort-keys": false,
-    "semicolon": [true, "never"]
+    "semicolon": [true, "never"],
+    "quotemark": [true, "single", "jsx-double"],
+    "jsx-space-before-trailing-slash": true
   }
 }

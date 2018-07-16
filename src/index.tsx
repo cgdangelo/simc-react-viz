@@ -26,12 +26,22 @@ const theme = createMuiTheme({
 
 const Report = (report: IJsonReport) => (
   <React.Fragment>
-    <TitleBar buildDate={report.build_date} buildTime={report.build_time} fightStyle={report.sim.options.fight_style}
-              iterations={report.sim.options.iterations} maxTime={report.sim.options.max_time}
-              targetError={report.sim.options.target_error} varyCombatLength={report.sim.options.vary_combat_length}/>
+    <TitleBar
+      buildDate={report.build_date}
+      buildTime={report.build_time}
+      fightStyle={report.sim.options.fight_style}
+      iterations={report.sim.options.iterations}
+      maxTime={report.sim.options.max_time}
+      targetError={report.sim.options.target_error}
+      varyCombatLength={report.sim.options.vary_combat_length}
+    />
 
-    <RaidSummary players={report.sim.players} raidDps={report.sim.statistics.raid_dps.mean}
-                 raidEvents={report.sim.raid_events} totalDamage={report.sim.statistics.total_dmg.mean}/>
+    <RaidSummary
+      players={report.sim.players}
+      raidDps={report.sim.statistics.raid_dps.mean}
+      raidEvents={report.sim.raid_events}
+      totalDamage={report.sim.statistics.total_dmg.mean}
+    />
   </React.Fragment>
 )
 
@@ -54,15 +64,15 @@ const TitleBar = (props: {
   }
 
   return (
-    <AppBar position='static' color='default'>
+    <AppBar position="static" color="default">
       <Toolbar>
-        <Typography variant='title' color='inherit'>SimulationCraft</Typography>
-        <Grid container={true} justify='flex-end'>
-          <Chip label='Timestamp' value={`${props.buildDate} ${props.buildTime}`}/>
-          <Chip label='Iterations' value={props.iterations}/>
-          <Chip label='Target Error' value={props.targetError}/>
-          <Chip label='Fight Length' value={fightLengthString}/>
-          <Chip label='Fight Style' value={props.fightStyle}/>
+        <Typography variant="title" color="inherit">SimulationCraft</Typography>
+        <Grid container={true} justify="flex-end">
+          <Chip label="Timestamp" value={`${props.buildDate} ${props.buildTime}`} />
+          <Chip label="Iterations" value={props.iterations} />
+          <Chip label="Target Error" value={props.targetError} />
+          <Chip label="Fight Length" value={fightLengthString} />
+          <Chip label="Fight Style" value={props.fightStyle} />
         </Grid>
       </Toolbar>
     </AppBar>
@@ -76,14 +86,14 @@ const RaidSummary = (props: {
   totalDamage: number
 }) => (
   <ExpansionPanel defaultExpanded={true}>
-    <ExpansionPanelSummary expandIcon={<ExpandMore/>}>
-      <Typography variant='title'>Raid Summary</Typography>
+    <ExpansionPanelSummary expandIcon={<ExpandMore />}>
+      <Typography variant="title">Raid Summary</Typography>
     </ExpansionPanelSummary>
     <ExpansionPanelDetails>
       <Grid container={true}>
         <Grid item={true} xs={12}>
-          <Chip label="Damage (Mean)" value={numberFormat(props.totalDamage, 0)}/>
-          <Chip label="DPS (Mean)" value={numberFormat(props.raidDps, 0)}/>
+          <Chip label="Damage (Mean)" value={numberFormat(props.totalDamage, 0)} />
+          <Chip label="DPS (Mean)" value={numberFormat(props.raidDps, 0)} />
         </Grid>
       </Grid>
     </ExpansionPanelDetails>
@@ -92,9 +102,9 @@ const RaidSummary = (props: {
 
 ReactDOM.render(
   <React.Fragment>
-    <CssBaseline/>
+    <CssBaseline />
     <MuiThemeProvider theme={theme}>
-      <Report {...reportData}/>
+      <Report {...reportData} />
     </MuiThemeProvider>
   </React.Fragment>,
   document.getElementById('root') as HTMLElement,
