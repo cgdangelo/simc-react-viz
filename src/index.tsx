@@ -22,8 +22,8 @@ const theme = createMuiTheme({
 
 ReactDOM.render(
   <>
-    <CssBaseline />
     <MuiThemeProvider theme={theme}>
+      <CssBaseline />
       <Report {...reportData} />
     </MuiThemeProvider>
   </>,
