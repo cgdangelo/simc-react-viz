@@ -5,6 +5,11 @@ declare interface IDbc {
     wow_version: string;
   };
 
+  Beta: {
+    build_level: number;
+    wow_version: string;
+  };
+
   version_used: string;
 }
 
@@ -307,7 +312,7 @@ declare interface IRaidEvent {
 }
 
 declare interface IJsonReport {
-  version: number;
+  version: string;
   ptr_enabled: number;
   build_date: string;
   build_time: string;

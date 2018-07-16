@@ -7,6 +7,10 @@ import * as React from 'react'
 import Chip from './Chip'
 
 const TitleBar = (props: {
+  simcVersion: string
+  gameVersion: string
+  wowVersion: string
+  buildLevel: string
   buildDate: string
   buildTime: string
   fightStyle: string
@@ -33,7 +37,12 @@ const TitleBar = (props: {
         <Typography
           variant="title"
           color="inherit"
-        >SimulationCraft</Typography>
+        >
+          SimulationCraft
+          <Typography variant="caption" style={{display: 'inline-block'}}>
+            {props.simcVersion} for {props.gameVersion} {props.wowVersion}.{props.buildLevel}
+          </Typography>
+        </Typography>
         <Grid
           container={true}
           justify="flex-end"

@@ -21,12 +21,12 @@ const theme = createMuiTheme({
 })
 
 ReactDOM.render(
-  <React.Fragment>
+  <>
     <CssBaseline />
     <MuiThemeProvider theme={theme}>
       <Report {...reportData} />
     </MuiThemeProvider>
-  </React.Fragment>,
+  </>,
   document.getElementById('root') as HTMLElement,
 )
 registerServiceWorker()
