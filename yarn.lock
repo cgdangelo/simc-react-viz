@@ -62,6 +62,16 @@
   dependencies:
     recompose "^0.26.0 || ^0.27.0"
 
+"@types/geojson@*":
+  version "7946.0.4"
+  resolved "https://registry.yarnpkg.com/@types/geojson/-/geojson-7946.0.4.tgz#4e049756383c3f055dd8f3d24e63fb543e98eb07"
+
+"@types/highcharts@^5.0.25":
+  version "5.0.25"
+  resolved "https://registry.yarnpkg.com/@types/highcharts/-/highcharts-5.0.25.tgz#a80620cc4f62acb160f27b1f9c0dfa57b3102fb3"
+  dependencies:
+    "@types/geojson" "*"
+
 "@types/jest@^23.1.4":
   version "23.3.0"
   resolved "https://registry.yarnpkg.com/@types/jest/-/jest-23.3.0.tgz#5dd70033b616a6228042244ebd992f6426808810"

@@ -4,11 +4,13 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import ExpandMore from '@material-ui/icons/ExpandMore'
-import Highcharts, { numberFormat } from 'highcharts'
+import * as Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 import * as React from 'react'
 import Chip from './Chip'
 import { getColorBySpecialization } from './specializations'
+
+const { numberFormat } = Highcharts
 
 interface ISpecializationLookupMap {
   [name: string]: ClassSpecialization

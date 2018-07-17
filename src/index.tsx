@@ -2,7 +2,7 @@ import { grey } from '@material-ui/core/colors'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme'
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
-import Highcharts from 'highcharts'
+import * as Highcharts from 'highcharts'
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import './index.css'
@@ -12,6 +12,9 @@ import Report from './Report'
 const reportData = require('./report.json') // tslint:disable-line no-var-requires
 
 Highcharts.setOptions({
+  lang: {
+    thousandsSep: ','
+  },
   credits: {
     enabled: false
   },
@@ -21,9 +24,6 @@ Highcharts.setOptions({
     style: {
       fontFamily: 'Roboto'
     }
-  },
-  lang: {
-    thousandsSep: ','
   },
   legend: {
     enabled: false
@@ -76,12 +76,7 @@ Highcharts.setOptions({
   },
   yAxis: {
     gridLineColor: grey[800],
-    title: {
-      enabled: false
-    },
-    label: {
-      enabled: false
-    }
+    title: null
   }
 })
 
