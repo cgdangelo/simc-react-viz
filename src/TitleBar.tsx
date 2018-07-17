@@ -41,7 +41,7 @@ const TitleBar: React.SFC<ITitleBarProps & WithStyles<typeof styles>> = props =>
 
   return (
     <AppBar
-      position='absolute'
+      position='fixed'
       color='default'
       className={props.classes.appBar}
     >

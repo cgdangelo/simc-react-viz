@@ -1,8 +1,8 @@
 import { Theme, WithStyles } from '@material-ui/core'
-import Drawer from '@material-ui/core/Drawer/Drawer'
 import createStyles from '@material-ui/core/styles/createStyles'
 import withStyles from '@material-ui/core/styles/withStyles'
 import * as React from 'react'
+import Navigation from './Navigation'
 import RaidSummary from './RaidSummary'
 import TitleBar from './TitleBar'
 
@@ -11,13 +11,10 @@ export interface IReportProps {
 }
 
 const styles = (theme: Theme) => {
-  const drawerWidth = 240
+  const drawerWidth = 300
 
   return createStyles({
     toolbar: theme.mixins.toolbar,
-    drawerPaper: {
-      width: drawerWidth
-    },
     content: {
       marginLeft: drawerWidth
     }
@@ -44,13 +41,7 @@ const Report = ({ report, classes }: IReportProps & WithStyles<typeof styles>) =
         varyCombatLength={report.sim.options.vary_combat_length}
       />
 
-      <Drawer
-        open={true}
-        variant='permanent'
-        classes={{ paper: classes.drawerPaper }}
-      >
-        <div className={classes.toolbar} />
-      </Drawer>
+      <Navigation players={report.sim.players} />
 
       <main className={classes.content}>
         <div className={classes.toolbar} />
