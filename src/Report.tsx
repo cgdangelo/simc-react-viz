@@ -2,7 +2,7 @@ import * as React from 'react'
 import RaidSummary from './RaidSummary'
 import TitleBar from './TitleBar'
 
-const Report = (report: IJsonReport) => {
+function Report(report: IJsonReport) {
   const versionUsed = report.sim.options.dbc.version_used
   const gameData = report.sim.options.dbc[versionUsed]
 

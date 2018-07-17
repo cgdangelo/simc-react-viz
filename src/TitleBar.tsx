@@ -6,7 +6,7 @@ import {numberFormat} from 'highcharts'
 import * as React from 'react'
 import Chip from './Chip'
 
-const TitleBar = (props: {
+function TitleBar(props: {
   simcVersion: string
   gameVersion: string
   wowVersion: string
@@ -18,7 +18,7 @@ const TitleBar = (props: {
   maxTime: number
   targetError: number
   varyCombatLength: number
-}) => {
+}) {
   const minFightLength = props.maxTime * (1 - props.varyCombatLength)
   const maxFightLength = props.maxTime * (1 + props.varyCombatLength)
 

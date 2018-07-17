@@ -10,36 +10,91 @@ import * as React from 'react'
 import Chip from './Chip'
 import {getColorBySpecialization} from './specializations'
 
+interface ISpecializationLookupMap {
+  [name: string]: ClassSpecialization
+}
+
+interface IActorBar {
+  name: string
+  color: string
+  y: number
+}
+
+interface IActorBarChartBuilderOptions {
+  title: string
+  series: {
+    name: string
+    data: IActorBar[]
+    dataLabelPrecision?: number
+  }
+  specLookup: ISpecializationLookupMap
+}
+
+function createSortedPlayerList(players: IActor[], accessor: string | ((player: IActor) => any)): IActorBar[] {
+  const playersByProperty = players.map(player => ({
+    name: player.name,
+    color: getColorBySpecialization(player.specialization),
+    y: typeof accessor === 'string' ? player[accessor] : accessor(player),
+  }))
+
+  playersByProperty.sort((a, b) => b.y - a.y)
+
+  return playersByProperty
+}
+
+function createStackedActorChart(options: IActorBarChartBuilderOptions) {
+  const {series: {data: bars}} = options
+
+  return (
+    <HighchartsReact
+      highcharts={Highcharts}
+      options={{
+        chart: {
+          height: bars.length * 50,
+        },
+        title: {
+          text: options.title,
+        },
+        xAxis: {
+          categories: bars.map(bar => bar.name),
+          labels: {
+            formatter(this: any) {
+              return `<span style="color: ${getColorBySpecialization(options.specLookup[this.value])}">${this.value}</span>`
+            },
+          },
+        },
+        series: [{
+          type: 'bar',
+          name: options.title,
+          data: bars,
+          dataLabels: {
+            format: `{point.y:,.${options.series.dataLabelPrecision || 0}f}`,
+          },
+        }],
+      }}
+    />
+  )
+}
+
 const RaidSummary = (props: {
   players: IActor[]
   raidDps: number
   raidEvents: IRaidEvent[]
   totalDamage: number
 }) => {
-  const playersByDps = props.players.map(player => ({
-    name: player.name,
-    color: getColorBySpecialization(player.specialization),
-    y: player.collected_data.dps.mean,
-  }))
-  playersByDps.sort((a, b) => b.y - a.y)
+  const playersByDps = createSortedPlayerList(props.players, (player) => (
+    player.collected_data.dps.mean
+  ))
+  const playersByApm = createSortedPlayerList(props.players, (player) => (
+    player.collected_data.executed_foreground_actions.mean / player.collected_data.fight_length.mean * 60
+  ))
+  const playersByDpsVariance = createSortedPlayerList(props.players, (player) => (
+    player.collected_data.dps.std_dev / player.collected_data.dps.mean * 100
+  ))
 
-  const playersByApm = props.players.map(player => ({
-    name: player.name,
-    color: getColorBySpecialization(player.specialization),
-    y: player.collected_data.executed_foreground_actions.mean / player.collected_data.fight_length.mean * 60,
-  }))
-  playersByApm.sort((a, b) => b.y - a.y)
+  const specLookup: ISpecializationLookupMap = {}
 
-  const playersByDpsVariance = props.players.map(player => ({
-    name: player.name,
-    color: getColorBySpecialization(player.specialization),
-    y: player.collected_data.dps.std_dev / player.collected_data.dps.mean * 100,
-  }))
-  playersByDpsVariance.sort((a, b) => b.y - a.y)
-
-  const reverseSpecLookup: {[player: string]: string} = {}
-
-  props.players.forEach(player => reverseSpecLookup[player.name] = player.specialization)
+  props.players.forEach(player => specLookup[player.name] = player.specialization)
 
   return (
     <ExpansionPanel defaultExpanded={true}>
@@ -68,94 +123,31 @@ const RaidSummary = (props: {
             item={true}
             xs={12}
           >
-            <HighchartsReact
-              highcharts={Highcharts}
-              options={{
-                chart: {
-                  height: props.players.length * 50,
-                },
-                title: {
-                  text: 'Raid DPS',
-                },
-                xAxis: {
-                  categories: playersByDps.map(player => player.name),
-                  labels: {
-                    formatter(this: any) {
-                      return `<span style="color: ${getColorBySpecialization(reverseSpecLookup[this.value])}">${this.value}</span>`
-                    },
-                  },
-                },
-                series: [{
-                  type: 'bar',
-                  name: 'DPS',
-                  data: playersByDps,
-                }],
-              }}
-            />
+            {createStackedActorChart({
+              title: 'Damage per Second',
+              series: {name: 'DPS', data: playersByDps},
+              specLookup,
+            })}
           </Grid>
           <Grid
             item={true}
             xs={6}
           >
-            <HighchartsReact
-              highcharts={Highcharts}
-              options={{
-                chart: {
-                  height: props.players.length * 50,
-                },
-                title: {
-                  text: 'Actions per Minute',
-                },
-                xAxis: {
-                  categories: playersByApm.map(player => player.name),
-                  labels: {
-                    formatter(this: any) {
-                      return `<span style="color: ${getColorBySpecialization(reverseSpecLookup[this.value])}">${this.value}</span>`
-                    },
-                  },
-                },
-                series: [{
-                  type: 'bar',
-                  dataLabels: {
-                    format: '{point.y:,.2f}',
-                  },
-                  name: 'APM',
-                  data: playersByApm,
-                }],
-              }}
-            />
+            {createStackedActorChart({
+              title: 'Actions per Minute',
+              series: {name: 'APM', data: playersByApm},
+              specLookup,
+            })}
           </Grid>
           <Grid
             item={true}
             xs={6}
           >
-            <HighchartsReact
-              highcharts={Highcharts}
-              options={{
-                chart: {
-                  height: props.players.length * 50,
-                },
-                title: {
-                  text: 'DPS Variance Percentage',
-                },
-                xAxis: {
-                  categories: playersByDpsVariance.map(player => player.name),
-                  labels: {
-                    formatter(this: any) {
-                      return `<span style="color: ${getColorBySpecialization(reverseSpecLookup[this.value])}">${this.value}</span>`
-                    },
-                  },
-                },
-                series: [{
-                  type: 'bar',
-                  dataLabels: {
-                    format: '{point.y:,.2f}',
-                  },
-                  name: 'Variance (%)',
-                  data: playersByDpsVariance,
-                }],
-              }}
-            />
+            {createStackedActorChart({
+              title: 'DPS Variance Percentage',
+              series: {name: 'Variance (%)', data: playersByDpsVariance, dataLabelPrecision: 2},
+              specLookup,
+            })}
           </Grid>
         </Grid>
       </ExpansionPanelDetails>

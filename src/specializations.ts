@@ -13,7 +13,7 @@ import {
   yellow,
 } from '@material-ui/core/colors'
 
-const classColorMap = {
+export const classColorMap = {
   'blood death knight': red[800],
   'frost death knight': red[800],
   'unholy death knight': red[800],
