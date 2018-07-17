@@ -93,7 +93,7 @@ ReactDOM.render(
   <>
     <MuiThemeProvider theme={theme}>
       <CssBaseline />
-      <Report {...reportData} />
+      <Report report={reportData} />
     </MuiThemeProvider>
   </>,
   document.getElementById('root') as HTMLElement,

@@ -1,8 +1,30 @@
+import {Theme, WithStyles} from '@material-ui/core'
+import Drawer from '@material-ui/core/Drawer/Drawer'
+import createStyles from '@material-ui/core/styles/createStyles'
+import withStyles from '@material-ui/core/styles/withStyles'
 import * as React from 'react'
 import RaidSummary from './RaidSummary'
 import TitleBar from './TitleBar'
 
-function Report(report: IJsonReport) {
+export interface IReportProps {
+  report: IJsonReport
+}
+
+function styles(theme: Theme) {
+  const drawerWidth = 240
+
+  return createStyles({
+    toolbar: theme.mixins.toolbar,
+    drawerPaper: {
+      width: drawerWidth,
+    },
+    content: {
+      marginLeft: drawerWidth,
+    },
+  })
+}
+
+function Report({report, classes}: IReportProps & WithStyles<typeof styles>) {
   const versionUsed = report.sim.options.dbc.version_used
   const gameData = report.sim.options.dbc[versionUsed]
 
@@ -22,14 +44,25 @@ function Report(report: IJsonReport) {
         varyCombatLength={report.sim.options.vary_combat_length}
       />
 
-      <RaidSummary
-        players={report.sim.players}
-        raidDps={report.sim.statistics.raid_dps.mean}
-        raidEvents={report.sim.raid_events}
-        totalDamage={report.sim.statistics.total_dmg.mean}
-      />
+      <Drawer
+        open={true}
+        variant="permanent"
+        classes={{paper: classes.drawerPaper}}
+      >
+        <div className={classes.toolbar} />
+      </Drawer>
+
+      <main className={classes.content}>
+        <div className={classes.toolbar} />
+        <RaidSummary
+          players={report.sim.players}
+          raidDps={report.sim.statistics.raid_dps.mean}
+          raidEvents={report.sim.raid_events}
+          totalDamage={report.sim.statistics.total_dmg.mean}
+        />
+      </main>
     </>
   )
 }
 
-export default Report
+export default withStyles(styles)(Report)

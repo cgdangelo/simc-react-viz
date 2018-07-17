@@ -1,12 +1,15 @@
+import {Theme, WithStyles} from '@material-ui/core'
 import AppBar from '@material-ui/core/AppBar'
 import Grid from '@material-ui/core/Grid'
+import createStyles from '@material-ui/core/styles/createStyles'
+import withStyles from '@material-ui/core/styles/withStyles'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import {numberFormat} from 'highcharts'
 import * as React from 'react'
 import Chip from './Chip'
 
-function TitleBar(props: {
+export interface ITitleBarProps {
   simcVersion: string
   gameVersion: string
   wowVersion: string
@@ -18,7 +21,17 @@ function TitleBar(props: {
   maxTime: number
   targetError: number
   varyCombatLength: number
-}) {
+}
+
+function styles(theme: Theme) {
+  return createStyles({
+    appBar: {
+      zIndex: theme.zIndex.drawer + 1,
+    },
+  })
+}
+
+function TitleBar(props: ITitleBarProps & WithStyles<typeof styles>) {
   const minFightLength = props.maxTime * (1 - props.varyCombatLength)
   const maxFightLength = props.maxTime * (1 + props.varyCombatLength)
 
@@ -30,8 +43,9 @@ function TitleBar(props: {
 
   return (
     <AppBar
-      position="static"
+      position="absolute"
       color="default"
+      className={props.classes.appBar}
     >
       <Toolbar>
         <Typography
@@ -49,6 +63,7 @@ function TitleBar(props: {
         <Grid
           container={true}
           justify="flex-end"
+          wrap="nowrap"
         >
           <Chip
             label="Timestamp"
@@ -76,4 +91,4 @@ function TitleBar(props: {
   )
 }
 
-export default TitleBar
+export default withStyles(styles)(TitleBar)
