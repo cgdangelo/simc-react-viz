@@ -23,6 +23,9 @@ export interface INavigationProps extends WithStyles<typeof styles> {
 interface INavigationState {
   raidSummary: boolean
   actors: boolean
+  actorGroup: {
+    [name: string]: boolean
+  }
 }
 
 class Navigation extends React.PureComponent<INavigationProps, INavigationState> {
@@ -31,16 +34,24 @@ class Navigation extends React.PureComponent<INavigationProps, INavigationState>
 
     this.state = {
       raidSummary: false,
-      actors: false
+      actors: false,
+      actorGroup: {}
     }
   }
 
   toggleNavigationSection (name: string) {
-    return () => {
-      this.setState({
-        // ...
-      })
-    }
+    // Something about computed properties is bugged in TS here. https://github.com/Microsoft/TypeScript/issues/13948
+    // @ts-ignore
+    return () => this.setState((prevState) => ({ [name]: !prevState[name] }))
+  }
+
+  toggleActorSection (name: string) {
+    return () => this.setState((prevState) => ({
+      actorGroup: {
+        ...prevState.actorGroup,
+        [name]: !prevState.actorGroup[name]
+      }
+    }))
   }
 
   public render () {
@@ -48,10 +59,10 @@ class Navigation extends React.PureComponent<INavigationProps, INavigationState>
 
     const playersNavigation = players.map(player => (
       <React.Fragment key={player.name}>
-        <ListItem button={true} onClick={this.toggleNavigationSection(player.name)}>
+        <ListItem button={true} onClick={this.toggleActorSection(player.name)}>
           <ListItemText primary={player.name} />
         </ListItem>
-        <Collapse>
+        <Collapse in={this.state.actorGroup[player.name]}>
           <List>
             <ListItem dense={true} button={true}>
               <ListItemText primary='DPS Summary' />
