@@ -1,11 +1,11 @@
-import {StyleRulesCallback, WithStyles} from '@material-ui/core'
+import { StyleRulesCallback, WithStyles } from '@material-ui/core'
 import AppBar from '@material-ui/core/AppBar'
 import Grid from '@material-ui/core/Grid'
 import createStyles from '@material-ui/core/styles/createStyles'
 import withStyles from '@material-ui/core/styles/withStyles'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
-import {numberFormat} from 'highcharts'
+import { numberFormat } from 'highcharts'
 import * as React from 'react'
 import Chip from './Chip'
 
@@ -25,8 +25,8 @@ export interface ITitleBarProps {
 
 const styles: StyleRulesCallback = theme => createStyles({
   appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-  },
+    zIndex: theme.zIndex.drawer + 1
+  }
 })
 
 const TitleBar: React.SFC<ITitleBarProps & WithStyles<typeof styles>> = props => {
@@ -41,46 +41,46 @@ const TitleBar: React.SFC<ITitleBarProps & WithStyles<typeof styles>> = props =>
 
   return (
     <AppBar
-      position="absolute"
-      color="default"
+      position='absolute'
+      color='default'
       className={props.classes.appBar}
     >
       <Toolbar>
         <Typography
-          variant="title"
-          color="inherit"
+          variant='title'
+          color='inherit'
         >
           SimulationCraft
           <Typography
-            variant="caption"
-            style={{display: 'inline-block'}}
+            variant='caption'
+            style={{ display: 'inline-block' }}
           >
             {props.simcVersion} for {props.gameVersion} {props.wowVersion}.{props.buildLevel}
           </Typography>
         </Typography>
         <Grid
           container={true}
-          justify="flex-end"
-          wrap="nowrap"
+          justify='flex-end'
+          wrap='nowrap'
         >
           <Chip
-            label="Timestamp"
+            label='Timestamp'
             value={`${props.buildDate} ${props.buildTime}`}
           />
           <Chip
-            label="Iterations"
+            label='Iterations'
             value={props.iterations}
           />
           <Chip
-            label="Target Error"
+            label='Target Error'
             value={props.targetError}
           />
           <Chip
-            label="Fight Length"
+            label='Fight Length'
             value={fightLengthString}
           />
           <Chip
-            label="Fight Style"
+            label='Fight Style'
             value={props.fightStyle}
           />
         </Grid>

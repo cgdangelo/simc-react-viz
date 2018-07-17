@@ -1,15 +1,9 @@
 {
-  "extends": ["tslint:recommended", "tslint-react", "tslint-config-prettier"],
+  "extends": ["tslint-config-standard", "tslint-react"],
   "linterOptions": {
     "exclude": [
       "config/**/*.js",
       "node_modules/**/*.ts"
     ]
-  },
-  "rules": {
-    "object-literal-sort-keys": false,
-    "semicolon": [true, "never"],
-    "quotemark": [true, "single", "jsx-double"],
-    "jsx-space-before-trailing-slash": true
   }
 }

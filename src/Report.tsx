@@ -1,4 +1,4 @@
-import {Theme, WithStyles} from '@material-ui/core'
+import { Theme, WithStyles } from '@material-ui/core'
 import Drawer from '@material-ui/core/Drawer/Drawer'
 import createStyles from '@material-ui/core/styles/createStyles'
 import withStyles from '@material-ui/core/styles/withStyles'
@@ -16,15 +16,15 @@ const styles = (theme: Theme) => {
   return createStyles({
     toolbar: theme.mixins.toolbar,
     drawerPaper: {
-      width: drawerWidth,
+      width: drawerWidth
     },
     content: {
-      marginLeft: drawerWidth,
-    },
+      marginLeft: drawerWidth
+    }
   })
 }
 
-const Report = ({report, classes}: IReportProps & WithStyles<typeof styles>) => {
+const Report = ({ report, classes }: IReportProps & WithStyles<typeof styles>) => {
   const versionUsed = report.sim.options.dbc.version_used
   const gameData = report.sim.options.dbc[versionUsed]
 
@@ -46,8 +46,8 @@ const Report = ({report, classes}: IReportProps & WithStyles<typeof styles>) => 
 
       <Drawer
         open={true}
-        variant="permanent"
-        classes={{paper: classes.drawerPaper}}
+        variant='permanent'
+        classes={{ paper: classes.drawerPaper }}
       >
         <div className={classes.toolbar} />
       </Drawer>

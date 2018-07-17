@@ -1,4 +1,4 @@
-import {grey} from '@material-ui/core/colors'
+import { grey } from '@material-ui/core/colors'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme'
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
@@ -13,20 +13,20 @@ const reportData = require('./report.json') // tslint:disable-line no-var-requir
 
 Highcharts.setOptions({
   credits: {
-    enabled: false,
+    enabled: false
   },
   chart: {
     backgroundColor: grey[900],
     spacing: [25, 50, 25, 25],
     style: {
-      fontFamily: 'Roboto',
-    },
+      fontFamily: 'Roboto'
+    }
   },
   lang: {
-    thousandsSep: ',',
+    thousandsSep: ','
   },
   legend: {
-    enabled: false,
+    enabled: false
   },
   plotOptions: {
     bar: {
@@ -42,51 +42,51 @@ Highcharts.setOptions({
         format: '{point.y:,.0f}',
         y: 3,
         style: {
-          fontSize: '1rem',
-        },
-      },
+          fontSize: '1rem'
+        }
+      }
     },
     boxplot: {
       color: grey[50],
       fillColor: 'rgba(255, 255, 255, 0.15)',
       lineWidth: 2,
-      whiskerLength: '50%',
-    },
+      whiskerLength: '50%'
+    }
   },
   title: {
     style: {
       color: grey[50],
-      fontWeight: 'bold',
-    },
+      fontWeight: 'bold'
+    }
   },
   tooltip: {
-    valueDecimals: 2,
+    valueDecimals: 2
   },
   xAxis: {
     labels: {
       style: {
         color: grey[50],
-        fontSize: '1rem',
+        fontSize: '1rem'
       },
-      y: 6,
+      y: 6
     },
     lineWidth: 0,
     tickLength: 0,
-    gridLineColor: 'transparent',
+    gridLineColor: 'transparent'
   },
   yAxis: {
     gridLineColor: grey[800],
     title: {
-      enabled: false,
+      enabled: false
     },
     label: {
-      enabled: false,
-    },
-  },
+      enabled: false
+    }
+  }
 })
 
 const theme = createMuiTheme({
-  palette: {type: 'dark'},
+  palette: { type: 'dark' }
 })
 
 ReactDOM.render(
@@ -96,6 +96,6 @@ ReactDOM.render(
       <Report report={reportData} />
     </MuiThemeProvider>
   </>,
-  document.getElementById('root') as HTMLElement,
+  document.getElementById('root') as HTMLElement
 )
 registerServiceWorker()
