@@ -4,11 +4,11 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import ExpandMore from '@material-ui/icons/ExpandMore'
-import Highcharts, { numberFormat } from 'highcharts'
+import Highcharts, {numberFormat} from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 import * as React from 'react'
 import Chip from './Chip'
-import { getColorBySpecialization } from './specializations'
+import {getColorBySpecialization} from './specializations'
 
 const RaidSummary = (props: {
   players: IActor[]
@@ -68,6 +68,9 @@ const RaidSummary = (props: {
               <HighchartsReact
                 highcharts={Highcharts}
                 options={{
+                  chart: {
+                    height: props.players.length * 50,
+                  },
                   title: {
                     text: 'Raid DPS',
                   },
@@ -90,6 +93,9 @@ const RaidSummary = (props: {
             <HighchartsReact
               highcharts={Highcharts}
               options={{
+                chart: {
+                  height: props.players.length * 50,
+                },
                 title: {
                   text: 'Actions per Minute',
                 },
@@ -114,7 +120,9 @@ const RaidSummary = (props: {
             <HighchartsReact
               highcharts={Highcharts}
               options={{
-                plotOptions: {},
+                chart: {
+                  height: props.players.length * 50,
+                },
                 title: {
                   text: 'DPS Variance Percentage',
                 },

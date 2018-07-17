@@ -2,7 +2,7 @@ import AppBar from '@material-ui/core/AppBar'
 import Grid from '@material-ui/core/Grid'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
-import { numberFormat } from 'highcharts'
+import {numberFormat} from 'highcharts'
 import * as React from 'react'
 import Chip from './Chip'
 
@@ -39,7 +39,10 @@ const TitleBar = (props: {
           color="inherit"
         >
           SimulationCraft
-          <Typography variant="caption" style={{display: 'inline-block'}}>
+          <Typography
+            variant="caption"
+            style={{display: 'inline-block'}}
+          >
             {props.simcVersion} for {props.gameVersion} {props.wowVersion}.{props.buildLevel}
           </Typography>
         </Typography>

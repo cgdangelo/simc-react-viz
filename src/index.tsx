@@ -1,4 +1,4 @@
-import { grey } from '@material-ui/core/colors'
+import {grey} from '@material-ui/core/colors'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme'
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
@@ -16,8 +16,6 @@ Highcharts.setOptions({
   },
   chart: {
     backgroundColor: grey[900],
-    // borderColor: grey[500],
-    // borderWidth: 2,
     spacing: [25, 50, 25, 25],
     style: {
       fontFamily: 'Roboto',
@@ -32,6 +30,8 @@ Highcharts.setOptions({
   plotOptions: {
     bar: {
       borderColor: 'transparent',
+      pointPadding: 0.075,
+      groupPadding: 0.075,
       dataLabels: {
         inside: true,
         align: 'left',
