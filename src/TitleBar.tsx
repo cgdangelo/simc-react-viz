@@ -1,4 +1,4 @@
-import {Theme, WithStyles} from '@material-ui/core'
+import {StyleRulesCallback, WithStyles} from '@material-ui/core'
 import AppBar from '@material-ui/core/AppBar'
 import Grid from '@material-ui/core/Grid'
 import createStyles from '@material-ui/core/styles/createStyles'
@@ -23,15 +23,13 @@ export interface ITitleBarProps {
   varyCombatLength: number
 }
 
-function styles(theme: Theme) {
-  return createStyles({
-    appBar: {
-      zIndex: theme.zIndex.drawer + 1,
-    },
-  })
-}
+const styles: StyleRulesCallback = theme => createStyles({
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+  },
+})
 
-function TitleBar(props: ITitleBarProps & WithStyles<typeof styles>) {
+const TitleBar: React.SFC<ITitleBarProps & WithStyles<typeof styles>> = props => {
   const minFightLength = props.maxTime * (1 - props.varyCombatLength)
   const maxFightLength = props.maxTime * (1 + props.varyCombatLength)
 

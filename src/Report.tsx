@@ -10,7 +10,7 @@ export interface IReportProps {
   report: IJsonReport
 }
 
-function styles(theme: Theme) {
+const styles = (theme: Theme) => {
   const drawerWidth = 240
 
   return createStyles({
@@ -24,7 +24,7 @@ function styles(theme: Theme) {
   })
 }
 
-function Report({report, classes}: IReportProps & WithStyles<typeof styles>) {
+const Report = ({report, classes}: IReportProps & WithStyles<typeof styles>) => {
   const versionUsed = report.sim.options.dbc.version_used
   const gameData = report.sim.options.dbc[versionUsed]
 

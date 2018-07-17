@@ -30,7 +30,7 @@ interface IActorBarChartBuilderOptions {
   specLookup: ISpecializationLookupMap
 }
 
-function createSortedPlayerList(players: IActor[], accessor: string | ((player: IActor) => any)): IActorBar[] {
+const createSortedPlayerList = (players: IActor[], accessor: string | ((player: IActor) => any)): IActorBar[] => {
   const playersByProperty = players.map(player => ({
     name: player.name,
     color: getColorBySpecialization(player.specialization),
@@ -42,46 +42,44 @@ function createSortedPlayerList(players: IActor[], accessor: string | ((player: 
   return playersByProperty
 }
 
-function createStackedActorChart(options: IActorBarChartBuilderOptions) {
-  const {series: {data: bars}} = options
-
-  return (
-    <HighchartsReact
-      highcharts={Highcharts}
-      options={{
-        chart: {
-          height: bars.length * 50,
-        },
-        title: {
-          text: options.title,
-        },
-        xAxis: {
-          categories: bars.map(bar => bar.name),
-          labels: {
-            formatter(this: any) {
-              return `<span style="color: ${getColorBySpecialization(options.specLookup[this.value])}">${this.value}</span>`
-            },
+const createStackedActorChart = (options: IActorBarChartBuilderOptions) => (
+  <HighchartsReact
+    highcharts={Highcharts}
+    options={{
+      chart: {
+        height: options.series.data.length * 50,
+      },
+      title: {
+        text: options.title,
+      },
+      xAxis: {
+        categories: options.series.data.map(bar => bar.name),
+        labels: {
+          formatter(this: any) {
+            return `<span style="color: ${getColorBySpecialization(options.specLookup[this.value])}">${this.value}</span>`
           },
         },
-        series: [{
-          type: 'bar',
-          name: options.title,
-          data: bars,
-          dataLabels: {
-            format: `{point.y:,.${options.series.dataLabelPrecision || 0}f}`,
-          },
-        }],
-      }}
-    />
-  )
-}
+      },
+      series: [{
+        type: 'bar',
+        name: options.title,
+        data: options.series.data,
+        dataLabels: {
+          format: `{point.y:,.${options.series.dataLabelPrecision || 0}f}`,
+        },
+      }],
+    }}
+  />
+)
 
-const RaidSummary = (props: {
+export interface IRaidSummaryProps {
   players: IActor[]
   raidDps: number
   raidEvents: IRaidEvent[]
   totalDamage: number
-}) => {
+}
+
+const RaidSummary = (props: IRaidSummaryProps) => {
   const playersByDps = createSortedPlayerList(props.players, (player) => (
     player.collected_data.dps.mean
   ))
