@@ -37,6 +37,10 @@ const RaidSummary = (props: {
   }))
   playersByDpsVariance.sort((a, b) => b.y - a.y)
 
+  const reverseSpecLookup: {[player: string]: string} = {}
+
+  props.players.forEach(player => reverseSpecLookup[player.name] = player.specialization)
+
   return (
     <ExpansionPanel defaultExpanded={true}>
       <ExpansionPanelSummary expandIcon={<ExpandMore />}>
@@ -64,27 +68,30 @@ const RaidSummary = (props: {
             item={true}
             xs={12}
           >
-            <div style={{width: '100%', overflowX: 'hidden'}}>
-              <HighchartsReact
-                highcharts={Highcharts}
-                options={{
-                  chart: {
-                    height: props.players.length * 50,
+            <HighchartsReact
+              highcharts={Highcharts}
+              options={{
+                chart: {
+                  height: props.players.length * 50,
+                },
+                title: {
+                  text: 'Raid DPS',
+                },
+                xAxis: {
+                  categories: playersByDps.map(player => player.name),
+                  labels: {
+                    formatter(this: any) {
+                      return `<span style="color: ${getColorBySpecialization(reverseSpecLookup[this.value])}">${this.value}</span>`
+                    },
                   },
-                  title: {
-                    text: 'Raid DPS',
-                  },
-                  xAxis: {
-                    categories: playersByDps.map(player => player.name),
-                  },
-                  series: [{
-                    type: 'bar',
-                    name: 'DPS',
-                    data: playersByDps,
-                  }],
-                }}
-              />
-            </div>
+                },
+                series: [{
+                  type: 'bar',
+                  name: 'DPS',
+                  data: playersByDps,
+                }],
+              }}
+            />
           </Grid>
           <Grid
             item={true}
@@ -101,6 +108,11 @@ const RaidSummary = (props: {
                 },
                 xAxis: {
                   categories: playersByApm.map(player => player.name),
+                  labels: {
+                    formatter(this: any) {
+                      return `<span style="color: ${getColorBySpecialization(reverseSpecLookup[this.value])}">${this.value}</span>`
+                    },
+                  },
                 },
                 series: [{
                   type: 'bar',
@@ -128,6 +140,11 @@ const RaidSummary = (props: {
                 },
                 xAxis: {
                   categories: playersByDpsVariance.map(player => player.name),
+                  labels: {
+                    formatter(this: any) {
+                      return `<span style="color: ${getColorBySpecialization(reverseSpecLookup[this.value])}">${this.value}</span>`
+                    },
+                  },
                 },
                 series: [{
                   type: 'bar',

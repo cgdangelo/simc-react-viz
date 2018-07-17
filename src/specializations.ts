@@ -14,9 +14,9 @@ import {
 } from '@material-ui/core/colors'
 
 const classColorMap = {
-  'blood death knight': red[500],
-  'frost death knight': red[500],
-  'unholy death knight': red[500],
+  'blood death knight': red[800],
+  'frost death knight': red[800],
+  'unholy death knight': red[800],
   'havoc demon hunter': purple[500],
   'guardian druid': orange[500],
   'balance druid': orange[500],
@@ -31,9 +31,9 @@ const classColorMap = {
   'brewmaster monk': teal.A400,
   'windwalker monk': teal.A400,
   'mistweaver monk': teal.A400,
-  'protection paladin': pink[500],
-  'retribution paladin': pink[500],
-  'holy paladin': pink[500],
+  'protection paladin': pink[200],
+  'retribution paladin': pink[200],
+  'holy paladin': pink[300],
   'shadow priest': grey[200],
   'discipline priest': grey[200],
   'holy priest': grey[200],

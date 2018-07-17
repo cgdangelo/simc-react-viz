@@ -5,6 +5,7 @@ import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
 import Highcharts from 'highcharts'
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
+import './index.css'
 import registerServiceWorker from './registerServiceWorker'
 import Report from './Report'
 
@@ -33,6 +34,7 @@ Highcharts.setOptions({
       pointPadding: 0.075,
       groupPadding: 0.075,
       dataLabels: {
+        defer: false,
         inside: true,
         align: 'left',
         crop: false,
