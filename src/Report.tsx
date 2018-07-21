@@ -63,6 +63,7 @@ const Report = ({ report, classes }: IReportProps & WithStyles<typeof styles>) =
           raidAps={raid_aps && raid_aps.mean}
           totalAbsorb={total_absorb && total_absorb.mean}
           raidEvents={report.sim.raid_events}
+          buildPriorityDpsChart={report.sim.targets.length > 0}
         />
 
         {report.sim.players.map(player => (

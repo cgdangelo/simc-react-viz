@@ -292,6 +292,7 @@ declare interface IActor {
     timeline_dmg: ITimelineData
     dps: IExtendedSampleData
     dpse: IExtendedSampleData
+    prioritydps: IExtendedSampleData
     resource_lost: {
       [resourceName: string]: ISampleData
     }

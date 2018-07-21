@@ -86,6 +86,7 @@ export interface IRaidSummaryProps {
   totalHeal?: number
   raidAps?: number
   totalAbsorb?: number
+  buildPriorityDpsChart: boolean
   raidEvents: IRaidEvent[]
 }
 
@@ -101,6 +102,18 @@ const RaidSummary: React.SFC<IRaidSummaryProps> = props => {
     series: { name: 'DPS', data: playersByDps },
     specLookup
   })
+
+  let playersByPriorityDpsChart
+
+  if (props.buildPriorityDpsChart) {
+    const playersByPriorityDps = createSortedPlayerList(props.players, player => player.collected_data.prioritydps.mean)
+
+    playersByPriorityDpsChart = createStackedActorChart({
+      title: 'Priority Target/Boss Damage',
+      series: { name: 'Priority DPS', data: playersByPriorityDps },
+      specLookup
+    })
+  }
 
   const playersByApm = createSortedPlayerList(props.players, player => (
     player.collected_data.executed_foreground_actions.mean / player.collected_data.fight_length.mean * 60
@@ -161,12 +174,21 @@ const RaidSummary: React.SFC<IRaidSummaryProps> = props => {
               />
             )}
           </Grid>
-          <Grid item={true} xs={12}>
+
+          <Grid item={true} xs={playersByPriorityDpsChart ? 6 : 12}>
             {playersByDpsChart}
           </Grid>
+
+          {playersByPriorityDpsChart && (
+            <Grid item={true} xs={6}>
+              {playersByPriorityDpsChart}
+            </Grid>
+          )}
+
           <Grid item={true} xs={6}>
             {playersByApmChart}
           </Grid>
+
           <Grid item={true} xs={6}>
             {playersByDpsVarianceChart}
           </Grid>
