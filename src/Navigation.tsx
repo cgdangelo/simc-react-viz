@@ -7,6 +7,8 @@ import ListItem from '@material-ui/core/ListItem/ListItem'
 import ListItemText from '@material-ui/core/ListItemText/ListItemText'
 import createStyles from '@material-ui/core/styles/createStyles'
 import withStyles from '@material-ui/core/styles/withStyles'
+import ExpandLess from '@material-ui/icons/ExpandLess'
+import ExpandMore from '@material-ui/icons/ExpandMore'
 import * as React from 'react'
 
 const styles: StyleRulesCallback = theme => createStyles({
@@ -59,8 +61,13 @@ class Navigation extends React.PureComponent<INavigationProps, INavigationState>
 
     const playersNavigation = players.map(player => (
       <React.Fragment key={player.name}>
-        <ListItem button={true} onClick={this.toggleActorSection(player.name)}>
+        <ListItem
+          dense={true}
+          button={true}
+          onClick={this.toggleActorSection(player.name)}
+        >
           <ListItemText primary={player.name} />
+          {this.state.actorGroup[player.name] ? <ExpandLess /> : <ExpandMore />}
         </ListItem>
         <Collapse in={this.state.actorGroup[player.name]}>
           <List>
@@ -119,14 +126,13 @@ class Navigation extends React.PureComponent<INavigationProps, INavigationState>
         classes={{ paper: classes.drawerPaper }}
       >
         <div className={classes.toolbar} />
-        <List
-          component='nav'
-        >
+        <List component='nav'>
           <ListItem
             button={true}
             onClick={this.toggleNavigationSection('raidSummary')}
           >
             <ListItemText primary='Raid Summary' />
+            {this.state.raidSummary ? <ExpandLess /> : <ExpandMore />}
           </ListItem>
           <Collapse
             in={this.state.raidSummary}
@@ -137,13 +143,13 @@ class Navigation extends React.PureComponent<INavigationProps, INavigationState>
               component='div'
               disablePadding={true}
             >
-              <ListItem button={true}>
+              <ListItem button={true} dense={true}>
                 <ListItemText primary='Damage per Second' />
               </ListItem>
-              <ListItem button={true}>
+              <ListItem button={true} dense={true}>
                 <ListItemText primary='Actions per Minute' />
               </ListItem>
-              <ListItem button={true}>
+              <ListItem button={true} dense={true}>
                 <ListItemText primary='DPS Variance' />
               </ListItem>
             </List>
@@ -155,6 +161,7 @@ class Navigation extends React.PureComponent<INavigationProps, INavigationState>
             onClick={this.toggleNavigationSection('actors')}
           >
             <ListItemText primary='Actors' />
+            {this.state.actors ? <ExpandLess /> : <ExpandMore />}
           </ListItem>
           <Collapse
             in={this.state.actors}
