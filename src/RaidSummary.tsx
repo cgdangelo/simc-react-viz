@@ -81,8 +81,12 @@ const createStackedActorChart = (options: IActorBarChartBuilderOptions) => {
 export interface IRaidSummaryProps {
   players: IActor[]
   raidDps: number
-  raidEvents: IRaidEvent[]
   totalDamage: number
+  raidHps?: number
+  totalHeal?: number
+  raidAps?: number
+  totalAbsorb?: number
+  raidEvents: IRaidEvent[]
 }
 
 const RaidSummary: React.SFC<IRaidSummaryProps> = props => {
@@ -122,39 +126,48 @@ const RaidSummary: React.SFC<IRaidSummaryProps> = props => {
         <Typography variant='title'>Raid Summary</Typography>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails>
-        <Grid
-          container={true}
-          spacing={16}
-        >
-          <Grid
-            item={true}
-            xs={12}
-          >
+        <Grid container={true} spacing={16}>
+          <Grid item={true} xs={12}>
             <Chip
-              label='DPS (Mean)'
+              label='DPS'
               value={numberFormat(props.raidDps, 0)}
             />
             <Chip
-              label='Damage (Mean)'
+              label='Damage'
               value={numberFormat(props.totalDamage, 0)}
             />
+            {props.raidHps && (
+              <Chip
+                label='HPS'
+                value={numberFormat(props.raidHps, 0)}
+              />
+            )}
+            {props.totalHeal && (
+              <Chip
+                label='Heals'
+                value={numberFormat(props.totalHeal, 0)}
+              />
+            )}
+            {props.raidAps && (
+              <Chip
+                label='APS'
+                value={numberFormat(props.raidAps, 0)}
+              />
+            )}
+            {props.totalAbsorb && (
+              <Chip
+                label='Absorbs'
+                value={numberFormat(props.totalAbsorb, 0)}
+              />
+            )}
           </Grid>
-          <Grid
-            item={true}
-            xs={12}
-          >
+          <Grid item={true} xs={12}>
             {playersByDpsChart}
           </Grid>
-          <Grid
-            item={true}
-            xs={6}
-          >
+          <Grid item={true} xs={6}>
             {playersByApmChart}
           </Grid>
-          <Grid
-            item={true}
-            xs={6}
-          >
+          <Grid item={true} xs={6}>
             {playersByDpsVarianceChart}
           </Grid>
         </Grid>

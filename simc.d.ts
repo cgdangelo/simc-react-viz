@@ -370,6 +370,10 @@ declare interface IJsonReport {
       simulation_length: IExtendedSampleData
       raid_dps: ISampleData
       total_dmg: ISampleData
+      raid_hps?: ISampleData
+      total_heal?: ISampleData
+      raid_aps?: ISampleData
+      total_absorb?: ISampleData
     }
   }
 }
