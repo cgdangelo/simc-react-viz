@@ -290,10 +290,19 @@ declare interface IActor {
     dmg: IExtremaSampleData
     compound_dmg: IExtremaSampleData
     timeline_dmg: ITimelineData
+    absorb?: IExtremaSampleData
+    absorb_taken?: IExtremaSampleData
+    aps?: IExtendedSampleData
+    atps?: IExtendedSampleData
     dps: IExtendedSampleData
     dpse: IExtendedSampleData
     prioritydps?: IExtendedSampleData
     dtps?: IExtendedSampleData
+    hps?: IExtendedSampleData
+    heal?: IExtremaSampleData
+    heal_taken?: IExtremaSampleData
+    htps?: IExtendedSampleData
+    effective_theck_meloree_index: IExtremaSampleData
     resource_lost: {
       [resourceName: string]: ISampleData
     }

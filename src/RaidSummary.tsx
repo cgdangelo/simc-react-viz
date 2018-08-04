@@ -172,7 +172,7 @@ const RaidSummary: React.SFC<IRaidSummaryProps> = props => {
               title: 'Damage Taken per Second',
               series: {
                 name: 'DTPS',
-                data: createSortedPlayerList(props.players, player => player.collected_data.dtps && player.collected_data.dtps.mean).filter(player => !!player.y)
+                data: createSortedPlayerList(props.players, player => player.collected_data.dtps && player.collected_data.dtps.mean / player.collected_data.fight_length.mean).filter(player => !!player.y)
               },
               specLookup
             })}
@@ -180,10 +180,10 @@ const RaidSummary: React.SFC<IRaidSummaryProps> = props => {
 
           <Grid item={true} xs={4}>
             {createStackedActorChart({
-              title: 'Damage Taken per Second',
+              title: 'Heal & Absorb per Second',
               series: {
-                name: 'DTPS',
-                data: createSortedPlayerList(props.players, player => player.collected_data.dtps && player.collected_data.dtps.mean).filter(player => !!player.y)
+                name: 'H&APS',
+                data: createSortedPlayerList(props.players, player => ((player.collected_data.hps && player.collected_data.hps.mean) || 0) + ((player.collected_data.aps && player.collected_data.aps.mean) || 0)).filter(player => !!player.y)
               },
               specLookup
             })}
@@ -191,10 +191,10 @@ const RaidSummary: React.SFC<IRaidSummaryProps> = props => {
 
           <Grid item={true} xs={4}>
             {createStackedActorChart({
-              title: 'Damage Taken per Second',
+              title: 'Theck-Meloree Index',
               series: {
-                name: 'DTPS',
-                data: createSortedPlayerList(props.players, player => player.collected_data.dtps && player.collected_data.dtps.mean).filter(player => !!player.y)
+                name: 'TMI',
+                data: createSortedPlayerList(props.players, player => player.collected_data.effective_theck_meloree_index && player.collected_data.effective_theck_meloree_index.mean).filter(player => !!player.y)
               },
               specLookup
             })}
