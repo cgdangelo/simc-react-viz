@@ -47,7 +47,7 @@ const createSortedPlayerList = (players: IActor[], accessor: string | ((player: 
 const createStackedActorChart = (options: IActorBarChartBuilderOptions) => {
   const chartOptions = {
     chart: {
-      height: options.series.data.length * 50
+      height: Math.max(options.series.data.length * 50, 300)
     },
     title: {
       text: options.title
@@ -166,6 +166,39 @@ const RaidSummary: React.SFC<IRaidSummaryProps> = props => {
               {playersByPriorityDpsChart}
             </Grid>
           )}
+
+          <Grid item={true} xs={4}>
+            {createStackedActorChart({
+              title: 'Damage Taken per Second',
+              series: {
+                name: 'DTPS',
+                data: createSortedPlayerList(props.players, player => player.collected_data.dtps && player.collected_data.dtps.mean).filter(player => !!player.y)
+              },
+              specLookup
+            })}
+          </Grid>
+
+          <Grid item={true} xs={4}>
+            {createStackedActorChart({
+              title: 'Damage Taken per Second',
+              series: {
+                name: 'DTPS',
+                data: createSortedPlayerList(props.players, player => player.collected_data.dtps && player.collected_data.dtps.mean).filter(player => !!player.y)
+              },
+              specLookup
+            })}
+          </Grid>
+
+          <Grid item={true} xs={4}>
+            {createStackedActorChart({
+              title: 'Damage Taken per Second',
+              series: {
+                name: 'DTPS',
+                data: createSortedPlayerList(props.players, player => player.collected_data.dtps && player.collected_data.dtps.mean).filter(player => !!player.y)
+              },
+              specLookup
+            })}
+          </Grid>
 
           <Grid item={true} xs={6}>
             {playersByApmChart}

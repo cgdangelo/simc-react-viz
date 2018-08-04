@@ -293,6 +293,7 @@ declare interface IActor {
     dps: IExtendedSampleData
     dpse: IExtendedSampleData
     prioritydps?: IExtendedSampleData
+    dtps?: IExtendedSampleData
     resource_lost: {
       [resourceName: string]: ISampleData
     }
