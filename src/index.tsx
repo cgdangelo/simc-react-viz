@@ -84,6 +84,9 @@ const theme = createMuiTheme({
   palette: { type: 'dark' }
 })
 
+// @ts-ignore
+window.report = reportData
+
 ReactDOM.render(
   <>
     <MuiThemeProvider theme={theme}>

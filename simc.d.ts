@@ -113,13 +113,13 @@ declare interface ISimOverrides {
   bloodlust_time: number
 }
 
-declare enum ActorRole {
-  ATTACK,
-  DPS,
-  HEAL,
-  HYBRID,
-  SPELL,
-  TANK
+declare const enum ActorRole {
+  ATTACK = 'attack',
+  DPS = 'dps',
+  HEAL = 'heal',
+  HYBRID = 'hybrid',
+  SPELL = 'spell',
+  TANK = 'tank'
 }
 
 declare interface ITalent {

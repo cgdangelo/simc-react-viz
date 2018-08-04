@@ -11,6 +11,15 @@ import ExpandLess from '@material-ui/icons/ExpandLess'
 import ExpandMore from '@material-ui/icons/ExpandMore'
 import * as React from 'react'
 
+// const enum ActorRole {
+//   ATTACK = 'attack',
+//   DPS = 'dps',
+//   HEAL = 'heal',
+//   HYBRID = 'hybrid',
+//   SPELL = 'spell',
+//   TANK = 'tank'
+// }
+
 const styles: StyleRulesCallback = theme => createStyles({
   toolbar: theme.mixins.toolbar,
   drawerPaper: {
@@ -145,6 +154,13 @@ class Navigation extends React.PureComponent<INavigationProps, INavigationState>
             >
               <ListItem button={true} dense={true}>
                 <ListItemText primary='Damage per Second' />
+              </ListItem>
+              <ListItem
+                button={true}
+                dense={true}
+                disabled={!players.some(player => player.role === 'tank')}
+              >
+                <ListItemText primary='Tank Performance' />
               </ListItem>
               <ListItem button={true} dense={true}>
                 <ListItemText primary='Actions per Minute' />
