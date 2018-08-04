@@ -141,37 +141,19 @@ const RaidSummary: React.SFC<IRaidSummaryProps> = props => {
       <ExpansionPanelDetails>
         <Grid container={true} spacing={16}>
           <Grid item={true} xs={12}>
-            <Chip
-              label='DPS'
-              value={numberFormat(props.raidDps, 0)}
-            />
-            <Chip
-              label='Damage'
-              value={numberFormat(props.totalDamage, 0)}
-            />
+            <Chip label='DPS' value={numberFormat(props.raidDps, 0)} />
+            <Chip label='Damage' value={numberFormat(props.totalDamage, 0)} />
             {props.raidHps && (
-              <Chip
-                label='HPS'
-                value={numberFormat(props.raidHps, 0)}
-              />
+              <Chip label='HPS' value={numberFormat(props.raidHps, 0)} />
             )}
             {props.totalHeal && (
-              <Chip
-                label='Heals'
-                value={numberFormat(props.totalHeal, 0)}
-              />
+              <Chip label='Heals' value={numberFormat(props.totalHeal, 0)} />
             )}
             {props.raidAps && (
-              <Chip
-                label='APS'
-                value={numberFormat(props.raidAps, 0)}
-              />
+              <Chip label='APS' value={numberFormat(props.raidAps, 0)} />
             )}
             {props.totalAbsorb && (
-              <Chip
-                label='Absorbs'
-                value={numberFormat(props.totalAbsorb, 0)}
-              />
+              <Chip label='Absorbs' value={numberFormat(props.totalAbsorb, 0)} />
             )}
           </Grid>
 

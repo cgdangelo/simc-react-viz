@@ -1,8 +1,7 @@
 /* tslint:disable jsx-no-multiline-js */
-import { Theme, WithStyles } from '@material-ui/core'
 import Paper from '@material-ui/core/Paper/Paper'
 import createStyles from '@material-ui/core/styles/createStyles'
-import withStyles from '@material-ui/core/styles/withStyles'
+import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles'
 import Table from '@material-ui/core/Table/Table'
 import TableBody from '@material-ui/core/TableBody/TableBody'
 import TableCell from '@material-ui/core/TableCell/TableCell'
@@ -19,16 +18,12 @@ export interface IReportProps {
   report: IJsonReport
 }
 
-const styles = (theme: Theme) => {
-  const drawerWidth = 300
-
-  return createStyles({
-    toolbar: theme.mixins.toolbar,
-    content: {
-      marginLeft: drawerWidth
-    }
-  })
-}
+const styles: StyleRulesCallback = theme => createStyles({
+  toolbar: theme.mixins.toolbar,
+  content: {
+    marginLeft: 300
+  }
+})
 
 const Report = ({ report, classes }: IReportProps & WithStyles<typeof styles>) => {
   const versionUsed = report.sim.options.dbc.version_used
@@ -90,7 +85,6 @@ const Report = ({ report, classes }: IReportProps & WithStyles<typeof styles>) =
                     {numberFormat(report.sim.options.confidence_estimator * player.collected_data.dps.mean_std_dev * 100 / player.collected_data.dps.mean, 3)}%
                   </TableCell>
                   <TableCell numeric={true}>0</TableCell>
-                  {console.log(player)}
                   <TableCell numeric={true}>{player.collected_data.resource_lost && getPrimaryResourceBySpecialization(player.specialization) && numberFormat(player.collected_data.dmg.mean / player.collected_data.resource_lost[getPrimaryResourceBySpecialization(player.specialization)].mean, 2) || 0}</TableCell>
                 </TableRow>
               </TableBody>
