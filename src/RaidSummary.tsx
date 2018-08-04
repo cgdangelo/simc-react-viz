@@ -106,7 +106,7 @@ const RaidSummary: React.SFC<IRaidSummaryProps> = props => {
   let playersByPriorityDpsChart
 
   if (props.buildPriorityDpsChart) {
-    const playersByPriorityDps = createSortedPlayerList(props.players, player => player.collected_data.prioritydps.mean)
+    const playersByPriorityDps = createSortedPlayerList(props.players, player => player.collected_data.prioritydps && player.collected_data.prioritydps.mean)
 
     playersByPriorityDpsChart = createStackedActorChart({
       title: 'Priority Target/Boss Damage',

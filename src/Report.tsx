@@ -8,9 +8,11 @@ import TableBody from '@material-ui/core/TableBody/TableBody'
 import TableCell from '@material-ui/core/TableCell/TableCell'
 import TableHead from '@material-ui/core/TableHead/TableHead'
 import TableRow from '@material-ui/core/TableRow/TableRow'
+import { numberFormat } from 'highcharts'
 import * as React from 'react'
 import Navigation from './Navigation'
 import RaidSummary from './RaidSummary'
+import { getPrimaryResourceBySpecialization } from './specializations'
 import TitleBar from './TitleBar'
 
 export interface IReportProps {
@@ -63,7 +65,7 @@ const Report = ({ report, classes }: IReportProps & WithStyles<typeof styles>) =
           raidAps={raid_aps && raid_aps.mean}
           totalAbsorb={total_absorb && total_absorb.mean}
           raidEvents={report.sim.raid_events}
-          buildPriorityDpsChart={report.sim.targets.length > 0}
+          buildPriorityDpsChart={report.sim.targets.length > 1}
         />
 
         {report.sim.players.map(player => (
@@ -71,16 +73,25 @@ const Report = ({ report, classes }: IReportProps & WithStyles<typeof styles>) =
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>DPS</TableCell>
-                  <TableCell>DPSe</TableCell>
-                  <TableCell>DPS Error</TableCell>
-                  <TableCell>DPS Range</TableCell>
-                  <TableCell>DPR</TableCell>
+                  <TableCell numeric={true}>DPS</TableCell>
+                  <TableCell numeric={true}>DPSe</TableCell>
+                  <TableCell numeric={true}>DPS Error</TableCell>
+                  <TableCell numeric={true}>DPS Range</TableCell>
+                  <TableCell numeric={true}>DPR</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 <TableRow>
-                  <TableCell />
+                  <TableCell numeric={true}>{numberFormat(player.collected_data.dps.mean, 0)}</TableCell>
+                  <TableCell numeric={true}>{numberFormat(player.collected_data.dpse.mean, 0)}</TableCell>
+                  <TableCell numeric={true}>
+                    {numberFormat(report.sim.options.confidence_estimator * player.collected_data.dps.mean_std_dev, 2)}
+                    {' / '}
+                    {numberFormat(report.sim.options.confidence_estimator * player.collected_data.dps.mean_std_dev * 100 / player.collected_data.dps.mean, 3)}%
+                  </TableCell>
+                  <TableCell numeric={true}>0</TableCell>
+                  {console.log(player)}
+                  <TableCell numeric={true}>{player.collected_data.resource_lost && getPrimaryResourceBySpecialization(player.specialization) && numberFormat(player.collected_data.dmg.mean / player.collected_data.resource_lost[getPrimaryResourceBySpecialization(player.specialization)].mean, 2) || 0}</TableCell>
                 </TableRow>
               </TableBody>
             </Table>
