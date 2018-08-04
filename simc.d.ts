@@ -302,7 +302,7 @@ declare interface IActor {
     heal?: IExtremaSampleData
     heal_taken?: IExtremaSampleData
     htps?: IExtendedSampleData
-    effective_theck_meloree_index: IExtremaSampleData
+    effective_theck_meloree_index?: IExtremaSampleData
     resource_lost: {
       [resourceName: string]: ISampleData
     }
