@@ -1,22 +1,10 @@
-import ExpansionPanel from '@material-ui/core/ExpansionPanel'
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
-import Grid from '@material-ui/core/Grid'
+/* tslint:disable jsx-no-multiline-js */
 import createStyles from '@material-ui/core/styles/createStyles'
 import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles'
-import Table from '@material-ui/core/Table/Table'
-import TableBody from '@material-ui/core/TableBody/TableBody'
-import TableCell from '@material-ui/core/TableCell/TableCell'
-import TableHead from '@material-ui/core/TableHead/TableHead'
-import TableRow from '@material-ui/core/TableRow/TableRow'
-/* tslint:disable jsx-no-multiline-js */
-import Typography from '@material-ui/core/Typography'
-import ExpandMore from '@material-ui/icons/ExpandMore'
-import { numberFormat } from 'highcharts'
 import * as React from 'react'
 import Navigation from './Navigation'
+import PlayerPanel from './PlayerPanel'
 import RaidSummary from './RaidSummary'
-import { getPrimaryResourceBySpecialization } from './specializations'
 import TitleBar from './TitleBar'
 
 export interface IReportProps {
@@ -69,41 +57,11 @@ const Report = ({ report, classes }: IReportProps & WithStyles<typeof styles>) =
         />
 
         {report.sim.players.map(player => (
-          <ExpansionPanel defaultExpanded={true} key={player.name}>
-            <ExpansionPanelSummary expandIcon={<ExpandMore />}>
-              <Typography variant='title'>{player.name}</Typography>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails>
-              <Grid container={true} spacing={16}>
-                <Grid item={true} xs={12}>
-                  <Table>
-                    <TableHead>
-                      <TableRow>
-                        <TableCell numeric={true}>DPS</TableCell>
-                        <TableCell numeric={true}>DPSe</TableCell>
-                        <TableCell numeric={true}>DPS Error</TableCell>
-                        <TableCell numeric={true}>DPS Range</TableCell>
-                        <TableCell numeric={true}>DPR</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      <TableRow>
-                        <TableCell numeric={true}>{numberFormat(player.collected_data.dps.mean, 0)}</TableCell>
-                        <TableCell numeric={true}>{numberFormat(player.collected_data.dpse.mean, 0)}</TableCell>
-                        <TableCell numeric={true}>
-                          {numberFormat(report.sim.options.confidence_estimator * player.collected_data.dps.mean_std_dev, 2)}
-                          {' / '}
-                          {numberFormat(report.sim.options.confidence_estimator * player.collected_data.dps.mean_std_dev * 100 / player.collected_data.dps.mean, 3)}%
-                        </TableCell>
-                        <TableCell numeric={true}>0</TableCell>
-                        <TableCell numeric={true}>{player.collected_data.resource_lost && getPrimaryResourceBySpecialization(player.specialization) && numberFormat(player.collected_data.dmg.mean / player.collected_data.resource_lost[getPrimaryResourceBySpecialization(player.specialization)].mean, 2) || 0}</TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                </Grid>
-              </Grid>
-            </ExpansionPanelDetails>
-          </ExpansionPanel>
+          <PlayerPanel
+            key={player.name}
+            confidence={report.sim.options.confidence_estimator}
+            player={player}
+          />
         ))}
       </main>
     </>

@@ -1,3 +1,4 @@
+/* tslint:disable */
 import { grey } from '@material-ui/core/colors'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme'
@@ -8,8 +9,6 @@ import * as ReactDOM from 'react-dom'
 import './index.css'
 import registerServiceWorker from './registerServiceWorker'
 import Report from './Report'
-
-const reportData = require('./report.json') // tslint:disable-line no-var-requires
 
 Highcharts.setOptions({
   lang: {
@@ -84,16 +83,20 @@ const theme = createMuiTheme({
   palette: { type: 'dark' }
 })
 
-// @ts-ignore
-window.report = reportData
+const App = () => {
+  const reportData = require('./report.json')
+
+  return (
+    <Report report={reportData} />
+  )
+}
 
 ReactDOM.render(
-  <>
-    <MuiThemeProvider theme={theme}>
-      <CssBaseline />
-      <Report report={reportData} />
-    </MuiThemeProvider>
-  </>,
+  <MuiThemeProvider theme={theme}>
+    <CssBaseline />
+    <App />
+  </MuiThemeProvider>,
   document.getElementById('root') as HTMLElement
 )
+
 registerServiceWorker()

@@ -299,6 +299,7 @@ declare interface IActor {
     prioritydps?: IExtendedSampleData
     dtps?: IExtendedSampleData
     hps?: IExtendedSampleData
+    hpse?: IExtendedSampleData
     heal?: IExtremaSampleData
     heal_taken?: IExtremaSampleData
     htps?: IExtendedSampleData
