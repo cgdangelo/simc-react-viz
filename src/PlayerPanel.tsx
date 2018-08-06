@@ -142,6 +142,51 @@ const PlayerPanel: React.SFC<IPlayerPanelProps> = ({ player, confidence }) => (
             </Table>
           </Paper>
         </Grid>
+
+        {player.role === 'tank' && (
+          <Grid item={true} xs={12}>
+            <Paper>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>
+                      <Typography variant='subheading'>Tank Metrics</Typography>
+                    </TableCell>
+                    <TableCell>Theck-Meloree Index</TableCell>
+                    <TableCell>Maximum Spike Damage</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  <TableRow>
+                    <TableCell>Minimum</TableCell>
+                    <TableCell>{player.collected_data.effective_theck_meloree_index && numberFormat(player.collected_data.effective_theck_meloree_index.min)}</TableCell>
+                    <TableCell>{player.collected_data.max_spike_amount && numberFormat(player.collected_data.max_spike_amount.min)}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>Maximum</TableCell>
+                    <TableCell>{player.collected_data.effective_theck_meloree_index && numberFormat(player.collected_data.effective_theck_meloree_index.max)}</TableCell>
+                    <TableCell>{player.collected_data.max_spike_amount && numberFormat(player.collected_data.max_spike_amount.max)}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>Mean</TableCell>
+                    <TableCell>{player.collected_data.effective_theck_meloree_index && numberFormat(player.collected_data.effective_theck_meloree_index.mean)}</TableCell>
+                    <TableCell>{player.collected_data.max_spike_amount && numberFormat(player.collected_data.max_spike_amount.mean)}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>Error</TableCell>
+                    <TableCell>{player.collected_data.effective_theck_meloree_index && buildErrorString(confidence, player.collected_data.effective_theck_meloree_index.mean_std_dev, player.collected_data.effective_theck_meloree_index.mean)}</TableCell>
+                    <TableCell>{player.collected_data.max_spike_amount && buildErrorString(confidence, player.collected_data.max_spike_amount.mean_std_dev, player.collected_data.max_spike_amount.mean)}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>Range</TableCell>
+                    <TableCell>N/A</TableCell>
+                    <TableCell>N/A</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </Paper>
+          </Grid>
+        )}
       </Grid>
     </ExpansionPanelDetails>
   </ExpansionPanel>
