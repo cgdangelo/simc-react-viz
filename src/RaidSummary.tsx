@@ -133,6 +133,8 @@ const RaidSummary: React.SFC<IRaidSummaryProps> = props => {
     specLookup
   })
 
+  const tanks = props.players.filter(player => player.role === 'tank')
+
   return (
     <ExpansionPanel defaultExpanded={true}>
       <ExpansionPanelSummary expandIcon={<ExpandMore />}>
@@ -167,39 +169,42 @@ const RaidSummary: React.SFC<IRaidSummaryProps> = props => {
             </Grid>
           )}
 
-          <Grid item={true} xs={4}>
-            {createStackedActorChart({
-              title: 'Damage Taken per Second',
-              series: {
-                name: 'DTPS',
-                data: createSortedPlayerList(props.players, player => player.collected_data.dtps && player.collected_data.dtps.mean / player.collected_data.fight_length.mean).filter(player => !!player.y)
-              },
-              specLookup
-            })}
-          </Grid>
+          {tanks.length > 0 && (
+            <>
+              <Grid item={true} xs={4}>
+                {createStackedActorChart({
+                  title: 'Damage Taken per Second',
+                  series: {
+                    name: 'DTPS',
+                    data: createSortedPlayerList(tanks, player => player.collected_data.dtps && player.collected_data.dtps.mean / player.collected_data.fight_length.mean)
+                  },
+                  specLookup
+                })}
+              </Grid>
 
-          <Grid item={true} xs={4}>
-            {createStackedActorChart({
-              title: 'Heal & Absorb per Second',
-              series: {
-                name: 'H&APS',
-                data: createSortedPlayerList(props.players, player => ((player.collected_data.hps && player.collected_data.hps.mean) || 0) + ((player.collected_data.aps && player.collected_data.aps.mean) || 0)).filter(player => !!player.y)
-              },
-              specLookup
-            })}
-          </Grid>
+              <Grid item={true} xs={4}>
+                {createStackedActorChart({
+                  title: 'Heal & Absorb per Second',
+                  series: {
+                    name: 'H&APS',
+                    data: createSortedPlayerList(tanks, player => ((player.collected_data.hps && player.collected_data.hps.mean) || 0) + ((player.collected_data.aps && player.collected_data.aps.mean) || 0))
+                  },
+                  specLookup
+                })}
+              </Grid>
 
-          <Grid item={true} xs={4}>
-            {createStackedActorChart({
-              title: 'Theck-Meloree Index',
-              series: {
-                name: 'TMI',
-                data: createSortedPlayerList(props.players, player => player.collected_data.effective_theck_meloree_index && player.collected_data.effective_theck_meloree_index.mean).filter(player => !!player.y)
-              },
-              specLookup
-            })}
-          </Grid>
-
+              <Grid item={true} xs={4}>
+                {createStackedActorChart({
+                  title: 'Theck-Meloree Index',
+                  series: {
+                    name: 'TMI',
+                    data: createSortedPlayerList(tanks, player => player.collected_data.effective_theck_meloree_index && player.collected_data.effective_theck_meloree_index.mean)
+                  },
+                  specLookup
+                })}
+              </Grid>
+            </>
+          )}
           <Grid item={true} xs={6}>
             {playersByApmChart}
           </Grid>
