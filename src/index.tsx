@@ -1,6 +1,8 @@
+import CircularProgress from '@material-ui/core/CircularProgress/CircularProgress'
 /* tslint:disable */
 import { grey } from '@material-ui/core/colors'
 import CssBaseline from '@material-ui/core/CssBaseline'
+import Grid from '@material-ui/core/Grid/Grid'
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme'
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
 import * as Highcharts from 'highcharts'
@@ -83,12 +85,31 @@ const theme = createMuiTheme({
   palette: { type: 'dark' }
 })
 
-const App = () => {
-  const reportData = require('./report.json')
+class App extends React.PureComponent<{}, { reportData?: any }> {
+  constructor (props: any) {
+    super(props)
 
-  return (
-    <Report report={reportData} />
-  )
+    this.state = { reportData: null }
+  }
+
+  public async componentDidMount () {
+    // @ts-ignore
+    const reportData = await import('./report.json')
+
+    this.setState({ reportData })
+  }
+
+  public render () {
+    if (this.state.reportData) {
+      return <Report report={this.state.reportData} />
+    }
+
+    return (
+      <Grid container={true} alignItems='center' justify='center' style={{ height: '100vh', width: '100vw' }}>
+        <CircularProgress size={200} color='secondary' />
+      </Grid>
+    )
+  }
 }
 
 ReactDOM.render(
