@@ -187,6 +187,37 @@ const PlayerPanel: React.SFC<IPlayerPanelProps> = ({ player, confidence }) => (
             </Paper>
           </Grid>
         )}
+
+        <Grid item={true}>
+          <Paper>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>
+                    <Typography variant='subheading'>Resources</Typography>
+                  </TableCell>
+                  {Object.entries(player.collected_data.resource_lost).map(([resourceName]) => (
+                    <TableCell numeric={true}>{resourceName}</TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableRow>
+                  <TableCell>Spent Per Second</TableCell>
+                  {Object.entries(player.collected_data.resource_lost).map(([, sampleData]) => (
+                    <TableCell numeric={true}>{numberFormat(sampleData.mean / player.collected_data.fight_length.mean)}</TableCell>
+                  ))}
+                </TableRow>
+                <TableRow>
+                  <TableCell>Generated Per Second</TableCell>
+                  {Object.entries(player.collected_data.resource_lost).map(([, sampleData]) => (
+                    <TableCell numeric={true}>{numberFormat(sampleData.mean / player.collected_data.fight_length.mean)}</TableCell>
+                  ))}
+                </TableRow>
+              </TableBody>
+            </Table>
+          </Paper>
+        </Grid>
       </Grid>
     </ExpansionPanelDetails>
   </ExpansionPanel>
