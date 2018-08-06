@@ -116,21 +116,15 @@ const PlayerPanel: React.SFC<IPlayerPanelProps> = ({ player, confidence }) => (
               <TableBody>
                 <TableRow>
                   <TableCell>Per Second</TableCell>
-                  <TableCell numeric={true}>{player.collected_data.dps && numberFormat(player.collected_data.dps.mean)}</TableCell>
-                  <TableCell numeric={true}>{player.collected_data.hps && numberFormat(player.collected_data.hps.mean)}</TableCell>
-                  <TableCell numeric={true}>{player.collected_data.aps && numberFormat(player.collected_data.aps.mean)}</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>Per Second (Effective)</TableCell>
-                  <TableCell numeric={true}>{player.collected_data.dpse && numberFormat(player.collected_data.dpse.mean)}</TableCell>
-                  <TableCell numeric={true}>{player.collected_data.hpse && numberFormat(player.collected_data.hpse.mean)}</TableCell>
-                  <TableCell numeric={true}>N/A</TableCell>
+                  <TableCell numeric={true}>{player.collected_data.dtps && numberFormat(player.collected_data.dtps.mean)}</TableCell>
+                  <TableCell numeric={true}>{player.collected_data.htps && numberFormat(player.collected_data.htps.mean)}</TableCell>
+                  <TableCell numeric={true}>{player.collected_data.atps && numberFormat(player.collected_data.atps.mean)}</TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell>Per Second, Error</TableCell>
-                  <TableCell numeric={true}>{player.collected_data.dps && buildErrorString(confidence, player.collected_data.dps.mean_std_dev, player.collected_data.dps.mean)}</TableCell>
-                  <TableCell numeric={true}>{player.collected_data.hps && buildErrorString(confidence, player.collected_data.hps.mean_std_dev, player.collected_data.hps.mean)}</TableCell>
-                  <TableCell numeric={true}>{player.collected_data.aps && buildErrorString(confidence, player.collected_data.aps.mean_std_dev, player.collected_data.aps.mean)}</TableCell>
+                  <TableCell numeric={true}>{player.collected_data.dtps && buildErrorString(confidence, player.collected_data.dtps.mean_std_dev, player.collected_data.dtps.mean)}</TableCell>
+                  <TableCell numeric={true}>{player.collected_data.htps && buildErrorString(confidence, player.collected_data.htps.mean_std_dev, player.collected_data.htps.mean)}</TableCell>
+                  <TableCell numeric={true}>{player.collected_data.atps && buildErrorString(confidence, player.collected_data.atps.mean_std_dev, player.collected_data.atps.mean)}</TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell>Per Second, Range</TableCell>
@@ -140,9 +134,9 @@ const PlayerPanel: React.SFC<IPlayerPanelProps> = ({ player, confidence }) => (
                 </TableRow>
                 <TableRow>
                   <TableCell>Per Resource</TableCell>
-                  <TableCell numeric={true}>{player.collected_data.dps && buildMetricPerResourceString(player.collected_data.dps.mean, player.collected_data.resource_lost, player.specialization)}</TableCell>
-                  <TableCell numeric={true}>{player.collected_data.hps && buildMetricPerResourceString(player.collected_data.hps.mean, player.collected_data.resource_lost, player.specialization)}</TableCell>
-                  <TableCell numeric={true}>{player.collected_data.aps && buildMetricPerResourceString(player.collected_data.aps.mean, player.collected_data.resource_lost, player.specialization)}</TableCell>
+                  <TableCell numeric={true}>{player.collected_data.dtps && buildMetricPerResourceString(player.collected_data.dtps.mean, player.collected_data.resource_lost, player.specialization)}</TableCell>
+                  <TableCell numeric={true}>{player.collected_data.htps && buildMetricPerResourceString(player.collected_data.htps.mean, player.collected_data.resource_lost, player.specialization)}</TableCell>
+                  <TableCell numeric={true}>{player.collected_data.atps && buildMetricPerResourceString(player.collected_data.atps.mean, player.collected_data.resource_lost, player.specialization)}</TableCell>
                 </TableRow>
               </TableBody>
             </Table>
