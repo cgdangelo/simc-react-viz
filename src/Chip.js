@@ -1,7 +1,7 @@
-import {default as MuiChip} from '@material-ui/core/Chip'
+import {default as MuiChip} from '@material-ui/core/Chip/Chip'
 import createStyles from '@material-ui/core/styles/createStyles'
 import withStyles from '@material-ui/core/styles/withStyles'
-import Typography from '@material-ui/core/Typography'
+import Typography from '@material-ui/core/Typography/Typography'
 import * as React from 'react'
 
 const styles = theme =>

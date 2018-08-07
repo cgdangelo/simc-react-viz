@@ -26,7 +26,7 @@ const Report = ({report, classes}) => {
   } = report.sim.statistics
 
   return (
-    <div>
+    <React.Fragment>
       <TitleBar
         simcVersion={report.version}
         gameVersion={versionUsed}
@@ -66,7 +66,7 @@ const Report = ({report, classes}) => {
           />
         ))}
       </main>
-    </div>
+    </React.Fragment>
   )
 }
 

@@ -124,7 +124,7 @@ const RaidSummary = props => {
   return (
     <ExpansionPanel defaultExpanded={true}>
       <ExpansionPanelSummary expandIcon={<ExpandMore />}>
-        <Typography variant='title'>R'id Su'mary</Typography>
+        <Typography variant='title'>Raid Summary</Typography>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails>
         <Grid container={true} spacing={16}>
@@ -158,7 +158,7 @@ const RaidSummary = props => {
           )}
 
           {tanks.length > 0 && (
-            <div>
+            <React.Fragment>
               <Grid item={true} xs={4}>
                 {createStackedActorChart({
                   title: 'Damage Taken per Second',
@@ -211,7 +211,7 @@ const RaidSummary = props => {
                   specLookup,
                 })}
               </Grid>
-            </div>
+            </React.Fragment>
           )}
           <Grid item={true} xs={6}>
             {playersByApmChart}

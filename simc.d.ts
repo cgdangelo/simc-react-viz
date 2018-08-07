@@ -175,10 +175,10 @@ declare interface IActionSequenceAction {
   time: number
   name: string
   target: string
-  buffs: Array<{
+  buffs: {
     name: string
     stacks: number
-  }>
+  }[]
   resources: {
     [resourceName: string]: number
   }
