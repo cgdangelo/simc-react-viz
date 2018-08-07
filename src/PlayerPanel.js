@@ -12,9 +12,9 @@ import TableRow from '@material-ui/core/TableRow/TableRow'
 import Typography from '@material-ui/core/Typography'
 import ExpandMore from '@material-ui/icons/ExpandMore'
 import { numberFormat } from 'highcharts'
+import PropTypes from 'prop-types'
 import * as React from 'react'
 import { getPrimaryResourceBySpecialization } from './specializations'
-import PropTypes from 'prop-types'
 
 const buildErrorString = (confidence, meanStdDev, mean) =>
   numberFormat(confidence * meanStdDev, 2) +
@@ -341,7 +341,7 @@ const PlayerPanel = ({player, confidence}) => (
                   </TableCell>
                   {Object.entries(player.collected_data.resource_lost).map(
                     ([resourceName]) => (
-                      <TableCell numeric>{resourceName}</TableCell>
+                      <TableCell key={resourceName} numeric>{resourceName}</TableCell>
                     )
                   )}
                 </TableRow>
@@ -350,8 +350,8 @@ const PlayerPanel = ({player, confidence}) => (
                 <TableRow>
                   <TableCell>Spent Per Second</TableCell>
                   {Object.entries(player.collected_data.resource_lost).map(
-                    ([, sampleData]) => (
-                      <TableCell numeric>
+                    ([resourceName, sampleData]) => (
+                      <TableCell key={resourceName} numeric>
                         {numberFormat(
                           sampleData.mean /
                           player.collected_data.fight_length.mean
@@ -363,8 +363,8 @@ const PlayerPanel = ({player, confidence}) => (
                 <TableRow>
                   <TableCell>Generated Per Second</TableCell>
                   {Object.entries(player.collected_data.resource_lost).map(
-                    ([, sampleData]) => (
-                      <TableCell numeric>
+                    ([resourceName, sampleData]) => (
+                      <TableCell key={resourceName} numeric>
                         {numberFormat(
                           sampleData.mean /
                           player.collected_data.fight_length.mean
