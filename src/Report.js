@@ -11,18 +11,18 @@ const styles = theme =>
   createStyles({
     toolbar: theme.mixins.toolbar,
     content: {
-      marginLeft: 300,
-    },
+      marginLeft: 300
+    }
   })
 
 const Report = ({report, classes}) => {
   const versionUsed = report.sim.options.dbc.version_used
   const gameData = report.sim.options.dbc[versionUsed]
   const {
-    raid_hps,
-    total_heal,
-    raid_aps,
-    total_absorb,
+    raid_hps: raidHps,
+    total_heal: totalHeal,
+    raid_aps: raidAps,
+    total_absorb: totalAbsorb
   } = report.sim.statistics
 
   return (
@@ -50,10 +50,10 @@ const Report = ({report, classes}) => {
           players={report.sim.players}
           raidDps={report.sim.statistics.raid_dps.mean}
           totalDamage={report.sim.statistics.total_dmg.mean}
-          raidHps={raid_hps && raid_hps.mean}
-          totalHeal={total_heal && total_heal.mean}
-          raidAps={raid_aps && raid_aps.mean}
-          totalAbsorb={total_absorb && total_absorb.mean}
+          raidHps={raidHps && raidHps.mean}
+          totalHeal={totalHeal && totalHeal.mean}
+          raidAps={raidAps && raidAps.mean}
+          totalAbsorb={totalAbsorb && totalAbsorb.mean}
           raidEvents={report.sim.raid_events}
           buildPriorityDpsChart={report.sim.targets.length > 1}
         />

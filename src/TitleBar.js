@@ -11,8 +11,8 @@ import Chip from './Chip'
 const styles = theme =>
   createStyles({
     appBar: {
-      zIndex: theme.zIndex.drawer + 1,
-    },
+      zIndex: theme.zIndex.drawer + 1
+    }
   })
 
 const TitleBar = props => {
@@ -32,11 +32,11 @@ const TitleBar = props => {
           SimulationCraft
           <Typography variant='caption' style={{display: 'inline-block'}}>
             {props.simcVersion} for {props.gameVersion} {props.wowVersion}.{
-            props.buildLevel
-          }
+              props.buildLevel
+            }
           </Typography>
         </Typography>
-        <Grid container={true} justify='flex-end' wrap='nowrap'>
+        <Grid container justify='flex-end' wrap='nowrap'>
           <Chip
             label='Timestamp'
             value={`${props.buildDate} ${props.buildTime}`}

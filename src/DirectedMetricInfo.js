@@ -1,4 +1,3 @@
-/* tslint:disable jsx-no-multiline-js */
 import Card from '@material-ui/core/Card/Card'
 import CardContent from '@material-ui/core/CardContent/CardContent'
 import Table from '@material-ui/core/Table/Table'
@@ -9,9 +8,9 @@ import Typography from '@material-ui/core/Typography'
 import * as React from 'react'
 
 const DirectedMetricInfo = ({title, rows}) => (
-  <Card raised={true}>
+  <Card raised>
     <CardContent>
-      <Typography variant='subheading' gutterBottom={true}>
+      <Typography variant='subheading' gutterBottom>
         {title}
       </Typography>
       <Table>
@@ -19,7 +18,7 @@ const DirectedMetricInfo = ({title, rows}) => (
           {rows.map(row => (
             <TableRow>
               <TableCell variant='head'>{row.label}</TableCell>
-              <TableCell numeric={true}>{row.value}</TableCell>
+              <TableCell numeric>{row.value}</TableCell>
             </TableRow>
           ))}
         </TableBody>

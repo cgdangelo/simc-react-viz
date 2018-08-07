@@ -8,7 +8,7 @@ import * as Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 import * as React from 'react'
 import Chip from './Chip'
-import {getColorBySpecialization} from './specializations'
+import { getColorBySpecialization } from './specializations'
 
 const {numberFormat} = Highcharts
 
@@ -16,7 +16,7 @@ const createSortedPlayerList = (players, accessor) => {
   const playersByProperty = players.map(player => ({
     name: player.name,
     color: getColorBySpecialization(player.specialization),
-    y: typeof accessor === 'string' ? player[accessor] : accessor(player),
+    y: typeof accessor === 'string' ? player[accessor] : accessor(player)
   }))
 
   playersByProperty.sort((a, b) => b.y - a.y)
@@ -27,20 +27,20 @@ const createSortedPlayerList = (players, accessor) => {
 const createStackedActorChart = options => {
   const chartOptions = {
     chart: {
-      height: Math.max(options.series.data.length * 50, 300),
+      height: Math.max(options.series.data.length * 50, 300)
     },
     title: {
-      text: options.title,
+      text: options.title
     },
     xAxis: {
       categories: options.series.data.map(bar => bar.name),
       labels: {
         formatter () {
           return `<span style='color: ${getColorBySpecialization(
-            options.specLookup[this.value],
+            options.specLookup[this.value]
           )}'>${this.value}</span>`
-        },
-      },
+        }
+      }
     },
     series: [
       {
@@ -48,10 +48,10 @@ const createStackedActorChart = options => {
         name: options.title,
         data: options.series.data,
         dataLabels: {
-          format: `{point.y:,.${options.series.dataLabelPrecision || 0}f}`,
-        },
-      },
-    ],
+          format: `{point.y:,.${options.series.dataLabelPrecision || 0}f}`
+        }
+      }
+    ]
   }
 
   return <HighchartsReact highcharts={Highcharts} options={chartOptions} />
@@ -60,17 +60,17 @@ const createStackedActorChart = options => {
 const RaidSummary = props => {
   const specLookup = {}
   props.players.forEach(
-    player => (specLookup[player.name] = player.specialization),
+    player => (specLookup[player.name] = player.specialization)
   )
 
   const playersByDps = createSortedPlayerList(
     props.players,
-    player => player.collected_data.dps.mean,
+    player => player.collected_data.dps.mean
   )
   const playersByDpsChart = createStackedActorChart({
     title: 'Damage per Second',
     series: {name: 'DPS', data: playersByDps},
-    specLookup,
+    specLookup
   })
 
   let playersByPriorityDpsChart
@@ -80,13 +80,13 @@ const RaidSummary = props => {
       props.players,
       player =>
         player.collected_data.prioritydps &&
-        player.collected_data.prioritydps.mean,
+        player.collected_data.prioritydps.mean
     )
 
     playersByPriorityDpsChart = createStackedActorChart({
       title: 'Priority Target/Boss Damage',
       series: {name: 'Priority DPS', data: playersByPriorityDps},
-      specLookup,
+      specLookup
     })
   }
 
@@ -95,40 +95,40 @@ const RaidSummary = props => {
     player =>
       (player.collected_data.executed_foreground_actions.mean /
         player.collected_data.fight_length.mean) *
-      60,
+      60
   )
   const playersByApmChart = createStackedActorChart({
     title: 'Actions per Minute',
     series: {name: 'APM', data: playersByApm},
-    specLookup,
+    specLookup
   })
 
   const playersByDpsVariance = createSortedPlayerList(
     props.players,
     player =>
       (player.collected_data.dps.std_dev / player.collected_data.dps.mean) *
-      100,
+      100
   )
   const playersByDpsVarianceChart = createStackedActorChart({
     title: 'DPS Variance Percentage',
     series: {
       name: 'Variance (%)',
       data: playersByDpsVariance,
-      dataLabelPrecision: 2,
+      dataLabelPrecision: 2
     },
-    specLookup,
+    specLookup
   })
 
   const tanks = props.players.filter(player => player.role === 'tank')
 
   return (
-    <ExpansionPanel defaultExpanded={true}>
+    <ExpansionPanel defaultExpanded>
       <ExpansionPanelSummary expandIcon={<ExpandMore />}>
         <Typography variant='title'>Raid Summary</Typography>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails>
-        <Grid container={true} spacing={16}>
-          <Grid item={true} xs={12}>
+        <Grid container spacing={16}>
+          <Grid item xs={12}>
             <Chip label='DPS' value={numberFormat(props.raidDps, 0)} />
             <Chip label='Damage' value={numberFormat(props.totalDamage, 0)} />
             {props.raidHps && (
@@ -147,19 +147,19 @@ const RaidSummary = props => {
             )}
           </Grid>
 
-          <Grid item={true} xs={playersByPriorityDpsChart ? 6 : 12}>
+          <Grid item xs={playersByPriorityDpsChart ? 6 : 12}>
             {playersByDpsChart}
           </Grid>
 
           {playersByPriorityDpsChart && (
-            <Grid item={true} xs={6}>
+            <Grid item xs={6}>
               {playersByPriorityDpsChart}
             </Grid>
           )}
 
           {tanks.length > 0 && (
             <React.Fragment>
-              <Grid item={true} xs={4}>
+              <Grid item xs={4}>
                 {createStackedActorChart({
                   title: 'Damage Taken per Second',
                   series: {
@@ -169,14 +169,14 @@ const RaidSummary = props => {
                       player =>
                         player.collected_data.dtps &&
                         player.collected_data.dtps.mean /
-                        player.collected_data.fight_length.mean,
-                    ),
+                        player.collected_data.fight_length.mean
+                    )
                   },
-                  specLookup,
+                  specLookup
                 })}
               </Grid>
 
-              <Grid item={true} xs={4}>
+              <Grid item xs={4}>
                 {createStackedActorChart({
                   title: 'Heal & Absorb per Second',
                   series: {
@@ -189,14 +189,14 @@ const RaidSummary = props => {
                           0) +
                         ((player.collected_data.aps &&
                           player.collected_data.aps.mean) ||
-                          0),
-                    ),
+                          0)
+                    )
                   },
-                  specLookup,
+                  specLookup
                 })}
               </Grid>
 
-              <Grid item={true} xs={4}>
+              <Grid item xs={4}>
                 {createStackedActorChart({
                   title: 'Theck-Meloree Index',
                   series: {
@@ -205,19 +205,19 @@ const RaidSummary = props => {
                       tanks,
                       player =>
                         player.collected_data.effective_theck_meloree_index &&
-                        player.collected_data.effective_theck_meloree_index.mean,
-                    ),
+                        player.collected_data.effective_theck_meloree_index.mean
+                    )
                   },
-                  specLookup,
+                  specLookup
                 })}
               </Grid>
             </React.Fragment>
           )}
-          <Grid item={true} xs={6}>
+          <Grid item xs={6}>
             {playersByApmChart}
           </Grid>
 
-          <Grid item={true} xs={6}>
+          <Grid item xs={6}>
             {playersByDpsVarianceChart}
           </Grid>
         </Grid>
