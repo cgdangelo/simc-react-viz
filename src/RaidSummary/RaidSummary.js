@@ -6,12 +6,10 @@ import Typography from '@material-ui/core/Typography'
 import ExpandMore from '@material-ui/icons/ExpandMore'
 import * as Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
-import * as React from 'react'
-import Chip from './Chip'
-import { getColorBySpecialization } from './specializations'
 import PropTypes from 'prop-types'
-
-const {numberFormat} = Highcharts
+import * as React from 'react'
+import { getColorBySpecialization } from '../specializations'
+import ChipMetrics from './ChipMetrics'
 
 const createSortedPlayerList = (players, accessor) => {
   const playersByProperty = players.map(player => ({
@@ -130,22 +128,14 @@ const RaidSummary = props => {
       <ExpansionPanelDetails>
         <Grid container spacing={16}>
           <Grid item xs={12}>
-            <Chip label='DPS' value={numberFormat(props.raidDps, 0)} />
-            <Chip label='Damage' value={numberFormat(props.totalDamage, 0)} />
-            {props.raidHps && (
-              <Chip label='HPS' value={numberFormat(props.raidHps, 0)} />
-            )}
-            {props.totalHeal && (
-              <Chip label='Heals' value={numberFormat(props.totalHeal, 0)} />
-            )}
-            {props.raidAps && (
-              <Chip label='APS' value={numberFormat(props.raidAps, 0)} />
-            )}
-            {props.totalAbsorb && (
-              <Chip
-                label='Absorbs' value={numberFormat(props.totalAbsorb, 0)}
-              />
-            )}
+            <ChipMetrics
+              raidAps={props.raidAps}
+              raidDps={props.raidDps}
+              raidHps={props.raidHps}
+              totalAbsorb={props.totalAbsorb}
+              totalDamage={props.totalDamage}
+              totalHeal={props.totalHeal}
+            />
           </Grid>
 
           <Grid item xs={playersByPriorityDpsChart ? 6 : 12}>
@@ -214,6 +204,7 @@ const RaidSummary = props => {
               </Grid>
             </React.Fragment>
           )}
+
           <Grid item xs={6}>
             {playersByApmChart}
           </Grid>

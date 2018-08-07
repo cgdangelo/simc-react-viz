@@ -4,8 +4,8 @@ import * as React from 'react'
 import Report from './Report'
 
 class App extends React.PureComponent {
-  constructor () {
-    super()
+  constructor (props) {
+    super(props)
 
     this.state = {reportData: null}
   }

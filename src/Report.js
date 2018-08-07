@@ -8,13 +8,12 @@ import PlayerPanel from './PlayerPanel'
 import RaidSummary from './RaidSummary'
 import TitleBar from './TitleBar'
 
-const styles = theme =>
-  createStyles({
-    toolbar: theme.mixins.toolbar,
-    content: {
-      marginLeft: 300
-    }
-  })
+const styles = theme => createStyles({
+  toolbar: theme.mixins.toolbar,
+  content: {
+    marginLeft: 300
+  }
+})
 
 const Report = ({report, classes}) => {
   const versionUsed = report.sim.options.dbc.version_used
@@ -72,7 +71,6 @@ const Report = ({report, classes}) => {
 }
 
 Report.propTypes = {
-  classes: PropTypes.object,
   report: PropTypes.object
 }
 

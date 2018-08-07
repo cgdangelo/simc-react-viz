@@ -157,7 +157,6 @@ class Navigation extends React.PureComponent {
 }
 
 Navigation.propTypes = {
-  classes: PropTypes.object,
   players: PropTypes.arrayOf(PropTypes.object)
 }
 

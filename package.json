@@ -106,6 +106,16 @@
       "standard",
       "standard-react"
     ],
-    "parser": "babel-eslint"
+    "parser": "babel-eslint",
+    "rules": {
+      "react/prop-types": [
+        2,
+        {
+          "ignore": [
+            "classes"
+          ]
+        }
+      ]
+    }
   }
 }

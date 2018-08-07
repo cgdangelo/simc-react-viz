@@ -56,7 +56,6 @@ TitleBar.propTypes = {
   buildDate: PropTypes.string,
   buildLevel: PropTypes.string,
   buildTime: PropTypes.string,
-  classes: PropTypes.object,
   fightStyle: PropTypes.string,
   gameVersion: PropTypes.string,
   iterations: PropTypes.number,
