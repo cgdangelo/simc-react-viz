@@ -8,35 +8,15 @@ import * as Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 import * as React from 'react'
 import Chip from './Chip'
-import { getColorBySpecialization } from './specializations'
+import {getColorBySpecialization} from './specializations'
 
-const { numberFormat } = Highcharts
+const {numberFormat} = Highcharts
 
-interface ISpecializationLookupMap {
-  [name: string]: ClassSpecialization
-}
-
-interface IActorBar {
-  name: string
-  color: string
-  y: number
-}
-
-interface IActorBarChartBuilderOptions {
-  title: string
-  series: {
-    name: string
-    data: IActorBar[]
-    dataLabelPrecision?: number
-  }
-  specLookup: ISpecializationLookupMap
-}
-
-const createSortedPlayerList = (players: IActor[], accessor: string | ((player: IActor) => any)): IActorBar[] => {
+const createSortedPlayerList = (players, accessor) => {
   const playersByProperty = players.map(player => ({
     name: player.name,
     color: getColorBySpecialization(player.specialization),
-    y: typeof accessor === 'string' ? player[accessor] : accessor(player)
+    y: typeof accessor === 'string' ? player[accessor] : accessor(player),
   }))
 
   playersByProperty.sort((a, b) => b.y - a.y)
@@ -44,93 +24,99 @@ const createSortedPlayerList = (players: IActor[], accessor: string | ((player: 
   return playersByProperty
 }
 
-const createStackedActorChart = (options: IActorBarChartBuilderOptions) => {
+const createStackedActorChart = options => {
   const chartOptions = {
     chart: {
-      height: Math.max(options.series.data.length * 50, 300)
+      height: Math.max(options.series.data.length * 50, 300),
     },
     title: {
-      text: options.title
+      text: options.title,
     },
     xAxis: {
       categories: options.series.data.map(bar => bar.name),
       labels: {
-        formatter (this: any) {
-          return `<span style='color: ${getColorBySpecialization(options.specLookup[this.value])}'>${this.value}</span>`
-        }
-      }
+        formatter () {
+          return `<span style='color: ${getColorBySpecialization(
+            options.specLookup[this.value],
+          )}'>${this.value}</span>`
+        },
+      },
     },
-    series: [{
-      type: 'bar',
-      name: options.title,
-      data: options.series.data,
-      dataLabels: {
-        format: `{point.y:,.${options.series.dataLabelPrecision || 0}f}`
-      }
-    }]
+    series: [
+      {
+        type: 'bar',
+        name: options.title,
+        data: options.series.data,
+        dataLabels: {
+          format: `{point.y:,.${options.series.dataLabelPrecision || 0}f}`,
+        },
+      },
+    ],
   }
 
-  return (
-    <HighchartsReact
-      highcharts={Highcharts}
-      options={chartOptions}
-    />
+  return <HighchartsReact highcharts={Highcharts} options={chartOptions} />
+}
+
+const RaidSummary = props => {
+  const specLookup = {}
+  props.players.forEach(
+    player => (specLookup[player.name] = player.specialization),
   )
-}
 
-export interface IRaidSummaryProps {
-  players: IActor[]
-  raidDps: number
-  totalDamage: number
-  raidHps?: number
-  totalHeal?: number
-  raidAps?: number
-  totalAbsorb?: number
-  buildPriorityDpsChart: boolean
-  raidEvents: IRaidEvent[]
-}
-
-const RaidSummary: React.SFC<IRaidSummaryProps> = props => {
-  const specLookup: ISpecializationLookupMap = {}
-  props.players.forEach(player => specLookup[player.name] = player.specialization)
-
-  const playersByDps = createSortedPlayerList(props.players, player => (
-    player.collected_data.dps.mean
-  ))
+  const playersByDps = createSortedPlayerList(
+    props.players,
+    player => player.collected_data.dps.mean,
+  )
   const playersByDpsChart = createStackedActorChart({
     title: 'Damage per Second',
-    series: { name: 'DPS', data: playersByDps },
-    specLookup
+    series: {name: 'DPS', data: playersByDps},
+    specLookup,
   })
 
   let playersByPriorityDpsChart
 
   if (props.buildPriorityDpsChart) {
-    const playersByPriorityDps = createSortedPlayerList(props.players, player => player.collected_data.prioritydps && player.collected_data.prioritydps.mean)
+    const playersByPriorityDps = createSortedPlayerList(
+      props.players,
+      player =>
+        player.collected_data.prioritydps &&
+        player.collected_data.prioritydps.mean,
+    )
 
     playersByPriorityDpsChart = createStackedActorChart({
       title: 'Priority Target/Boss Damage',
-      series: { name: 'Priority DPS', data: playersByPriorityDps },
-      specLookup
+      series: {name: 'Priority DPS', data: playersByPriorityDps},
+      specLookup,
     })
   }
 
-  const playersByApm = createSortedPlayerList(props.players, player => (
-    player.collected_data.executed_foreground_actions.mean / player.collected_data.fight_length.mean * 60
-  ))
+  const playersByApm = createSortedPlayerList(
+    props.players,
+    player =>
+      (player.collected_data.executed_foreground_actions.mean /
+        player.collected_data.fight_length.mean) *
+      60,
+  )
   const playersByApmChart = createStackedActorChart({
     title: 'Actions per Minute',
-    series: { name: 'APM', data: playersByApm },
-    specLookup
+    series: {name: 'APM', data: playersByApm},
+    specLookup,
   })
 
-  const playersByDpsVariance = createSortedPlayerList(props.players, player => (
-    player.collected_data.dps.std_dev / player.collected_data.dps.mean * 100
-  ))
+  const playersByDpsVariance = createSortedPlayerList(
+    props.players,
+    player =>
+      (player.collected_data.dps.std_dev / player.collected_data.dps.mean) *
+      100,
+  )
   const playersByDpsVarianceChart = createStackedActorChart({
     title: 'DPS Variance Percentage',
-    series: { name: 'Variance (%)', data: playersByDpsVariance, dataLabelPrecision: 2 },
-    specLookup
+    series: {
+      name: 'Variance (%)',
+      data: playersByDpsVariance,
+      dataLabelPrecision: 2,
+    },
+    specLookup,
   })
 
   const tanks = props.players.filter(player => player.role === 'tank')
@@ -138,7 +124,7 @@ const RaidSummary: React.SFC<IRaidSummaryProps> = props => {
   return (
     <ExpansionPanel defaultExpanded={true}>
       <ExpansionPanelSummary expandIcon={<ExpandMore />}>
-        <Typography variant='title'>Raid Summary</Typography>
+        <Typography variant='title'>R'id Su'mary</Typography>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails>
         <Grid container={true} spacing={16}>
@@ -155,7 +141,9 @@ const RaidSummary: React.SFC<IRaidSummaryProps> = props => {
               <Chip label='APS' value={numberFormat(props.raidAps, 0)} />
             )}
             {props.totalAbsorb && (
-              <Chip label='Absorbs' value={numberFormat(props.totalAbsorb, 0)} />
+              <Chip
+                label='Absorbs' value={numberFormat(props.totalAbsorb, 0)}
+              />
             )}
           </Grid>
 
@@ -170,15 +158,21 @@ const RaidSummary: React.SFC<IRaidSummaryProps> = props => {
           )}
 
           {tanks.length > 0 && (
-            <>
+            <div>
               <Grid item={true} xs={4}>
                 {createStackedActorChart({
                   title: 'Damage Taken per Second',
                   series: {
                     name: 'DTPS',
-                    data: createSortedPlayerList(tanks, player => player.collected_data.dtps && player.collected_data.dtps.mean / player.collected_data.fight_length.mean)
+                    data: createSortedPlayerList(
+                      tanks,
+                      player =>
+                        player.collected_data.dtps &&
+                        player.collected_data.dtps.mean /
+                        player.collected_data.fight_length.mean,
+                    ),
                   },
-                  specLookup
+                  specLookup,
                 })}
               </Grid>
 
@@ -187,9 +181,18 @@ const RaidSummary: React.SFC<IRaidSummaryProps> = props => {
                   title: 'Heal & Absorb per Second',
                   series: {
                     name: 'H&APS',
-                    data: createSortedPlayerList(tanks, player => ((player.collected_data.hps && player.collected_data.hps.mean) || 0) + ((player.collected_data.aps && player.collected_data.aps.mean) || 0))
+                    data: createSortedPlayerList(
+                      tanks,
+                      player =>
+                        ((player.collected_data.hps &&
+                          player.collected_data.hps.mean) ||
+                          0) +
+                        ((player.collected_data.aps &&
+                          player.collected_data.aps.mean) ||
+                          0),
+                    ),
                   },
-                  specLookup
+                  specLookup,
                 })}
               </Grid>
 
@@ -198,12 +201,17 @@ const RaidSummary: React.SFC<IRaidSummaryProps> = props => {
                   title: 'Theck-Meloree Index',
                   series: {
                     name: 'TMI',
-                    data: createSortedPlayerList(tanks, player => player.collected_data.effective_theck_meloree_index && player.collected_data.effective_theck_meloree_index.mean)
+                    data: createSortedPlayerList(
+                      tanks,
+                      player =>
+                        player.collected_data.effective_theck_meloree_index &&
+                        player.collected_data.effective_theck_meloree_index.mean,
+                    ),
                   },
-                  specLookup
+                  specLookup,
                 })}
               </Grid>
-            </>
+            </div>
           )}
           <Grid item={true} xs={6}>
             {playersByApmChart}

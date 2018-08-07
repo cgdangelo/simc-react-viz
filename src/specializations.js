@@ -10,7 +10,7 @@ import {
   purple,
   red,
   teal,
-  yellow
+  yellow,
 } from '@material-ui/core/colors'
 
 export const classColorMap = {
@@ -51,7 +51,7 @@ export const classColorMap = {
   'arms warrior': brown[500],
   'fury warrior': brown[500],
 
-  'default': indigo[200]
+  default: indigo[200],
 }
 
 const classResourceMap = {
@@ -93,10 +93,10 @@ const classResourceMap = {
   'arms warrior': 'rage',
   'fury warrior': 'rage',
 
-  'default': 'mana'
+  default: 'mana',
 }
 
-export function getColorBySpecialization (specialization: string) {
+export function getColorBySpecialization (specialization) {
   const lowerSpecialization = specialization.toLowerCase()
 
   if (lowerSpecialization in classColorMap) {
@@ -106,7 +106,7 @@ export function getColorBySpecialization (specialization: string) {
   return indigo[500]
 }
 
-export function getPrimaryResourceBySpecialization (specialization: string) {
+export function getPrimaryResourceBySpecialization (specialization) {
   const lowerSpecialization = specialization.toLowerCase()
 
   if (lowerSpecialization in classResourceMap) {

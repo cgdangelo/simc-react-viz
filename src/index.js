@@ -1,6 +1,6 @@
-import CircularProgress from '@material-ui/core/CircularProgress/CircularProgress'
-/* tslint:disable */
-import { grey } from '@material-ui/core/colors'
+import CircularProgress
+  from '@material-ui/core/CircularProgress/CircularProgress'
+import {grey} from '@material-ui/core/colors'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Grid from '@material-ui/core/Grid/Grid'
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme'
@@ -14,20 +14,20 @@ import Report from './Report'
 
 Highcharts.setOptions({
   lang: {
-    thousandsSep: ','
+    thousandsSep: ',',
   },
   credits: {
-    enabled: false
+    enabled: false,
   },
   chart: {
     backgroundColor: grey[900],
     spacing: [25, 50, 25, 25],
     style: {
-      fontFamily: 'Roboto'
-    }
+      fontFamily: 'Roboto',
+    },
   },
   legend: {
-    enabled: false
+    enabled: false,
   },
   plotOptions: {
     bar: {
@@ -43,69 +43,74 @@ Highcharts.setOptions({
         format: '{point.y:,.0f}',
         y: 3,
         style: {
-          fontSize: '1rem'
-        }
-      }
+          fontSize: '1rem',
+        },
+      },
     },
     boxplot: {
       color: grey[50],
       fillColor: 'rgba(255, 255, 255, 0.15)',
       lineWidth: 2,
-      whiskerLength: '50%'
-    }
+      whiskerLength: '50%',
+    },
   },
   title: {
     style: {
       color: grey[50],
-      fontWeight: 'bold'
-    }
+      fontWeight: 'bold',
+    },
   },
   tooltip: {
-    valueDecimals: 2
+    valueDecimals: 2,
   },
   xAxis: {
     labels: {
       style: {
         color: grey[50],
-        fontSize: '1rem'
+        fontSize: '1rem',
       },
-      y: 6
+      y: 6,
     },
     lineWidth: 0,
     tickLength: 0,
-    gridLineColor: 'transparent'
+    gridLineColor: 'transparent',
   },
   yAxis: {
     gridLineColor: grey[800],
-    title: null
-  }
+    title: null,
+  },
 })
 
 const theme = createMuiTheme({
-  palette: { type: 'dark' }
+  palette: {type: 'dark'},
 })
 
-class App extends React.PureComponent<{}, { reportData?: any }> {
-  constructor (props: any) {
-    super(props)
+class App extends React.PureComponent {
+  constructor () {
+    super()
 
-    this.state = { reportData: null }
+    this.state = {reportData: null}
   }
 
-  public async componentDidMount () {
+  async componentDidMount () {
     // @ts-ignore
     const reportData = await import('./report.json')
 
-    this.setState({ reportData })
+    this.setState({reportData})
   }
 
-  public render () {
+  render () {
     if (this.state.reportData) {
       return <Report report={this.state.reportData} />
     }
 
     return (
-      <Grid container={true} alignItems='center' justify='center' style={{ height: '100vh', width: '100vw' }}>
+      <Grid
+        container={true}
+        alignItems='center'
+        justify='center'
+        style={{height: '100vh', width: '100vw'}}
+      >
         <CircularProgress size={200} color='secondary' />
       </Grid>
     )
@@ -117,7 +122,7 @@ ReactDOM.render(
     <CssBaseline />
     <App />
   </MuiThemeProvider>,
-  document.getElementById('root') as HTMLElement
+  document.getElementById('root'),
 )
 
 registerServiceWorker()

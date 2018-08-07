@@ -1,30 +1,32 @@
 /* tslint:disable jsx-no-multiline-js */
 import createStyles from '@material-ui/core/styles/createStyles'
-import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles'
+import withStyles from '@material-ui/core/styles/withStyles'
 import * as React from 'react'
 import Navigation from './Navigation'
 import PlayerPanel from './PlayerPanel'
 import RaidSummary from './RaidSummary'
 import TitleBar from './TitleBar'
 
-export interface IReportProps {
-  report: IJsonReport
-}
+const styles = theme =>
+  createStyles({
+    toolbar: theme.mixins.toolbar,
+    content: {
+      marginLeft: 300,
+    },
+  })
 
-const styles: StyleRulesCallback = theme => createStyles({
-  toolbar: theme.mixins.toolbar,
-  content: {
-    marginLeft: 300
-  }
-})
-
-const Report = ({ report, classes }: IReportProps & WithStyles<typeof styles>) => {
+const Report = ({report, classes}) => {
   const versionUsed = report.sim.options.dbc.version_used
   const gameData = report.sim.options.dbc[versionUsed]
-  const { raid_hps, total_heal, raid_aps, total_absorb } = report.sim.statistics
+  const {
+    raid_hps,
+    total_heal,
+    raid_aps,
+    total_absorb,
+  } = report.sim.statistics
 
   return (
-    <>
+    <div>
       <TitleBar
         simcVersion={report.version}
         gameVersion={versionUsed}
@@ -64,7 +66,7 @@ const Report = ({ report, classes }: IReportProps & WithStyles<typeof styles>) =
           />
         ))}
       </main>
-    </>
+    </div>
   )
 }
 

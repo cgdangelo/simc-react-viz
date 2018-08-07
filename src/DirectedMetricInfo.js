@@ -8,20 +8,12 @@ import TableRow from '@material-ui/core/TableRow/TableRow'
 import Typography from '@material-ui/core/Typography'
 import * as React from 'react'
 
-export interface IDirectedMetricInfoProps {
-  title: string
-  rows: IDirectedMetricInfoRow[]
-}
-
-export interface IDirectedMetricInfoRow {
-  label: string
-  value: string
-}
-
-const DirectedMetricInfo: React.SFC<IDirectedMetricInfoProps> = ({ title, rows }) => (
+const DirectedMetricInfo = ({title, rows}) => (
   <Card raised={true}>
     <CardContent>
-      <Typography variant='subheading' gutterBottom={true}>{title}</Typography>
+      <Typography variant='subheading' gutterBottom={true}>
+        {title}
+      </Typography>
       <Table>
         <TableBody>
           {rows.map(row => (
