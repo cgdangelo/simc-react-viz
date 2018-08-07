@@ -10,8 +10,8 @@ class App extends React.PureComponent {
     this.state = {reportData: null}
   }
 
-  componentDidMount () {
-    const reportData = require('./report.json')
+  async componentDidMount () {
+    const reportData = await import('./report.json')
 
     this.setState({reportData})
   }
