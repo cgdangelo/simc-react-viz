@@ -42,21 +42,18 @@ const RaidSummary = ({buildPriorityDpsChart, players, raidAps, raidDps, raidHps,
     players,
     player => (player.collected_data.executed_foreground_actions.mean / player.collected_data.fight_length.mean) * 60
   )
-  const playersByApmChart = <StackedActorChart title='Actions per Minute' series={{name: 'APM', data: playersByApm}} />
+  const playersByApmChart = <StackedActorChart
+    title='Actions per Minute'
+    series={{name: 'APM', data: playersByApm, precision: 2}}
+  />
 
   const playersByDpsVariance = createSortedPlayerList(
     players,
-    player =>
-      (player.collected_data.dps.std_dev / player.collected_data.dps.mean) *
-      100
+    player => (player.collected_data.dps.std_dev / player.collected_data.dps.mean) * 100
   )
   const playersByDpsVarianceChart = <StackedActorChart
     title='DPS Variance Percentage'
-    series={{
-      name: 'Variance (%)',
-      data: playersByDpsVariance,
-      precision: 2
-    }}
+    series={{name: 'Variance (%)', data: playersByDpsVariance, precision: 2}}
   />
 
   const tanks = players.filter(player => player.role === 'tank')
