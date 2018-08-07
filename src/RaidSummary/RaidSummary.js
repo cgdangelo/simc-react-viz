@@ -22,19 +22,14 @@ const createSortedPlayerList = (players, accessor) => {
   return playersByProperty
 }
 
-const RaidSummary = props => {
-  const playersByDps = createSortedPlayerList(props.players, player => player.collected_data.dps.mean)
+const RaidSummary = ({buildPriorityDpsChart, players, raidAps, raidDps, raidHps, totalAbsorb, totalHeal, totalDamage}) => {
+  const playersByDps = createSortedPlayerList(players, player => player.collected_data.dps.mean)
   const playersByDpsChart = <StackedActorChart title='Damage per Second' series={{name: 'DPS', data: playersByDps}} />
 
   let playersByPriorityDpsChart
 
-  if (props.buildPriorityDpsChart) {
-    const playersByPriorityDps = createSortedPlayerList(
-      props.players,
-      player =>
-        player.collected_data.prioritydps &&
-        player.collected_data.prioritydps.mean
-    )
+  if (buildPriorityDpsChart) {
+    const playersByPriorityDps = createSortedPlayerList(players, player => player.collected_data.prioritydps.mean)
 
     playersByPriorityDpsChart = <StackedActorChart
       title='Priority Target/Boss Damage'
@@ -43,19 +38,13 @@ const RaidSummary = props => {
   }
 
   const playersByApm = createSortedPlayerList(
-    props.players,
-    player =>
-      (player.collected_data.executed_foreground_actions.mean /
-        player.collected_data.fight_length.mean) *
-      60
+    players,
+    player => (player.collected_data.executed_foreground_actions.mean / player.collected_data.fight_length.mean) * 60
   )
-  const playersByApmChart = <StackedActorChart
-    title='Actions per Minute'
-    series={{name: 'APM', data: playersByApm}}
-  />
+  const playersByApmChart = <StackedActorChart title='Actions per Minute' series={{name: 'APM', data: playersByApm}} />
 
   const playersByDpsVariance = createSortedPlayerList(
-    props.players,
+    players,
     player =>
       (player.collected_data.dps.std_dev / player.collected_data.dps.mean) *
       100
@@ -69,23 +58,24 @@ const RaidSummary = props => {
     }}
   />
 
-  const tanks = props.players.filter(player => player.role === 'tank')
+  const tanks = players.filter(player => player.role === 'tank')
 
   return (
     <ExpansionPanel defaultExpanded>
       <ExpansionPanelSummary expandIcon={<ExpandMore />}>
         <Typography variant='title'>Raid Summary</Typography>
       </ExpansionPanelSummary>
+
       <ExpansionPanelDetails>
         <Grid container spacing={16}>
           <Grid item xs={12}>
             <ChipMetrics
-              raidAps={props.raidAps}
-              raidDps={props.raidDps}
-              raidHps={props.raidHps}
-              totalAbsorb={props.totalAbsorb}
-              totalDamage={props.totalDamage}
-              totalHeal={props.totalHeal}
+              raidAps={raidAps}
+              raidDps={raidDps}
+              raidHps={raidHps}
+              totalAbsorb={totalAbsorb}
+              totalDamage={totalDamage}
+              totalHeal={totalHeal}
             />
           </Grid>
 

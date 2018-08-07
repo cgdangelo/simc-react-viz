@@ -47,6 +47,7 @@ const Report = ({report, classes}) => {
         <div className={classes.toolbar} />
 
         <RaidSummary
+          buildPriorityDpsChart={report.sim.targets.length > 1}
           players={report.sim.players}
           raidDps={report.sim.statistics.raid_dps.mean}
           totalDamage={report.sim.statistics.total_dmg.mean}
@@ -55,7 +56,6 @@ const Report = ({report, classes}) => {
           raidAps={raidAps && raidAps.mean}
           totalAbsorb={totalAbsorb && totalAbsorb.mean}
           raidEvents={report.sim.raid_events}
-          buildPriorityDpsChart={report.sim.targets.length > 1}
         />
 
         {report.sim.players.map(player => (
