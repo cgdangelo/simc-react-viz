@@ -14,6 +14,7 @@ import ExpandMore from '@material-ui/icons/ExpandMore'
 import { numberFormat } from 'highcharts'
 import * as React from 'react'
 import { getPrimaryResourceBySpecialization } from './specializations'
+import PropTypes from 'prop-types'
 
 const buildErrorString = (confidence, meanStdDev, mean) =>
   numberFormat(confidence * meanStdDev, 2) +
@@ -380,5 +381,10 @@ const PlayerPanel = ({player, confidence}) => (
     </ExpansionPanelDetails>
   </ExpansionPanel>
 )
+
+PlayerPanel.propTypes = {
+  confidence: PropTypes.number,
+  player: PropTypes.object
+}
 
 export default PlayerPanel

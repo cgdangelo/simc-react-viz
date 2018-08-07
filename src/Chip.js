@@ -2,6 +2,7 @@ import { default as MuiChip } from '@material-ui/core/Chip/Chip'
 import createStyles from '@material-ui/core/styles/createStyles'
 import withStyles from '@material-ui/core/styles/withStyles'
 import Typography from '@material-ui/core/Typography/Typography'
+import PropTypes from 'prop-types'
 import * as React from 'react'
 
 const styles = theme => createStyles({
@@ -20,6 +21,11 @@ const Chip = ({label, value, ...muiProps}) => {
   )
 
   return <MuiChip label={labelComponent} {...muiProps} />
+}
+
+Chip.propTypes = {
+  label: PropTypes.string,
+  value: PropTypes.any
 }
 
 export default withStyles(styles)(Chip)

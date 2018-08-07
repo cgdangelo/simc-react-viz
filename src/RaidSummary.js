@@ -9,6 +9,7 @@ import HighchartsReact from 'highcharts-react-official'
 import * as React from 'react'
 import Chip from './Chip'
 import { getColorBySpecialization } from './specializations'
+import PropTypes from 'prop-types'
 
 const {numberFormat} = Highcharts
 
@@ -224,6 +225,17 @@ const RaidSummary = props => {
       </ExpansionPanelDetails>
     </ExpansionPanel>
   )
+}
+
+RaidSummary.propTypes = {
+  buildPriorityDpsChart: PropTypes.boolean,
+  players: PropTypes.arrayOf(PropTypes.object),
+  raidAps: PropTypes.number,
+  raidDps: PropTypes.number,
+  raidHps: PropTypes.number,
+  totalAbsorb: PropTypes.number,
+  totalDamage: PropTypes.number,
+  totalHeal: PropTypes.number
 }
 
 export default RaidSummary

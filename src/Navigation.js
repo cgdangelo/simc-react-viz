@@ -9,6 +9,7 @@ import withStyles from '@material-ui/core/styles/withStyles'
 import ExpandLess from '@material-ui/icons/ExpandLess'
 import ExpandMore from '@material-ui/icons/ExpandMore'
 import * as React from 'react'
+import PropTypes from 'prop-types'
 
 const styles = theme => createStyles({
   toolbar: theme.mixins.toolbar,
@@ -153,6 +154,11 @@ class Navigation extends React.PureComponent {
       </Drawer>
     )
   }
+}
+
+Navigation.propTypes = {
+  classes: PropTypes.object,
+  players: PropTypes.arrayOf(PropTypes.object)
 }
 
 export default withStyles(styles)(Navigation)

@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography'
 import {numberFormat} from 'highcharts'
 import * as React from 'react'
 import Chip from './Chip'
+import PropTypes from 'prop-types'
 
 const styles = theme =>
   createStyles({
@@ -49,6 +50,21 @@ const TitleBar = props => {
       </Toolbar>
     </AppBar>
   )
+}
+
+TitleBar.propTypes = {
+  buildDate: PropTypes.string,
+  buildLevel: PropTypes.string,
+  buildTime: PropTypes.string,
+  classes: PropTypes.object,
+  fightStyle: PropTypes.string,
+  gameVersion: PropTypes.string,
+  iterations: PropTypes.number,
+  maxTime: PropTypes.number,
+  simcVersion: PropTypes.string,
+  targetError: PropTypes.number,
+  varyCombatLength: PropTypes.number,
+  wowVersion: PropTypes.string
 }
 
 export default withStyles(styles)(TitleBar)

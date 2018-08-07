@@ -1,6 +1,7 @@
 /* tslint:disable jsx-no-multiline-js */
 import createStyles from '@material-ui/core/styles/createStyles'
 import withStyles from '@material-ui/core/styles/withStyles'
+import PropTypes from 'prop-types'
 import * as React from 'react'
 import Navigation from './Navigation'
 import PlayerPanel from './PlayerPanel'
@@ -68,6 +69,11 @@ const Report = ({report, classes}) => {
       </main>
     </React.Fragment>
   )
+}
+
+Report.propTypes = {
+  classes: PropTypes.object,
+  report: PropTypes.object
 }
 
 export default withStyles(styles)(Report)

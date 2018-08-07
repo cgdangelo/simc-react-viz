@@ -6,6 +6,7 @@ import TableCell from '@material-ui/core/TableCell/TableCell'
 import TableRow from '@material-ui/core/TableRow/TableRow'
 import Typography from '@material-ui/core/Typography'
 import * as React from 'react'
+import PropTypes from 'prop-types'
 
 const DirectedMetricInfo = ({title, rows}) => (
   <Card raised>
