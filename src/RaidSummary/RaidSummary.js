@@ -4,12 +4,11 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import ExpandMore from '@material-ui/icons/ExpandMore'
-import * as Highcharts from 'highcharts'
-import HighchartsReact from 'highcharts-react-official'
 import PropTypes from 'prop-types'
 import * as React from 'react'
 import { getColorBySpecialization } from '../specializations'
 import ChipMetrics from './ChipMetrics'
+import StackedActorChart from './StackedActorChart'
 
 const createSortedPlayerList = (players, accessor) => {
   const playersByProperty = players.map(player => ({
@@ -23,54 +22,9 @@ const createSortedPlayerList = (players, accessor) => {
   return playersByProperty
 }
 
-const createStackedActorChart = options => {
-  const chartOptions = {
-    chart: {
-      height: Math.max(options.series.data.length * 50, 300)
-    },
-    title: {
-      text: options.title
-    },
-    xAxis: {
-      categories: options.series.data.map(bar => bar.name),
-      labels: {
-        formatter () {
-          return `<span style='color: ${getColorBySpecialization(
-            options.specLookup[this.value]
-          )}'>${this.value}</span>`
-        }
-      }
-    },
-    series: [
-      {
-        type: 'bar',
-        name: options.title,
-        data: options.series.data,
-        dataLabels: {
-          format: `{point.y:,.${options.series.dataLabelPrecision || 0}f}`
-        }
-      }
-    ]
-  }
-
-  return <HighchartsReact highcharts={Highcharts} options={chartOptions} />
-}
-
 const RaidSummary = props => {
-  const specLookup = {}
-  props.players.forEach(
-    player => (specLookup[player.name] = player.specialization)
-  )
-
-  const playersByDps = createSortedPlayerList(
-    props.players,
-    player => player.collected_data.dps.mean
-  )
-  const playersByDpsChart = createStackedActorChart({
-    title: 'Damage per Second',
-    series: {name: 'DPS', data: playersByDps},
-    specLookup
-  })
+  const playersByDps = createSortedPlayerList(props.players, player => player.collected_data.dps.mean)
+  const playersByDpsChart = <StackedActorChart title='Damage per Second' series={{name: 'DPS', data: playersByDps}} />
 
   let playersByPriorityDpsChart
 
@@ -82,11 +36,10 @@ const RaidSummary = props => {
         player.collected_data.prioritydps.mean
     )
 
-    playersByPriorityDpsChart = createStackedActorChart({
-      title: 'Priority Target/Boss Damage',
-      series: {name: 'Priority DPS', data: playersByPriorityDps},
-      specLookup
-    })
+    playersByPriorityDpsChart = <StackedActorChart
+      title='Priority Target/Boss Damage'
+      series={{name: 'Priority DPS', data: playersByPriorityDps}}
+    />
   }
 
   const playersByApm = createSortedPlayerList(
@@ -96,11 +49,10 @@ const RaidSummary = props => {
         player.collected_data.fight_length.mean) *
       60
   )
-  const playersByApmChart = createStackedActorChart({
-    title: 'Actions per Minute',
-    series: {name: 'APM', data: playersByApm},
-    specLookup
-  })
+  const playersByApmChart = <StackedActorChart
+    title='Actions per Minute'
+    series={{name: 'APM', data: playersByApm}}
+  />
 
   const playersByDpsVariance = createSortedPlayerList(
     props.players,
@@ -108,15 +60,14 @@ const RaidSummary = props => {
       (player.collected_data.dps.std_dev / player.collected_data.dps.mean) *
       100
   )
-  const playersByDpsVarianceChart = createStackedActorChart({
-    title: 'DPS Variance Percentage',
-    series: {
+  const playersByDpsVarianceChart = <StackedActorChart
+    title='DPS Variance Percentage'
+    series={{
       name: 'Variance (%)',
       data: playersByDpsVariance,
       dataLabelPrecision: 2
-    },
-    specLookup
-  })
+    }}
+  />
 
   const tanks = props.players.filter(player => player.role === 'tank')
 
@@ -151,9 +102,9 @@ const RaidSummary = props => {
           {tanks.length > 0 && (
             <React.Fragment>
               <Grid item xs={4}>
-                {createStackedActorChart({
-                  title: 'Damage Taken per Second',
-                  series: {
+                <StackedActorChart
+                  title='Damage Taken per Second'
+                  series={{
                     name: 'DTPS',
                     data: createSortedPlayerList(
                       tanks,
@@ -162,15 +113,14 @@ const RaidSummary = props => {
                         player.collected_data.dtps.mean /
                         player.collected_data.fight_length.mean
                     )
-                  },
-                  specLookup
-                })}
+                  }}
+                />
               </Grid>
 
               <Grid item xs={4}>
-                {createStackedActorChart({
-                  title: 'Heal & Absorb per Second',
-                  series: {
+                <StackedActorChart
+                  title='Heal & Absorb per Second'
+                  series={{
                     name: 'H&APS',
                     data: createSortedPlayerList(
                       tanks,
@@ -182,15 +132,14 @@ const RaidSummary = props => {
                           player.collected_data.aps.mean) ||
                           0)
                     )
-                  },
-                  specLookup
-                })}
+                  }}
+                />
               </Grid>
 
               <Grid item xs={4}>
-                {createStackedActorChart({
-                  title: 'Theck-Meloree Index',
-                  series: {
+                <StackedActorChart
+                  title='Theck-Meloree Index'
+                  series={{
                     name: 'TMI',
                     data: createSortedPlayerList(
                       tanks,
@@ -198,9 +147,8 @@ const RaidSummary = props => {
                         player.collected_data.effective_theck_meloree_index &&
                         player.collected_data.effective_theck_meloree_index.mean
                     )
-                  },
-                  specLookup
-                })}
+                  }}
+                />
               </Grid>
             </React.Fragment>
           )}
