@@ -5,9 +5,9 @@ import Chip from '../Chip'
 
 const ChipMetrics = ({raidDps, totalDamage, raidHps, totalHeal, raidAps, totalAbsorb}) => (
   <React.Fragment>
-    <Chip label='DPS' value={numberFormat(raidDps, 0)} />
+    {raidDps && <Chip label='DPS' value={numberFormat(raidDps, 0)} />}
 
-    <Chip label='Damage' value={numberFormat(totalDamage, 0)} />
+    {totalDamage && <Chip label='Damage' value={numberFormat(totalDamage, 0)} />}
 
     {raidHps && <Chip label='HPS' value={numberFormat(raidHps, 0)} />}
 
