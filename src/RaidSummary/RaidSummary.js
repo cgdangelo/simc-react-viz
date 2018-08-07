@@ -8,6 +8,7 @@ import PropTypes from 'prop-types'
 import * as React from 'react'
 import { getColorBySpecialization } from '../specializations'
 import ChipMetrics from './ChipMetrics'
+import RaidEvents from './RaidEvents'
 import StackedActorChart from './StackedActorChart'
 import TankCharts from './TankCharts'
 
@@ -23,7 +24,7 @@ export const createSortedPlayerList = (players, accessor) => {
   return playersByProperty
 }
 
-const RaidSummary = ({buildPriorityDpsChart, players, raidAps, raidDps, raidHps, totalAbsorb, totalHeal, totalDamage}) => {
+const RaidSummary = ({buildPriorityDpsChart, players, raidAps, raidDps, raidEvents, raidHps, totalAbsorb, totalHeal, totalDamage}) => {
   const playersByDps = createSortedPlayerList(players, player => player.collected_data.dps.mean)
   const playersByDpsChart = <StackedActorChart title='Damage per Second' series={{name: 'DPS', data: playersByDps}} />
 
@@ -100,6 +101,10 @@ const RaidSummary = ({buildPriorityDpsChart, players, raidAps, raidDps, raidHps,
               {playersByDpsVarianceChart}
             </Grid>
           )}
+
+          <Grid item xs={12}>
+            <RaidEvents events={raidEvents} />
+          </Grid>
         </Grid>
       </ExpansionPanelDetails>
     </ExpansionPanel>
@@ -111,6 +116,19 @@ RaidSummary.propTypes = {
   players: PropTypes.arrayOf(PropTypes.object),
   raidAps: PropTypes.number,
   raidDps: PropTypes.number,
+  raidEvents: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string,
+    type: PropTypes.string,
+    first: PropTypes.number,
+    last: PropTypes.number,
+    cooldown: PropTypes.number,
+    cooldown_min: PropTypes.number,
+    cooldown_max: PropTypes.number,
+    duration: PropTypes.number,
+    duration_min: PropTypes.number,
+    duration_max: PropTypes.number,
+    saved_duration: PropTypes.number
+  })),
   raidHps: PropTypes.number,
   totalAbsorb: PropTypes.number,
   totalDamage: PropTypes.number,
