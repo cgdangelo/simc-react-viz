@@ -8,8 +8,8 @@ import createStyles from '@material-ui/core/styles/createStyles'
 import withStyles from '@material-ui/core/styles/withStyles'
 import ExpandLess from '@material-ui/icons/ExpandLess'
 import ExpandMore from '@material-ui/icons/ExpandMore'
-import * as React from 'react'
 import PropTypes from 'prop-types'
+import * as React from 'react'
 
 const styles = theme => createStyles({
   toolbar: theme.mixins.toolbar,
@@ -18,7 +18,12 @@ const styles = theme => createStyles({
   }
 })
 
+@withStyles(styles)
 class Navigation extends React.PureComponent {
+  static propTypes = {
+    players: PropTypes.arrayOf(PropTypes.object)
+  }
+
   constructor () {
     super()
 
@@ -156,8 +161,4 @@ class Navigation extends React.PureComponent {
   }
 }
 
-Navigation.propTypes = {
-  players: PropTypes.arrayOf(PropTypes.object)
-}
-
-export default withStyles(styles)(Navigation)
+export default Navigation
