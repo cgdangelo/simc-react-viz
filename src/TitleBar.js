@@ -54,7 +54,7 @@ const TitleBar = props => {
 
 TitleBar.propTypes = {
   buildDate: PropTypes.string,
-  buildLevel: PropTypes.string,
+  buildLevel: PropTypes.number,
   buildTime: PropTypes.string,
   fightStyle: PropTypes.string,
   gameVersion: PropTypes.string,

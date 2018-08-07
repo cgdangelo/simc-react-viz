@@ -219,7 +219,7 @@ const RaidSummary = props => {
 }
 
 RaidSummary.propTypes = {
-  buildPriorityDpsChart: PropTypes.boolean,
+  buildPriorityDpsChart: PropTypes.bool,
   players: PropTypes.arrayOf(PropTypes.object),
   raidAps: PropTypes.number,
   raidDps: PropTypes.number,
