@@ -96,13 +96,7 @@ const RaidSummary = ({buildPriorityDpsChart, players, raidAps, raidDps, raidHps,
                   title='Damage Taken per Second'
                   series={{
                     name: 'DTPS',
-                    data: createSortedPlayerList(
-                      tanks,
-                      player =>
-                        player.collected_data.dtps &&
-                        player.collected_data.dtps.mean /
-                        player.collected_data.fight_length.mean
-                    )
+                    data: createSortedPlayerList(tanks, player => player.collected_data.dtps.mean / player.collected_data.fight_length.mean)
                   }}
                 />
               </Grid>
@@ -115,12 +109,8 @@ const RaidSummary = ({buildPriorityDpsChart, players, raidAps, raidDps, raidHps,
                     data: createSortedPlayerList(
                       tanks,
                       player =>
-                        ((player.collected_data.hps &&
-                          player.collected_data.hps.mean) ||
-                          0) +
-                        ((player.collected_data.aps &&
-                          player.collected_data.aps.mean) ||
-                          0)
+                        ((player.collected_data.hps && player.collected_data.hps.mean) || 0) +
+                        ((player.collected_data.aps && player.collected_data.aps.mean) || 0)
                     )
                   }}
                 />
@@ -131,25 +121,24 @@ const RaidSummary = ({buildPriorityDpsChart, players, raidAps, raidDps, raidHps,
                   title='Theck-Meloree Index'
                   series={{
                     name: 'TMI',
-                    data: createSortedPlayerList(
-                      tanks,
-                      player =>
-                        player.collected_data.effective_theck_meloree_index &&
-                        player.collected_data.effective_theck_meloree_index.mean
-                    )
+                    data: createSortedPlayerList(tanks, player => player.collected_data.effective_theck_meloree_index.mean)
                   }}
                 />
               </Grid>
             </React.Fragment>
           )}
 
-          <Grid item xs={6}>
-            {playersByApmChart}
-          </Grid>
+          {playersByApmChart && (
+            <Grid item xs={6}>
+              {playersByApmChart}
+            </Grid>
+          )}
 
-          <Grid item xs={6}>
-            {playersByDpsVarianceChart}
-          </Grid>
+          {playersByDpsVarianceChart && (
+            <Grid item xs={6}>
+              {playersByDpsVarianceChart}
+            </Grid>
+          )}
         </Grid>
       </ExpansionPanelDetails>
     </ExpansionPanel>
