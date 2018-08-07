@@ -55,7 +55,7 @@ const RaidSummary = ({buildPriorityDpsChart, players, raidAps, raidDps, raidHps,
     series={{
       name: 'Variance (%)',
       data: playersByDpsVariance,
-      dataLabelPrecision: 2
+      precision: 2
     }}
   />
 
