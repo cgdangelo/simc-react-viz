@@ -9,8 +9,9 @@ import * as React from 'react'
 import { getColorBySpecialization } from '../specializations'
 import ChipMetrics from './ChipMetrics'
 import StackedActorChart from './StackedActorChart'
+import TankCharts from './TankCharts'
 
-const createSortedPlayerList = (players, accessor) => {
+export const createSortedPlayerList = (players, accessor) => {
   const playersByProperty = players.map(player => ({
     name: player.name,
     color: getColorBySpecialization(player.specialization),
@@ -89,44 +90,7 @@ const RaidSummary = ({buildPriorityDpsChart, players, raidAps, raidDps, raidHps,
             </Grid>
           )}
 
-          {tanks.length > 0 && (
-            <React.Fragment>
-              <Grid item xs={4}>
-                <StackedActorChart
-                  title='Damage Taken per Second'
-                  series={{
-                    name: 'DTPS',
-                    data: createSortedPlayerList(tanks, player => player.collected_data.dtps.mean / player.collected_data.fight_length.mean)
-                  }}
-                />
-              </Grid>
-
-              <Grid item xs={4}>
-                <StackedActorChart
-                  title='Heal & Absorb per Second'
-                  series={{
-                    name: 'H&APS',
-                    data: createSortedPlayerList(
-                      tanks,
-                      player =>
-                        ((player.collected_data.hps && player.collected_data.hps.mean) || 0) +
-                        ((player.collected_data.aps && player.collected_data.aps.mean) || 0)
-                    )
-                  }}
-                />
-              </Grid>
-
-              <Grid item xs={4}>
-                <StackedActorChart
-                  title='Theck-Meloree Index'
-                  series={{
-                    name: 'TMI',
-                    data: createSortedPlayerList(tanks, player => player.collected_data.effective_theck_meloree_index.mean)
-                  }}
-                />
-              </Grid>
-            </React.Fragment>
-          )}
+          {tanks.length > 0 && <TankCharts players={tanks} />}
 
           {playersByApmChart && (
             <Grid item xs={6}>
