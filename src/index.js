@@ -1,16 +1,13 @@
-import CircularProgress
-  from '@material-ui/core/CircularProgress/CircularProgress'
 import { grey } from '@material-ui/core/colors'
 import CssBaseline from '@material-ui/core/CssBaseline'
-import Grid from '@material-ui/core/Grid/Grid'
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme'
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
 import * as Highcharts from 'highcharts'
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
+import App from './App'
 import './index.css'
 import registerServiceWorker from './registerServiceWorker'
-import Report from './Report'
 
 Highcharts.setOptions({
   lang: {
@@ -82,39 +79,8 @@ Highcharts.setOptions({
 })
 
 const theme = createMuiTheme({
-  palette: {type: 'dark'}
+  palette: {type: 'light'}
 })
-
-class App extends React.PureComponent {
-  constructor () {
-    super()
-
-    this.state = {reportData: null}
-  }
-
-  componentDidMount () {
-    const reportData = require('./report.json')
-
-    this.setState({reportData})
-  }
-
-  render () {
-    if (this.state.reportData) {
-      return <Report report={this.state.reportData} />
-    }
-
-    return (
-      <Grid
-        container
-        alignItems='center'
-        justify='center'
-        style={{height: '100vh', width: '100vw'}}
-      >
-        <CircularProgress size={200} color='secondary' />
-      </Grid>
-    )
-  }
-}
 
 ReactDOM.render(
   <MuiThemeProvider theme={theme}>
