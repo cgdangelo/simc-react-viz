@@ -24,8 +24,8 @@ const Chip = ({label, value, ...muiProps}) => {
 }
 
 Chip.propTypes = {
-  label: PropTypes.string,
-  value: PropTypes.any
+  label: PropTypes.string.isRequired,
+  value: PropTypes.any.isRequired
 }
 
 export default withStyles(styles)(Chip)
