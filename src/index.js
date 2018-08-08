@@ -1,3 +1,4 @@
+import grey from '@material-ui/core/colors/grey'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme'
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
@@ -13,7 +14,19 @@ Highcharts.setOptions(highchartsConfig)
 require('highcharts/modules/xrange')(Highcharts)
 
 const theme = createMuiTheme({
-  palette: {type: 'dark'}
+  palette: {type: 'dark'},
+  overrides: {
+    MuiTableHead: {
+      root: {
+        backgroundColor: grey[900]
+      }
+    }
+  },
+  props: {
+    MuiPaper: {
+      elevation: 6
+    }
+  }
 })
 
 ReactDOM.render(
