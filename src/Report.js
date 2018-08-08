@@ -55,6 +55,7 @@ const Report = ({report, classes}) => {
           totalHeal={totalHeal && totalHeal.mean}
           raidAps={raidAps && raidAps.mean}
           totalAbsorb={totalAbsorb && totalAbsorb.mean}
+          maxTime={report.sim.options.max_time}
           raidEvents={report.sim.raid_events}
         />
 

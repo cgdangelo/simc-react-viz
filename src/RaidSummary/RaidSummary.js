@@ -24,7 +24,7 @@ export const createSortedPlayerList = (players, accessor) => {
   return playersByProperty
 }
 
-const RaidSummary = ({buildPriorityDpsChart, players, raidAps, raidDps, raidEvents, raidHps, totalAbsorb, totalHeal, totalDamage}) => {
+const RaidSummary = ({buildPriorityDpsChart, maxTime, players, raidAps, raidDps, raidEvents, raidHps, totalAbsorb, totalHeal, totalDamage}) => {
   const playersByDps = createSortedPlayerList(players, player => player.collected_data.dps.mean)
   const playersByDpsChart = <StackedActorChart title='Damage per Second' series={{name: 'DPS', data: playersByDps}} />
 
@@ -103,7 +103,7 @@ const RaidSummary = ({buildPriorityDpsChart, players, raidAps, raidDps, raidEven
           )}
 
           <Grid item xs={12}>
-            <RaidEvents events={raidEvents} />
+            <RaidEvents events={raidEvents} maxTime={maxTime} />
           </Grid>
         </Grid>
       </ExpansionPanelDetails>
@@ -113,6 +113,7 @@ const RaidSummary = ({buildPriorityDpsChart, players, raidAps, raidDps, raidEven
 
 RaidSummary.propTypes = {
   buildPriorityDpsChart: PropTypes.bool,
+  maxTime: PropTypes.number.isRequired,
   players: PropTypes.arrayOf(PropTypes.object),
   raidAps: PropTypes.number,
   raidDps: PropTypes.number,
