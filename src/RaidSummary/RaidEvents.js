@@ -1,3 +1,5 @@
+/* eslint-disable */
+import grey from '@material-ui/core/colors/grey'
 import * as Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 import PropTypes from 'prop-types'
@@ -31,17 +33,12 @@ const RaidEvents = ({classes, maxTime, events}) => {
           text: 'Raid Events'
         },
         tooltip: {
-          followPointer: true,
           formatter () {
-            console.log(this)
-
             const start = this.series.chart.time.dateFormat('%M:%S', this.x)
             const end = this.series.chart.time.dateFormat('%M:%S', this.x2)
             const options = Object.entries(this.point.originalEvent)
               .map(option => option.join(' = '))
               .join('\n')
-
-            console.log(options)
 
             return `${start} - ${end}<hr /><h3>${this.yCategory}</h3><pre style='margin: 0'>${options}</pre>`
           },
@@ -49,17 +46,32 @@ const RaidEvents = ({classes, maxTime, events}) => {
           xDateFormat: '%M:%S'
         },
         xAxis: {
-          type: 'datetime',
+          crosshair: {
+            snap: false,
+          },
           dateTimeLabelFormats: {
             day: '%M:%S',
             second: '%M:%S'
           },
+          labels: {
+            style: {
+              color: '#666',
+              fontSize: null
+            },
+            y: null
+          },
           max: 300 * 1000,
-          min: 0
+          min: 0,
+          type: 'datetime',
         },
         yAxis: {
           categories: yAxisCategories,
-          reversed: true
+          labels: {
+            style: {
+              color: grey[50],
+              fontSize: '1rem'
+            },
+          },
         },
         series: [
           {
