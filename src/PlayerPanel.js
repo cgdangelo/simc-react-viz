@@ -31,36 +31,18 @@ const emptySampleData = {
   distribution: []
 }
 
-const getFilledCollectedDataContainer = (player, collectionName) => {
-  const collectedData = player.collected_data[collectionName] || {}
+const getFilledCollectedDataContainer = (player, collectionPath) => {
+  const pathFragments = collectionPath.split('.')
+  const collectionData = pathFragments.reduce((p, c) => p[c] || {}, player.collected_data)
 
   return {
     ...emptySampleData,
-    ...collectedData
+    ...collectionData
   }
 }
 
-const getResourceLost = (player, resourceName) => {
-  const resourceLost = player.collected_data.resource_lost || {}
-  const primaryResourceLost = resourceLost[resourceName] || {}
-
-  return {
-    ...emptySampleData,
-    ...primaryResourceLost
-  }
-}
-
-const getResourceGained = (player, resourceName) => {
-  const resourceLost = player.collected_data.resource_gained || {}
-  const primaryResourceLost = resourceLost[resourceName] || {}
-
-  return {
-    ...emptySampleData,
-    ...primaryResourceLost
-  }
-}
-
-const getPrimaryResourceLost = (player) => getResourceLost(player, getPrimaryResourceBySpecialization(player.specialization))
+const getPrimaryResourceLost = (player) =>
+  getFilledCollectedDataContainer(player, `resource_lost.${getPrimaryResourceBySpecialization(player.specialization)}`)
 
 const buildErrorString = (confidenceEstimator, meanStdDev, mean) =>
   `${numberFormat(confidenceEstimator * meanStdDev, 2)} / ${numberFormat((confidenceEstimator * meanStdDev * 100) / mean, 3)}%`
@@ -145,12 +127,12 @@ const PlayerPanel = ({classes, player, confidence, confidenceEstimator}) => {
 
         <div>
           <ChipMetrics
-            aps={aps}
-            dps={dps}
-            hps={hps}
-            priorityDps={priorityDps}
-            tmi={tmi}
-            etmi={etmi}
+            aps={aps.mean}
+            dps={dps.mean}
+            hps={hps.mean}
+            priorityDps={priorityDps.mean}
+            tmi={tmi.mean}
+            etmi={etmi.mean}
           />
         </div>
       </ExpansionPanelSummary>
@@ -308,7 +290,7 @@ const PlayerPanel = ({classes, player, confidence, confidenceEstimator}) => {
 
                     {getChangedResourceNames(player).map(resourceName => (
                       <TableCell key={resourceName} numeric>
-                        {numberFormat(getResourceLost(player, resourceName).mean / fightLength.mean)}
+                        {numberFormat(getFilledCollectedDataContainer(player, `resource_lost.${resourceName}`).mean / fightLength.mean)}
                       </TableCell>
                     ))}
                   </TableRow>
@@ -318,7 +300,7 @@ const PlayerPanel = ({classes, player, confidence, confidenceEstimator}) => {
 
                     {getChangedResourceNames(player).map(resourceName => (
                       <TableCell key={resourceName} numeric>
-                        {numberFormat(getResourceGained(player, resourceName).mean / fightLength.mean)}
+                        {numberFormat(getFilledCollectedDataContainer(player, `resource_gained.${resourceName}`).mean / fightLength.mean)}
                       </TableCell>
                     ))}
                   </TableRow>
