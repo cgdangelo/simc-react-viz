@@ -17,7 +17,7 @@ import ExpandMore from '@material-ui/icons/ExpandMore'
 import { numberFormat } from 'highcharts'
 import PropTypes from 'prop-types'
 import * as React from 'react'
-import ChipMetrics from './RaidSummary/ChipMetrics'
+import ChipMetrics from './ChipMetrics'
 import { getPrimaryResourceBySpecialization } from './specializations'
 
 const buildErrorString = (confidence, meanStdDev, mean) =>

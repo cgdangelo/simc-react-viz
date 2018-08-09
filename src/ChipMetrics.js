@@ -1,7 +1,7 @@
 import { numberFormat } from 'highcharts'
 import PropTypes from 'prop-types'
 import * as React from 'react'
-import Chip from '../Chip'
+import Chip from './Chip'
 
 const ChipMetrics = ({dps, totalDamage, dtps, priorityDps, hps, totalHeal, aps, totalAbsorb, etmi}) => (
   <React.Fragment>
