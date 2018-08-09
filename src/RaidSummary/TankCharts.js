@@ -38,7 +38,10 @@ const TankCharts = ({players}) => (
         title='Theck-Meloree Index'
         series={{
           name: 'TMI',
-          data: createSortedPlayerList(players, player => player.collected_data.effective_theck_meloree_index.mean)
+          data: createSortedPlayerList(
+            players,
+            player => getFilledCollectedDataContainer(player, 'theck_meloree_index').mean
+          )
         }}
       />
     </Grid>
