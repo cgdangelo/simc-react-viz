@@ -7,7 +7,7 @@ const ChipMetrics = ({dps, totalDamage, dtps, etmi, priorityDps, hps, totalHeal,
   <React.Fragment>
     {dps > 0 && <Chip label='DPS' value={numberFormat(dps, 0)} />}
 
-    {priorityDps > 0 && <Chip label='Boss DPS' value={numberFormat(priorityDps, 0)} />}
+    {priorityDps > 0 && <Chip label='Priority DPS' value={numberFormat(priorityDps, 0)} />}
 
     {totalDamage > 0 && <Chip label='Damage' value={numberFormat(totalDamage, 0)} />}
 

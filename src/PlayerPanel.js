@@ -37,7 +37,7 @@ const emptySampleData = {
 
 export const getFilledCollectedDataContainer = (player, collectionPath) => {
   const pathFragments = collectionPath.split('.')
-  const collectionData = pathFragments.reduce((p, c) => p[c] || {}, player.collected_data)
+  const collectionData = pathFragments.reduce((p, c) => p[c] || {}, Object.assign({}, player.collected_data))
 
   return {
     ...emptySampleData,

@@ -100,7 +100,7 @@ const RaidSummary = ({buildPriorityDpsChart, classes, maxTime, players, raidAps,
     const playersByPriorityDps = createSortedPlayerList(players, player => player.collected_data.prioritydps.mean)
 
     playersByPriorityDpsChart = <StackedActorChart
-      title='Priority Target/Boss Damage'
+      title='Priority Target Damage Per Second'
       series={{name: 'Priority DPS', data: playersByPriorityDps}}
     />
   }
