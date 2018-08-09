@@ -35,7 +35,7 @@ const emptySampleData = {
   distribution: []
 }
 
-const getFilledCollectedDataContainer = (player, collectionPath) => {
+export const getFilledCollectedDataContainer = (player, collectionPath) => {
   const pathFragments = collectionPath.split('.')
   const collectionData = pathFragments.reduce((p, c) => p[c] || {}, player.collected_data)
 

@@ -42,6 +42,9 @@ export default {
       whiskerWidth: 1,
       medianWidth: 1,
       pointWidth: 25
+    },
+    series: {
+      turboThreshold: 2000
     }
   },
   title: {
