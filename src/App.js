@@ -11,7 +11,7 @@ class App extends React.PureComponent {
   }
 
   async componentDidMount () {
-    const reportData = await import('./report.json')
+    const reportData = window.reportData ? window.reportData : await import('./report.json')
 
     this.setState({reportData})
   }

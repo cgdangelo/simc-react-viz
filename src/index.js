@@ -7,7 +7,6 @@ import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import App from './App'
 import highchartsConfig from './highcharts.config'
-import './index.css'
 import registerServiceWorker from './registerServiceWorker'
 
 Highcharts.setOptions(highchartsConfig)
