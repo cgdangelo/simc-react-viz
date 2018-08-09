@@ -1,5 +1,3 @@
-/* tslint:disable jsx-no-multiline-js */
-import Divider from '@material-ui/core/Divider/Divider'
 import ExpansionPanel from '@material-ui/core/ExpansionPanel'
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
@@ -35,7 +33,7 @@ const buildMetricPerResourceString = (
     resourceLost[getPrimaryResourceBySpecialization(specialization)].mean, 2
   )) || '0'
 
-const styles = theme => createStyles({
+const styles = createStyles({
   summaryContainer: {
     alignItems: 'center',
     margin: '0 !important'
@@ -43,9 +41,6 @@ const styles = theme => createStyles({
   heading: {
     flexBasis: '25%',
     flexShrink: 0
-  },
-  playerDetails: {
-    padding: theme.spacing.unit * 3
   }
 })
 
@@ -70,9 +65,7 @@ const PlayerPanel = ({classes, player, confidence}) => (
       </div>
     </ExpansionPanelSummary>
 
-    <Divider />
-
-    <ExpansionPanelDetails className={classes.playerDetails}>
+    <ExpansionPanelDetails>
       <Grid container spacing={24}>
         <Grid xs={6} item>
           <Paper>

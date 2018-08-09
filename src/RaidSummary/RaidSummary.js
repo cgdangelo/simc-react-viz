@@ -1,4 +1,3 @@
-import Divider from '@material-ui/core/Divider/Divider'
 import ExpansionPanel from '@material-ui/core/ExpansionPanel'
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
@@ -27,7 +26,7 @@ export const createSortedPlayerList = (players, accessor) => {
   return playersByProperty
 }
 
-const styles = theme => createStyles({
+const styles = createStyles({
   summaryContainer: {
     alignItems: 'center',
     margin: '0 !important'
@@ -35,9 +34,6 @@ const styles = theme => createStyles({
   heading: {
     flexBasis: '25%',
     flexShrink: 0
-  },
-  raidDetails: {
-    padding: theme.spacing.unit * 3
   }
 })
 
@@ -101,9 +97,7 @@ const RaidSummary = ({buildPriorityDpsChart, classes, maxTime, players, raidAps,
         </div>
       </ExpansionPanelSummary>
 
-      <Divider />
-
-      <ExpansionPanelDetails className={classes.raidDetails}>
+      <ExpansionPanelDetails>
         <Grid container spacing={24}>
           <Grid item xs={playersByPriorityDpsChart ? 6 : 12}>
             {playersByDpsChart}
