@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import * as React from 'react'
 import Chip from './Chip'
 
-const ChipMetrics = ({dps, totalDamage, dtps, priorityDps, hps, totalHeal, aps, totalAbsorb, etmi}) => (
+const ChipMetrics = ({dps, totalDamage, dtps, etmi, priorityDps, hps, totalHeal, aps, totalAbsorb, tmi}) => (
   <React.Fragment>
     {dps > 0 && <Chip label='DPS' value={numberFormat(dps, 0)} />}
 
@@ -21,7 +21,9 @@ const ChipMetrics = ({dps, totalDamage, dtps, priorityDps, hps, totalHeal, aps, 
 
     {totalAbsorb > 0 && <Chip label='Absorbs' value={numberFormat(totalAbsorb, 0)} />}
 
-    {etmi > 0 && <Chip label='ETMI' value={numberFormat(etmi, 0)} />}
+    {tmi > 0 && <Chip label='TMI' value={numberFormat(tmi, 0)} />}
+
+    {etmi > 0 && <Chip label='ETMI' value={numberFormat(tmi, 0)} />}
   </React.Fragment>
 )
 
@@ -32,6 +34,7 @@ ChipMetrics.propTypes = {
   etmi: PropTypes.number,
   hps: PropTypes.number,
   priorityDps: PropTypes.number,
+  tmi: PropTypes.number,
   totalAbsorb: PropTypes.number,
   totalDamage: PropTypes.number,
   totalHeal: PropTypes.number

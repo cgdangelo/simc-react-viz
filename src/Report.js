@@ -62,7 +62,8 @@ const Report = ({report, classes}) => {
         {report.sim.players.map(player => (
           <PlayerPanel
             key={player.name}
-            confidence={report.sim.options.confidence_estimator}
+            confidence={report.sim.options.confidence}
+            confidenceEstimator={report.sim.options.confidence_estimator}
             player={player}
           />
         ))}
