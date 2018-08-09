@@ -1,8 +1,12 @@
+import grey from '@material-ui/core/colors/grey'
 import ExpansionPanel from '@material-ui/core/ExpansionPanel'
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
 import Grid from '@material-ui/core/Grid/Grid'
 import Paper from '@material-ui/core/Paper/Paper'
+import Step from '@material-ui/core/Step/Step'
+import StepLabel from '@material-ui/core/StepLabel/StepLabel'
+import Stepper from '@material-ui/core/Stepper/Stepper'
 import createStyles from '@material-ui/core/styles/createStyles'
 import withStyles from '@material-ui/core/styles/withStyles'
 import Table from '@material-ui/core/Table/Table'
@@ -75,7 +79,9 @@ const getChangedResourceNames = (player) => {
   return resourceNames
 }
 
-const styles = createStyles({
+const getTalentTierLevel = (tier) => tier !== 7 ? tier * 15 : 100
+
+const styles = theme => createStyles({
   summaryContainer: {
     alignItems: 'center',
     margin: '0 !important'
@@ -83,6 +89,14 @@ const styles = createStyles({
   heading: {
     flexBasis: '25%',
     flexShrink: 0
+  },
+  talentStep: {
+    color: `${grey[900]} !important`,
+    marginBottom: theme.spacing.unit,
+    transform: 'scale(2.0)'
+  },
+  paddedPaper: {
+    width: '100%'
   }
 })
 
@@ -308,6 +322,40 @@ const PlayerPanel = ({classes, player, confidence, confidenceEstimator}) => {
               </Paper>
             </Grid>
           )}
+
+          <Grid item xs={12}>
+            <ExpansionPanel defaultExpanded>
+              <ExpansionPanelSummary expandIcon={<ExpandMore />}>
+                <Typography variant='title'>Talents</Typography>
+              </ExpansionPanelSummary>
+
+              <ExpansionPanelDetails>
+                <Stepper
+                  alternativeLabel
+                  className={classes.paddedPaper}
+                >
+                  {player.talents.map(talent => (
+                    <Step
+                      key={talent.tier}
+                      active
+                      connector={null}
+                    >
+                      <StepLabel
+                        StepIconProps={{
+                          classes: {
+                            root: classes.talentStep
+                          }
+                        }}
+                        icon={getTalentTierLevel(talent.tier)}
+                      >
+                        {talent.name}
+                      </StepLabel>
+                    </Step>
+                  ))}
+                </Stepper>
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
+          </Grid>
         </Grid>
       </ExpansionPanelDetails>
     </ExpansionPanel>
