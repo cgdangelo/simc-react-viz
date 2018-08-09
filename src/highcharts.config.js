@@ -36,7 +36,6 @@ export default {
       }
     },
     boxplot: {
-      whiskerLength: '80%',
       whiskerWidth: 1,
       medianWidth: 1,
       pointWidth: 25

@@ -54,7 +54,14 @@ const RaidSummary = ({buildPriorityDpsChart, classes, maxTime, players, raidAps,
       chart: {
         height: Math.max(players.length * 50, 300)
       },
-      xAxis: {categories: playersByMeanDps.map(player => player.name)},
+      xAxis: {
+        categories: playersByMeanDps.map(player => player.name),
+        labels: {
+          formatter () {
+            return `<span style='color: ${getColorBySpecialization(playersByMeanDps[this.pos].specialization)}'>${this.value}</span>`
+          }
+        }
+      },
       series: [
         {
           type: 'bar',
@@ -68,7 +75,6 @@ const RaidSummary = ({buildPriorityDpsChart, classes, maxTime, players, raidAps,
         },
         {
           tooltip: {
-            headerFormat: '<span style="color: {point.color}">\u25CF</span> {point.key}<br />',
             pointFormat: `Maximum: <b>{point.high}</b><br/>Upper quartile: <b>{point.q3}</b><br/>Mean: <b>{point.mean:,.1f}</b><br/>Median: <b>{point.median}</b><br/>Lower quartile: <b>{point.q1}</b><br/>Minimum: <b>{point.low}</b><br/>`
           },
           type: 'boxplot',
