@@ -12,6 +12,7 @@ import registerServiceWorker from './registerServiceWorker'
 
 Highcharts.setOptions(highchartsConfig)
 require('highcharts/modules/xrange')(Highcharts)
+require('highcharts/highcharts-more')(Highcharts)
 
 const theme = createMuiTheme({
   palette: {type: 'dark'},

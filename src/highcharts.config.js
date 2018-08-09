@@ -36,10 +36,10 @@ export default {
       }
     },
     boxplot: {
-      color: grey[50],
-      fillColor: 'rgba(255, 255, 255, 0.15)',
-      lineWidth: 2,
-      whiskerLength: '50%'
+      whiskerLength: '80%',
+      whiskerWidth: 1,
+      medianWidth: 1,
+      pointWidth: 25
     }
   },
   title: {

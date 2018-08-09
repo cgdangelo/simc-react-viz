@@ -2,14 +2,17 @@ import ExpansionPanel from '@material-ui/core/ExpansionPanel'
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
 import Grid from '@material-ui/core/Grid'
+import { darken, fade } from '@material-ui/core/styles/colorManipulator'
 import createStyles from '@material-ui/core/styles/createStyles'
 import withStyles from '@material-ui/core/styles/withStyles'
 import Typography from '@material-ui/core/Typography'
 import ExpandMore from '@material-ui/icons/ExpandMore'
+import * as Highcharts from 'highcharts'
+import HighchartsReact from 'highcharts-react-official'
 import PropTypes from 'prop-types'
 import * as React from 'react'
-import { getColorBySpecialization } from '../specializations'
 import ChipMetrics from '../ChipMetrics'
+import { getColorBySpecialization } from '../specializations'
 import RaidEvents from './RaidEvents'
 import StackedActorChart from './StackedActorChart'
 import TankCharts from './TankCharts'
@@ -38,8 +41,52 @@ const styles = createStyles({
 })
 
 const RaidSummary = ({buildPriorityDpsChart, classes, maxTime, players, raidAps, raidDps, raidEvents, raidHps, totalAbsorb, totalHeal, totalDamage}) => {
-  const playersByDps = createSortedPlayerList(players, player => player.collected_data.dps.mean)
-  const playersByDpsChart = <StackedActorChart title='Damage per Second' series={{name: 'DPS', data: playersByDps}} />
+  // const playersByDps = createSortedPlayerList(players, player => player.collected_data.dps.mean)
+  // const playersByDpsChart = <StackedActorChart title='Damage per Second' series={{name: 'DPS', data: playersByDps}} />
+  const playersByMeanDps = [...players]
+
+  playersByMeanDps.sort((a, b) => b.collected_data.dps.mean - a.collected_data.dps.mean)
+
+  const playersByDpsChart = <HighchartsReact
+    highcharts={Highcharts}
+    options={{
+      title: { text: 'Damage per Second' },
+      chart: {
+        height: Math.max(players.length * 50, 300)
+      },
+      xAxis: {categories: playersByMeanDps.map(player => player.name)},
+      series: [
+        {
+          type: 'bar',
+          name: 'DPS',
+          enableMouseTracking: false,
+          data: playersByMeanDps.map(player => ({
+            name: player.name,
+            y: player.collected_data.dps.mean,
+            color: getColorBySpecialization(player.specialization)
+          }))
+        },
+        {
+          tooltip: {
+            headerFormat: '<span style="color: {point.color}">\u25CF</span> {point.key}<br />',
+            pointFormat: `Maximum: <b>{point.high}</b><br/>Upper quartile: <b>{point.q3}</b><br/>Mean: <b>{point.mean:,.1f}</b><br/>Median: <b>{point.median}</b><br/>Lower quartile: <b>{point.q1}</b><br/>Minimum: <b>{point.low}</b><br/>`
+          },
+          type: 'boxplot',
+          data: playersByMeanDps.map((player, x) => ({
+            x,
+            color: darken(getColorBySpecialization(player.specialization), 0.4),
+            fillColor: fade(darken(getColorBySpecialization(player.specialization), 0.75), 0.5),
+            low: player.collected_data.dps.min,
+            high: player.collected_data.dps.max,
+            mean: player.collected_data.dps.mean,
+            median: player.collected_data.dps.median,
+            q1: player.collected_data.dps.q1,
+            q3: player.collected_data.dps.q3
+          }))
+        }
+      ]
+    }}
+  />
 
   let playersByPriorityDpsChart
 
