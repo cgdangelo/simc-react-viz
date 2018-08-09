@@ -5,7 +5,7 @@ import HighchartsReact from 'highcharts-react-official'
 import PropTypes from 'prop-types'
 import * as React from 'react'
 
-const RaidEvents = ({classes, maxTime, events}) => {
+const RaidEvents = ({maxTime, events}) => {
   const yAxisCategories = events.map(event => event.name || event.type)
   const chartData = []
 
@@ -47,7 +47,7 @@ const RaidEvents = ({classes, maxTime, events}) => {
         },
         xAxis: {
           crosshair: {
-            snap: false,
+            snap: false
           },
           dateTimeLabelFormats: {
             day: '%M:%S',
@@ -62,7 +62,7 @@ const RaidEvents = ({classes, maxTime, events}) => {
           },
           max: 300 * 1000,
           min: 0,
-          type: 'datetime',
+          type: 'datetime'
         },
         yAxis: {
           categories: yAxisCategories,
@@ -70,8 +70,8 @@ const RaidEvents = ({classes, maxTime, events}) => {
             style: {
               color: grey[50],
               fontSize: '1rem'
-            },
-          },
+            }
+          }
         },
         series: [
           {
