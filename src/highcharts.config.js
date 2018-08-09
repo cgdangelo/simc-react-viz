@@ -1,8 +1,11 @@
 import grey from '@material-ui/core/colors/grey'
 
+const localeNumber = new Intl.NumberFormat().formatToParts(1000.1)
+
 export default {
   lang: {
-    thousandsSep: ','
+    thousandsSep: localeNumber.find(part => part.type === 'group').value,
+    decimalPoint: localeNumber.find(part => part.type === 'decimal').value
   },
   credits: {
     enabled: false
