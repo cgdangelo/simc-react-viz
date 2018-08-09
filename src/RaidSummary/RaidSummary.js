@@ -1,7 +1,10 @@
+import Divider from '@material-ui/core/Divider/Divider'
 import ExpansionPanel from '@material-ui/core/ExpansionPanel'
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
 import Grid from '@material-ui/core/Grid'
+import createStyles from '@material-ui/core/styles/createStyles'
+import withStyles from '@material-ui/core/styles/withStyles'
 import Typography from '@material-ui/core/Typography'
 import ExpandMore from '@material-ui/icons/ExpandMore'
 import PropTypes from 'prop-types'
@@ -24,7 +27,21 @@ export const createSortedPlayerList = (players, accessor) => {
   return playersByProperty
 }
 
-const RaidSummary = ({buildPriorityDpsChart, maxTime, players, raidAps, raidDps, raidEvents, raidHps, totalAbsorb, totalHeal, totalDamage}) => {
+const styles = theme => createStyles({
+  summaryContainer: {
+    alignItems: 'center',
+    margin: '0 !important'
+  },
+  heading: {
+    flexBasis: '25%',
+    flexShrink: 0
+  },
+  raidDetails: {
+    padding: theme.spacing.unit * 3
+  }
+})
+
+const RaidSummary = ({buildPriorityDpsChart, classes, maxTime, players, raidAps, raidDps, raidEvents, raidHps, totalAbsorb, totalHeal, totalDamage}) => {
   const playersByDps = createSortedPlayerList(players, player => player.collected_data.dps.mean)
   const playersByDpsChart = <StackedActorChart title='Damage per Second' series={{name: 'DPS', data: playersByDps}} />
 
@@ -61,23 +78,33 @@ const RaidSummary = ({buildPriorityDpsChart, maxTime, players, raidAps, raidDps,
 
   return (
     <ExpansionPanel defaultExpanded>
-      <ExpansionPanelSummary expandIcon={<ExpandMore />}>
-        <Typography variant='title'>Raid Summary</Typography>
+      <ExpansionPanelSummary
+        expandIcon={<ExpandMore />}
+        classes={{content: classes.summaryContainer}}
+      >
+        <Typography
+          variant='title'
+          className={classes.heading}
+        >
+          Raid Summary
+        </Typography>
+
+        <div>
+          <ChipMetrics
+            aps={raidAps}
+            dps={raidDps}
+            hps={raidHps}
+            totalAbsorb={totalAbsorb}
+            totalDamage={totalDamage}
+            totalHeal={totalHeal}
+          />
+        </div>
       </ExpansionPanelSummary>
 
-      <ExpansionPanelDetails>
-        <Grid container spacing={16}>
-          <Grid item xs={12}>
-            <ChipMetrics
-              aps={raidAps}
-              dps={raidDps}
-              hps={raidHps}
-              totalAbsorb={totalAbsorb}
-              totalDamage={totalDamage}
-              totalHeal={totalHeal}
-            />
-          </Grid>
+      <Divider />
 
+      <ExpansionPanelDetails className={classes.raidDetails}>
+        <Grid container spacing={16}>
           <Grid item xs={playersByPriorityDpsChart ? 6 : 12}>
             {playersByDpsChart}
           </Grid>
@@ -136,4 +163,4 @@ RaidSummary.propTypes = {
   totalHeal: PropTypes.number
 }
 
-export default RaidSummary
+export default withStyles(styles)(RaidSummary)

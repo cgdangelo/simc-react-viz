@@ -44,9 +44,6 @@ const styles = theme => createStyles({
     flexBasis: '25%',
     flexShrink: 0
   },
-  secondaryHeading: {
-    fontSize: theme.typography.pxToRem(15)
-  },
   playerDetails: {
     padding: theme.spacing.unit * 3
   }
@@ -61,7 +58,8 @@ const PlayerPanel = ({classes, player, confidence}) => (
       <Typography variant='title' className={classes.heading}>
         {player.name}
       </Typography>
-      <Typography variant='caption' className={classes.secondaryHeading}>
+
+      <div>
         <ChipMetrics
           aps={player.collected_data.aps && player.collected_data.aps.mean}
           dps={player.collected_data.dps && player.collected_data.dps.mean}
@@ -69,7 +67,7 @@ const PlayerPanel = ({classes, player, confidence}) => (
           priorityDps={player.collected_data.prioritydps && player.collected_data.prioritydps.mean}
           etmi={player.collected_data.effective_theck_meloree_index && player.collected_data.effective_theck_meloree_index.mean}
         />
-      </Typography>
+      </div>
     </ExpansionPanelSummary>
 
     <Divider />
