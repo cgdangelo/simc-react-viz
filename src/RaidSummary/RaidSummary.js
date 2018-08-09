@@ -20,7 +20,7 @@ export const createSortedPlayerList = (players, accessor) => {
     name: player.name,
     color: getColorBySpecialization(player.specialization),
     y: typeof accessor === 'string' ? player[accessor] : accessor(player)
-  }))
+  })).filter(player => player.y > 0)
 
   playersByProperty.sort((a, b) => b.y - a.y)
 
@@ -104,7 +104,7 @@ const RaidSummary = ({buildPriorityDpsChart, classes, maxTime, players, raidAps,
       <Divider />
 
       <ExpansionPanelDetails className={classes.raidDetails}>
-        <Grid container spacing={16}>
+        <Grid container spacing={24}>
           <Grid item xs={playersByPriorityDpsChart ? 6 : 12}>
             {playersByDpsChart}
           </Grid>

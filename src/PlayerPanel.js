@@ -50,7 +50,7 @@ const styles = theme => createStyles({
 })
 
 const PlayerPanel = ({classes, player, confidence}) => (
-  <ExpansionPanel defaultExpanded key={player.name}>
+  <ExpansionPanel key={player.name}>
     <ExpansionPanelSummary
       expandIcon={<ExpandMore />}
       classes={{content: classes.summaryContainer}}
@@ -73,7 +73,7 @@ const PlayerPanel = ({classes, player, confidence}) => (
     <Divider />
 
     <ExpansionPanelDetails className={classes.playerDetails}>
-      <Grid container spacing={16}>
+      <Grid container spacing={24}>
         <Grid xs={6} item>
           <Paper>
             <Table>
