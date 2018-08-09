@@ -69,9 +69,9 @@ const RaidSummary = ({buildPriorityDpsChart, maxTime, players, raidAps, raidDps,
         <Grid container spacing={16}>
           <Grid item xs={12}>
             <ChipMetrics
-              raidAps={raidAps}
-              raidDps={raidDps}
-              raidHps={raidHps}
+              aps={raidAps}
+              dps={raidDps}
+              hps={raidHps}
               totalAbsorb={totalAbsorb}
               totalDamage={totalDamage}
               totalHeal={totalHeal}

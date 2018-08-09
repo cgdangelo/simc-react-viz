@@ -3,26 +3,35 @@ import PropTypes from 'prop-types'
 import * as React from 'react'
 import Chip from '../Chip'
 
-const ChipMetrics = ({raidDps, totalDamage, raidHps, totalHeal, raidAps, totalAbsorb}) => (
+const ChipMetrics = ({dps, totalDamage, dtps, priorityDps, hps, totalHeal, aps, totalAbsorb, etmi}) => (
   <React.Fragment>
-    {raidDps && <Chip label='DPS' value={numberFormat(raidDps, 0)} />}
+    {dps > 0 && <Chip label='DPS' value={numberFormat(dps, 0)} />}
 
-    {totalDamage && <Chip label='Damage' value={numberFormat(totalDamage, 0)} />}
+    {priorityDps > 0 && <Chip label='Boss DPS' value={numberFormat(priorityDps, 0)} />}
 
-    {raidHps && <Chip label='HPS' value={numberFormat(raidHps, 0)} />}
+    {totalDamage > 0 && <Chip label='Damage' value={numberFormat(totalDamage, 0)} />}
 
-    {totalHeal && <Chip label='Heals' value={numberFormat(totalHeal, 0)} />}
+    {dtps > 0 && <Chip label='DTPS' value={numberFormat(dtps, 0)} />}
 
-    {raidAps && <Chip label='APS' value={numberFormat(raidAps, 0)} />}
+    {hps > 0 && <Chip label='HPS' value={numberFormat(hps, 0)} />}
 
-    {totalAbsorb && <Chip label='Absorbs' value={numberFormat(totalAbsorb, 0)} />}
+    {totalHeal > 0 && <Chip label='Heals' value={numberFormat(totalHeal, 0)} />}
+
+    {aps > 0 && <Chip label='APS' value={numberFormat(aps, 0)} />}
+
+    {totalAbsorb > 0 && <Chip label='Absorbs' value={numberFormat(totalAbsorb, 0)} />}
+
+    {etmi > 0 && <Chip label='ETMI' value={numberFormat(etmi, 0)} />}
   </React.Fragment>
 )
 
 ChipMetrics.propTypes = {
-  raidAps: PropTypes.number,
-  raidDps: PropTypes.number,
-  raidHps: PropTypes.number,
+  aps: PropTypes.number,
+  dps: PropTypes.number,
+  dtps: PropTypes.number,
+  etmi: PropTypes.number,
+  hps: PropTypes.number,
+  priorityDps: PropTypes.number,
   totalAbsorb: PropTypes.number,
   totalDamage: PropTypes.number,
   totalHeal: PropTypes.number
