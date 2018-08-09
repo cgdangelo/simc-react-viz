@@ -225,52 +225,7 @@ const PlayerPanel = ({classes, player, confidence, confidenceEstimator}) => {
             </Paper>
           </Grid>
 
-          {player.role === 'tank' && (
-            <Grid item xs={12}>
-              <Paper>
-                <Table>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>
-                        <Typography variant='subheading'>Tank Metrics</Typography>
-                      </TableCell>
-                      <TableCell>Theck-Meloree Index</TableCell>
-                      <TableCell>Maximum Spike Damage</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    <TableRow>
-                      <TableCell>Minimum</TableCell>
-                      <TableCell>{numberFormat(tmi.min)}</TableCell>
-                      <TableCell>{numberFormat(msa.min)}%</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell>Maximum</TableCell>
-                      <TableCell>{numberFormat(tmi.max)}%</TableCell>
-                      <TableCell>{numberFormat(msa.max)}%</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell>Mean</TableCell>
-                      <TableCell>{numberFormat(tmi.mean)}</TableCell>
-                      <TableCell>{numberFormat(msa.mean)}%</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell>Error</TableCell>
-                      <TableCell>{buildErrorString(confidenceEstimator, tmi.mean_std_dev, tmi.mean)}</TableCell>
-                      <TableCell>N/A</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell>Range</TableCell>
-                      <TableCell>{buildRangeString(confidence, tmi.mean, tmi.data)}</TableCell>
-                      <TableCell>N/A</TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
-              </Paper>
-            </Grid>
-          )}
-
-          <Grid item>
+          <Grid item xs={6}>
             <Paper>
               <Table>
                 <TableHead>
@@ -308,6 +263,51 @@ const PlayerPanel = ({classes, player, confidence, confidenceEstimator}) => {
               </Table>
             </Paper>
           </Grid>
+
+          {player.role === 'tank' && (
+            <Grid item xs={6}>
+              <Paper>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell padding='dense'>
+                        <Typography variant='subheading'>Tank Metrics</Typography>
+                      </TableCell>
+                      <TableCell numeric>Theck-Meloree Index</TableCell>
+                      <TableCell numeric>Maximum Spike Damage</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell>Minimum</TableCell>
+                      <TableCell numeric>{numberFormat(tmi.min)}</TableCell>
+                      <TableCell numeric>{numberFormat(msa.min)}%</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>Maximum</TableCell>
+                      <TableCell numeric>{numberFormat(tmi.max)}%</TableCell>
+                      <TableCell numeric>{numberFormat(msa.max)}%</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>Mean</TableCell>
+                      <TableCell numeric>{numberFormat(tmi.mean)}</TableCell>
+                      <TableCell numeric>{numberFormat(msa.mean)}%</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>Error</TableCell>
+                      <TableCell numeric>{buildErrorString(confidenceEstimator, tmi.mean_std_dev, tmi.mean)}</TableCell>
+                      <TableCell numeric>N/A</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>Range</TableCell>
+                      <TableCell numeric>{buildRangeString(confidence, tmi.mean, tmi.data)}</TableCell>
+                      <TableCell numeric>N/A</TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </Paper>
+            </Grid>
+          )}
         </Grid>
       </ExpansionPanelDetails>
     </ExpansionPanel>
