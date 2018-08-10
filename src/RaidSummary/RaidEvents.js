@@ -47,12 +47,16 @@ const RaidEvents = ({maxTime, events}) => {
           formatter () {
             const start = this.series.chart.time.dateFormat('%M:%S', this.x)
             const end = this.series.chart.time.dateFormat('%M:%S', this.x2)
-            const options = Object.entries(this.point.originalEvent)
+            const options = Object.entries(this.point.originalEvent || {})
               .map(option => option.join(' = '))
               .join('\n')
 
             return `${start} - ${end}<hr /><h3>${this.yCategory}</h3><pre style='margin: 0'>${options}</pre>`
           },
+          positioner () {
+            return {x: this.chart.container.offsetLeft + 295, y: this.chart.container.offsetTop + 75}
+          },
+          outside: true,
           useHTML: true,
           xDateFormat: '%M:%S'
         },
