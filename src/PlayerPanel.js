@@ -138,7 +138,7 @@ const PlayerPanel = ({classes, player, confidence, confidenceEstimator}) => {
     }))
 
   const spentTime = player.stats
-    .filter(action => !action.background && !action.quiet && action.total_time > 0)
+    .filter(action => !action.background && !action.quiet && !action.pet && action.total_time > 0)
     .map(action => ({
       name: action.name,
       y: action.total_time,
