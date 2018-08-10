@@ -495,6 +495,29 @@ const PlayerPanel = ({classes, player, confidence, confidenceEstimator}) => {
                         />
                       </Grid>
                     )}
+
+                    <Grid item>
+                      <HighchartsReact
+                        highcharts={Highcharts}
+                        options={{
+                          title: {
+                            text: 'Spent Time'
+                          },
+                          series: [
+                            {
+                              type: 'pie',
+                              name: 'Time',
+                              data: spentTime,
+                              dataLabels: {
+                                formatter () {
+                                  return `<span style='color: ${this.point.color}'>${this.point.name}</span><br />${numberFormat(this.point.y, 1)}s`
+                                }
+                              }
+                            }
+                          ]
+                        }}
+                      />
+                    </Grid>
                   </Grid>
 
                   <Grid container item xs={6} spacing={24} direction='column'>
@@ -766,29 +789,6 @@ const PlayerPanel = ({classes, player, confidence, confidenceEstimator}) => {
                         />
                       </Grid>
                     )}
-
-                    <Grid item>
-                      <HighchartsReact
-                        highcharts={Highcharts}
-                        options={{
-                          title: {
-                            text: 'Spent Time'
-                          },
-                          series: [
-                            {
-                              type: 'pie',
-                              name: 'Time',
-                              data: spentTime,
-                              dataLabels: {
-                                formatter () {
-                                  return `<span style='color: ${this.point.color}'>${this.point.name}</span><br />${numberFormat(this.point.y, 1)}s`
-                                }
-                              }
-                            }
-                          ]
-                        }}
-                      />
-                    </Grid>
                   </Grid>
                 </Grid>
               </ExpansionPanelDetails>
