@@ -154,6 +154,7 @@ const PlayerPanel = ({classes, player, confidence, confidenceEstimator}) => {
   return (
     <ExpansionPanel
       key={player.name}
+      defaultExpanded
     >
       <ExpansionPanelSummary
         expandIcon={<ExpandMore />}
@@ -390,7 +391,7 @@ const PlayerPanel = ({classes, player, confidence, confidenceEstimator}) => {
 
               <ExpansionPanelDetails>
                 <Grid container spacing={24}>
-                  <Grid item xs={4}>
+                  <Grid item xs={6}>
                     <HighchartsReact
                       highcharts={Highcharts}
                       options={{
@@ -420,7 +421,7 @@ const PlayerPanel = ({classes, player, confidence, confidenceEstimator}) => {
                     />
                   </Grid>
 
-                  <Grid item xs={4}>
+                  <Grid item xs={6}>
                     <HighchartsReact
                       highcharts={Highcharts}
                       options={{
@@ -430,6 +431,7 @@ const PlayerPanel = ({classes, player, confidence, confidenceEstimator}) => {
                         series: [
                           {
                             type: 'pie',
+                            name: 'Damage',
                             data: damageSources,
                             minSize: 150,
                             center: ['50%', '50%'],
@@ -458,7 +460,7 @@ const PlayerPanel = ({classes, player, confidence, confidenceEstimator}) => {
                     />
                   </Grid>
 
-                  <Grid item xs={4}>
+                  <Grid item xs={6}>
                     <HighchartsReact
                       highcharts={Highcharts}
                       options={{
@@ -468,6 +470,7 @@ const PlayerPanel = ({classes, player, confidence, confidenceEstimator}) => {
                         series: [
                           {
                             type: 'pie',
+                            name: 'Time',
                             data: spentTime,
                             minSize: 150,
                             center: ['50%', '50%'],
