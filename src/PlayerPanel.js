@@ -22,7 +22,12 @@ import PropTypes from 'prop-types'
 import * as React from 'react'
 import * as sma from 'sma'
 import ChipMetrics from './ChipMetrics'
-import { getColorBySchool, getColorBySpecialization, getPrimaryResourceBySpecialization, getTalentTierLevel } from './util'
+import {
+  getColorBySchool,
+  getColorBySpecialization,
+  getPrimaryResourceBySpecialization,
+  getTalentTierLevel
+} from './util'
 
 const {numberFormat} = Highcharts
 
@@ -392,130 +397,134 @@ const PlayerPanel = ({classes, player, confidence, confidenceEstimator}) => {
 
               <ExpansionPanelDetails>
                 <Grid container spacing={24}>
-                  <Grid item xs={6}>
-                    <HighchartsReact
-                      highcharts={Highcharts}
-                      options={{
-                        title: {
-                          text: 'Damage Per Execute Time'
-                        },
-                        xAxis: {
-                          categories: actionsByApet.map(action => action.name),
-                          labels: {
-                            formatter () {
-                              return `<span style='color: ${getColorBySchool(actionsByApet[this.pos].school)}'>${this.value}</span>`
-                            }
-                          }
-                        },
-                        series: [
-                          {
-                            type: 'bar',
-                            name: 'DPET',
-                            data: actionsByApet.map(action => ({
-                              name: action.name,
-                              y: action.apet,
-                              color: getColorBySchool(action.school)
-                            }))
-                          }
-                        ]
-                      }}
-                    />
-                  </Grid>
-
-                  <Grid item xs={6}>
-                    <HighchartsReact
-                      highcharts={Highcharts}
-                      options={{
-                        chart: {
-                          zoomType: 'x'
-                        },
-                        title: {
-                          text: 'Damage Per Second'
-                        },
-                        xAxis: {
-                          type: 'datetime',
-                          crosshair: true,
-                          dateTimeLabelFormats: {
-                            millisecond: '%M:%S',
-                            second: '%M:%S',
-                            minute: '%M:%S',
-                            day: '%M:%S'
+                  <Grid container item xs={6} spacing={24} direction='column'>
+                    <Grid item>
+                      <HighchartsReact
+                        highcharts={Highcharts}
+                        options={{
+                          title: {
+                            text: 'Damage Per Execute Time'
                           },
-                          labels: {
-                            style: {
-                              fontSize: null
-                            },
-                            y: null
-                          }
-                        },
-                        tooltip: {
-                          xDateFormat: '%M:%S'
-                        },
-                        series: [
-                          {
-                            type: 'areaspline',
-                            name: 'DPS',
-                            color: getColorBySpecialization(player.specialization),
-                            fillOpacity: 0.25,
-                            data: sma(getFilledCollectedDataContainer(player, 'timeline_dmg').data, 20, n => n).map((y, i) => [i * 1000, y])
-                          }
-                        ]
-                      }}
-                    />
-                  </Grid>
-
-                  <Grid item xs={6}>
-                    <HighchartsReact
-                      highcharts={Highcharts}
-                      options={{
-                        title: {
-                          text: 'Damage Sources'
-                        },
-                        series: [
-                          {
-                            type: 'pie',
-                            name: 'Damage',
-                            data: damageSources,
-                            dataLabels: {
+                          xAxis: {
+                            categories: actionsByApet.map(action => action.name),
+                            labels: {
                               formatter () {
-                                let dataLabel = ''
+                                return `<span style='color: ${getColorBySchool(actionsByApet[this.pos].school)}'>${this.value}</span>`
+                              }
+                            }
+                          },
+                          series: [
+                            {
+                              type: 'bar',
+                              name: 'DPET',
+                              data: actionsByApet.map(action => ({
+                                name: action.name,
+                                y: action.apet,
+                                color: getColorBySchool(action.school)
+                              }))
+                            }
+                          ]
+                        }}
+                      />
+                    </Grid>
 
-                                if (this.series.data[this.point.x].pet === true) {
-                                  dataLabel = `<b>${this.series.data[this.point.x].source}</b><br />`
+                    <Grid item>
+                      <HighchartsReact
+                        highcharts={Highcharts}
+                        options={{
+                          title: {
+                            text: 'Damage Sources'
+                          },
+                          series: [
+                            {
+                              type: 'pie',
+                              name: 'Damage',
+                              data: damageSources,
+                              dataLabels: {
+                                formatter () {
+                                  let dataLabel = ''
+
+                                  if (this.series.data[this.point.x].pet === true) {
+                                    dataLabel = `<b>${this.series.data[this.point.x].source}</b><br />`
+                                  }
+
+                                  dataLabel += `<span style='color: ${this.point.color}'>${this.point.name}</span><br />${numberFormat(this.point.y, 1)}%`
+
+                                  return dataLabel
                                 }
-
-                                dataLabel += `<span style='color: ${this.point.color}'>${this.point.name}</span><br />${numberFormat(this.point.y, 1)}%`
-
-                                return dataLabel
                               }
                             }
-                          }
-                        ]
-                      }}
-                    />
+                          ]
+                        }}
+                      />
+                    </Grid>
                   </Grid>
 
-                  <Grid item xs={6}>
-                    <HighchartsReact
-                      highcharts={Highcharts}
-                      options={{
-                        title: {
-                          text: 'Spent Time'
-                        },
-                        series: [
-                          {
-                            type: 'pie',
-                            name: 'Time',
-                            data: spentTime,
-                            dataLabels: {
-                              formatter () {
-                                return `<span style='color: ${this.point.color}'>${this.point.name}</span><br />${numberFormat(this.point.y, 1)}s`
+                  <Grid container item xs={6} spacing={24} direction='column'>
+                    <Grid item>
+                      <HighchartsReact
+                        highcharts={Highcharts}
+                        options={{
+                          chart: {
+                            zoomType: 'x'
+                          },
+                          title: {
+                            text: 'Damage Per Second'
+                          },
+                          xAxis: {
+                            type: 'datetime',
+                            crosshair: true,
+                            dateTimeLabelFormats: {
+                              millisecond: '%M:%S',
+                              second: '%M:%S',
+                              minute: '%M:%S',
+                              day: '%M:%S'
+                            },
+                            labels: {
+                              style: {
+                                fontSize: null
+                              },
+                              y: null
+                            }
+                          },
+                          tooltip: {
+                            xDateFormat: '%M:%S'
+                          },
+                          series: [
+                            {
+                              type: 'areaspline',
+                              name: 'DPS',
+                              color: getColorBySpecialization(player.specialization),
+                              fillOpacity: 0.25,
+                              data: sma(getFilledCollectedDataContainer(player, 'timeline_dmg').data, 20, n => n).map((y, i) => [i * 1000, y])
+                            }
+                          ]
+                        }}
+                      />
+                    </Grid>
+
+                    <Grid item>
+                      <HighchartsReact
+                        highcharts={Highcharts}
+                        options={{
+                          title: {
+                            text: 'Spent Time'
+                          },
+                          series: [
+                            {
+                              type: 'pie',
+                              name: 'Time',
+                              data: spentTime,
+                              dataLabels: {
+                                formatter () {
+                                  return `<span style='color: ${this.point.color}'>${this.point.name}</span><br />${numberFormat(this.point.y, 1)}s`
+                                }
                               }
                             }
-                          }
-                        ]
-                      }}
-                    />
+                          ]
+                        }}
+                      />
+                    </Grid>
                   </Grid>
                 </Grid>
               </ExpansionPanelDetails>
