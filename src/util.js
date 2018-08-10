@@ -1,3 +1,5 @@
+import { decomposeColor, recomposeColor } from '@material-ui/core/styles/colorManipulator'
+
 export const classColorMap = {
   'blood death knight': '#C41F3B',
   'frost death knight': '#C41F3B',
@@ -103,7 +105,6 @@ export function getPrimaryResourceBySpecialization (specialization) {
 
 export const getTalentTierLevel = (tier) => tier !== 7 ? tier * 15 : 100
 
-// @TODO Other multi-schools
 export const getColorBySchool = (school = '') => {
   switch (school.toLowerCase()) {
     case 'physical':
@@ -136,7 +137,95 @@ export const getColorBySchool = (school = '') => {
     case 'chaos':
       return '#00C800'
 
+    case 'flamestrike':
+      return mixColors(getColorBySchool('physical'), getColorBySchool('fire'))
+
+    case 'froststrike':
+      return mixColors(getColorBySchool('physical'), getColorBySchool('frost'))
+
+    case 'spellstrike':
+      return mixColors(getColorBySchool('physical'), getColorBySchool('arcane'))
+
+    case 'stormstrike':
+      return mixColors(getColorBySchool('physical'), getColorBySchool('nature'))
+
+    case 'shadowstrike':
+      return mixColors(getColorBySchool('physical'), getColorBySchool('shadow'))
+
+    case 'holystrike':
+      return mixColors(getColorBySchool('physical'), getColorBySchool('holystrike'))
+
+    case 'spellfire':
+      return mixColors(getColorBySchool('fire'), getColorBySchool('nature'))
+
+    case 'shadowflame':
+      return mixColors(getColorBySchool('shadow'), getColorBySchool('fire'))
+
+    case 'holyfire':
+      return mixColors(getColorBySchool('holy'), getColorBySchool('fire'))
+
+    case 'spellfrost':
+      return mixColors(getColorBySchool('arcane'), getColorBySchool('frost'))
+
+    case 'froststorm':
+      return mixColors(getColorBySchool('frost'), getColorBySchool('nature'))
+
+    case 'shadowfrost':
+      return mixColors(getColorBySchool('shadow'), getColorBySchool('frost'))
+
+    case 'holyfrost':
+      return mixColors(getColorBySchool('holy'), getColorBySchool('frost'))
+
+    case 'astral':
+      return mixColors(getColorBySchool('arcane'), getColorBySchool('nature'))
+
+    case 'spellshadow':
+      return mixColors(getColorBySchool('arcane'), getColorBySchool('shadow'))
+
+    case 'divine':
+      return mixColors(getColorBySchool('arcane'), getColorBySchool('holy'))
+
+    case 'shadowstorm':
+      return mixColors(getColorBySchool('shadow'), getColorBySchool('nature'))
+
+    case 'holystorm':
+      return mixColors(getColorBySchool('holy'), getColorBySchool('nature'))
+
+    case 'shadowlight':
+      return mixColors(getColorBySchool('shadow'), getColorBySchool('holy'))
+
+    case 'chromatic':
+      return mixColors(
+        getColorBySchool('fire'),
+        getColorBySchool('frost'),
+        getColorBySchool('arcane'),
+        getColorBySchool('nature'),
+        getColorBySchool('shadow')
+      )
+
+    case 'magic':
+      return mixColors(getColorBySchool('chromatic'), getColorBySchool('holy'))
+
     default:
-      return '#FFFFFF'
+      return '#666666'
   }
+}
+
+export const mixColors = (...colors) => {
+  if (colors.length > 2) {
+    return colors.reduce((p, c) => mixColors(p, c), colors[0])
+  }
+
+  const [c1, c2] = colors
+  const [c1r, c1g, c1b] = decomposeColor(c1).values
+  const [c2r, c2g, c2b] = decomposeColor(c2).values
+
+  return recomposeColor({
+    type: 'rgb',
+    values: [
+      (c1r + c2r) / 2,
+      (c1g + c2g) / 2,
+      (c1b + c2b) / 2
+    ]
+  })
 }
