@@ -493,6 +493,7 @@ const PlayerPanel = ({classes, player, confidence, confidenceEstimator}) => {
                               },
                               style: {
                                 color: '#fff',
+                                fontSize: '0.8rem',
                                 fontWeight: 'normal',
                                 textOverflow: 'none'
                               }
@@ -524,6 +525,7 @@ const PlayerPanel = ({classes, player, confidence, confidenceEstimator}) => {
                               },
                               style: {
                                 color: '#fff',
+                                fontSize: '0.8rem',
                                 fontWeight: 'normal',
                                 textOverflow: 'none'
                               }
