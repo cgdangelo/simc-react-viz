@@ -629,6 +629,64 @@ const PlayerPanel = ({classes, player, confidence, confidenceEstimator}) => {
                       </Grid>
                     )}
 
+                    {dps.data.length > 0 && (
+                      <Grid item>
+                        <HighchartsReact
+                          highcharts={Highcharts}
+                          options={{
+                            title: {
+                              text: 'DPS Distribution'
+                            },
+                            xAxis: [
+                              {
+                                labels: false,
+                                alignTicks: false,
+                                opposite: true
+                              },
+                              {
+                                title: {text: 'DPS'},
+                                labels: {
+                                  y: null,
+                                  style: {
+                                    fontSize: null
+                                  }
+                                }
+                              }
+                            ],
+                            yAxis: [
+                              {opposite: true},
+                              {title: {text: 'Iterations'}}
+                            ],
+                            series: [
+                              {
+                                type: 'histogram',
+                                name: 'Iterations',
+                                color: getColorBySpecialization(player.specialization),
+                                baseSeries: 's1',
+                                binsNumber: 50,
+                                xAxis: 1,
+                                yAxis: 1,
+                                zIndex: -1,
+                                tooltip: {
+                                  pointFormat: '{point.x:.0f} to {point.x2:.0f} DPS<br /><b>{series.name}</b>: {point.y}'
+                                }
+                              },
+                              {
+                                type: 'scatter',
+                                name: 'DPS',
+                                data: dps.data,
+                                id: 's1',
+                                enableMouseTracking: false,
+                                marker: {
+                                  fillColor: 'transparent'
+                                }
+                              }
+                            ]
+                          }}
+                        />
+                      </Grid>
+                    )}
+
                     <Grid item>
                       <HighchartsReact
                         highcharts={Highcharts}
