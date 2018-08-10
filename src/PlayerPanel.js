@@ -585,6 +585,50 @@ const PlayerPanel = ({classes, player, confidence, confidenceEstimator}) => {
                       </Grid>
                     )}
 
+                    {htps.mean > 0 && (
+                      <Grid item>
+                        <HighchartsReact
+                          highcharts={Highcharts}
+                          options={{
+                            chart: {
+                              zoomType: 'x'
+                            },
+                            title: {
+                              text: 'Healing Taken Per Second'
+                            },
+                            xAxis: {
+                              type: 'datetime',
+                              crosshair: true,
+                              dateTimeLabelFormats: {
+                                millisecond: '%M:%S',
+                                second: '%M:%S',
+                                minute: '%M:%S',
+                                day: '%M:%S'
+                              },
+                              labels: {
+                                style: {
+                                  fontSize: null
+                                },
+                                y: null
+                              }
+                            },
+                            tooltip: {
+                              xDateFormat: '%M:%S'
+                            },
+                            series: [
+                              {
+                                type: 'areaspline',
+                                name: 'HTPS',
+                                color: getColorByResource('health'),
+                                fillOpacity: 0.25,
+                                data: sma(getFilledCollectedDataContainer(player, 'timeline_healing_taken').data, 20, n => n).map((y, i) => [i * 1000, y])
+                              }
+                            ]
+                          }}
+                        />
+                      </Grid>
+                    )}
+
                     <Grid item>
                       <HighchartsReact
                         highcharts={Highcharts}
