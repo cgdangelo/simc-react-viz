@@ -211,6 +211,47 @@ export const getColorBySchool = (school = '') => {
   }
 }
 
+export const getColorByResource = (resource = '') => {
+  switch (resource.toLowerCase()) {
+    case 'health':
+      return getColorBySpecialization('marksmanship hunter')
+
+    case 'mana':
+      return getColorBySpecialization('elemental shaman')
+
+    case 'energy':
+    case 'focus':
+    case 'combo_point':
+      return getColorBySpecialization('subtlety rogue')
+
+    case 'rage':
+    case 'runic_power':
+      return getColorBySpecialization('frost death knight')
+
+    case 'holy_power':
+      return getColorBySpecialization('retribution paladin')
+
+    case 'soul_shard':
+      return getColorBySpecialization('affliction warlock')
+
+    case 'astral_power':
+      return getColorBySpecialization('balance druid')
+
+    case 'chi':
+      return getColorBySpecialization('windwalker monk')
+
+    case 'maelstrom':
+      return '#FF9900'
+
+    case 'rune':
+      return getColorBySpecialization('arcane mage')
+
+    case 'none':
+    default:
+      return '#666666'
+  }
+}
+
 export const mixColors = (...colors) => {
   if (colors.length > 2) {
     return colors.reduce((p, c) => mixColors(p, c), colors[0])
