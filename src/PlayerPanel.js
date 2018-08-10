@@ -709,6 +709,64 @@ const PlayerPanel = ({classes, player, confidence, confidenceEstimator}) => {
                       </Grid>
                     )}
 
+                    {hps.data.length > 0 && (
+                      <Grid item>
+                        <HighchartsReact
+                          highcharts={Highcharts}
+                          options={{
+                            title: {
+                              text: 'HPS Distribution'
+                            },
+                            xAxis: [
+                              {
+                                labels: false,
+                                alignTicks: false,
+                                opposite: true
+                              },
+                              {
+                                title: {text: 'HPS'},
+                                labels: {
+                                  y: null,
+                                  style: {
+                                    fontSize: null
+                                  }
+                                }
+                              }
+                            ],
+                            yAxis: [
+                              {opposite: true},
+                              {title: {text: 'Iterations'}}
+                            ],
+                            series: [
+                              {
+                                type: 'histogram',
+                                name: 'Iterations',
+                                color: getColorByResource('health'),
+                                baseSeries: 's1',
+                                binsNumber: 50,
+                                xAxis: 1,
+                                yAxis: 1,
+                                zIndex: -1,
+                                tooltip: {
+                                  pointFormat: '{point.x:.0f} to {point.x2:.0f} HPS<br /><b>{series.name}</b>: {point.y}'
+                                }
+                              },
+                              {
+                                type: 'scatter',
+                                name: 'HPS',
+                                data: hps.data,
+                                id: 's1',
+                                enableMouseTracking: false,
+                                marker: {
+                                  fillColor: 'transparent'
+                                }
+                              }
+                            ]
+                          }}
+                        />
+                      </Grid>
+                    )}
+
                     <Grid item>
                       <HighchartsReact
                         highcharts={Highcharts}
