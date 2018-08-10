@@ -128,7 +128,7 @@ const PlayerPanel = ({classes, player, confidence, confidenceEstimator}) => {
   actionsByApet.sort((a, b) => b.apet - a.apet)
 
   const damageSources = player.stats
-    .filter(action => action.portion_amount > 0)
+    .filter(action => action.type === 'damage' && action.portion_amount > 0)
     .map(action => ({
       name: action.name,
       pet: action.pet,
@@ -138,17 +138,22 @@ const PlayerPanel = ({classes, player, confidence, confidenceEstimator}) => {
     }))
 
   const spentTime = player.stats
-    .filter(action => action.total_time > 0)
+    .filter(action => !action.background && !action.quiet && action.total_time > 0)
     .map(action => ({
       name: action.name,
       y: action.total_time,
       color: getColorBySchool(action.school)
     }))
 
+  spentTime.push({
+    name: 'Waiting',
+    y: getFilledCollectedDataContainer(player, 'waiting_time').mean,
+    color: '#fff'
+  })
+
   return (
     <ExpansionPanel
       key={player.name}
-      defaultExpanded
     >
       <ExpansionPanelSummary
         expandIcon={<ExpandMore />}
@@ -437,8 +442,7 @@ const PlayerPanel = ({classes, player, confidence, confidenceEstimator}) => {
                                   dataLabel = `<b>${damageSources[this.point.x].source}</b><br />`
                                 }
 
-                                dataLabel += `<span style='color: ${this.point.color}'>${this.point.name}</span>: ${numberFormat(
-                                  this.point.percentage, 1)}%`
+                                dataLabel += `<span style='color: ${this.point.color}'>${this.point.name}</span>: ${numberFormat(this.point.y, 1)}%`
 
                                 return dataLabel
                               },
@@ -470,8 +474,7 @@ const PlayerPanel = ({classes, player, confidence, confidenceEstimator}) => {
                             dataLabels: {
                               useHTML: true,
                               formatter () {
-                                return `<span style='color: ${this.point.color}'>${this.point.name}</span>: ${numberFormat(this.point.percentage,
-                                  1)}%`
+                                return `<span style='color: ${this.point.color}'>${this.point.name}</span>: ${numberFormat(this.point.y, 1)}s`
                               },
                               style: {
                                 color: '#fff',
