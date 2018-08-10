@@ -7,6 +7,7 @@ import Paper from '@material-ui/core/Paper/Paper'
 import Step from '@material-ui/core/Step/Step'
 import StepLabel from '@material-ui/core/StepLabel/StepLabel'
 import Stepper from '@material-ui/core/Stepper/Stepper'
+import { lighten } from '@material-ui/core/styles/colorManipulator'
 import createStyles from '@material-ui/core/styles/createStyles'
 import withStyles from '@material-ui/core/styles/withStyles'
 import Table from '@material-ui/core/Table/Table'
@@ -523,6 +524,27 @@ const PlayerPanel = ({classes, player, confidence, confidenceEstimator}) => {
                                 },
                                 y: null
                               }
+                            },
+                            yAxis: {
+                              plotLines: [
+                                {
+                                  label: {
+                                    align: 'right',
+                                    textAlign: 'right',
+                                    text: `Mean: ${numberFormat(dps.mean)}`,
+                                    style: {
+                                      fontSize: '0.9rem',
+                                      fontWeight: 'bold',
+                                      color: lighten(getColorBySpecialization(player.specialization), 0.5),
+                                      textShadow: '2px 2px 1px rgba(0, 0, 0, 1)'
+                                    }
+                                  },
+                                  color: lighten(getColorBySpecialization(player.specialization), 0.5),
+                                  value: dps.mean,
+                                  width: 1,
+                                  zIndex: 5
+                                }
+                              ]
                             },
                             tooltip: {
                               xDateFormat: '%M:%S'
