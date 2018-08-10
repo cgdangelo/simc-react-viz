@@ -50,7 +50,7 @@ const RaidSummary = ({buildPriorityDpsChart, classes, maxTime, players, raidAps,
   const playersByDpsChart = <HighchartsReact
     highcharts={Highcharts}
     options={{
-      title: { text: 'Damage per Second' },
+      title: {text: 'Damage per Second'},
       chart: {
         height: Math.max(players.length * 50, 300)
       },
@@ -66,7 +66,6 @@ const RaidSummary = ({buildPriorityDpsChart, classes, maxTime, players, raidAps,
         {
           type: 'bar',
           name: 'DPS',
-          enableMouseTracking: false,
           data: playersByMeanDps.map(player => ({
             name: player.name,
             y: player.collected_data.dps.mean,
@@ -164,17 +163,28 @@ const RaidSummary = ({buildPriorityDpsChart, classes, maxTime, players, raidAps,
 
           {tanks.length > 0 && <TankCharts players={tanks} />}
 
-          {playersByApmChart && (
-            <Grid item xs={6}>
-              {playersByApmChart}
-            </Grid>
-          )}
+          <Grid item xs>
+            <ExpansionPanel>
+              <ExpansionPanelSummary expandIcon={<ExpandMore />}>
+                <Typography variant='title'>Actions Per Minute / DPS Variance</Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails>
+                <Grid container spacing={24}>
+                  {playersByApmChart && (
+                    <Grid item xs={6}>
+                      {playersByApmChart}
+                    </Grid>
+                  )}
 
-          {playersByDpsVarianceChart && (
-            <Grid item xs={6}>
-              {playersByDpsVarianceChart}
-            </Grid>
-          )}
+                  {playersByDpsVarianceChart && (
+                    <Grid item xs={6}>
+                      {playersByDpsVarianceChart}
+                    </Grid>
+                  )}
+                </Grid>
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
+          </Grid>
 
           <Grid item xs={12}>
             <RaidEvents events={raidEvents} maxTime={maxTime} />
