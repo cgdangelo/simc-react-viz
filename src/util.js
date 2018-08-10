@@ -1,44 +1,42 @@
-import { brown, deepPurple, grey, indigo, lightBlue, lightGreen, orange, pink, purple, red, teal, yellow } from '@material-ui/core/colors'
-
 export const classColorMap = {
-  'blood death knight': red[800],
-  'frost death knight': red[800],
-  'unholy death knight': red[800],
-  'havoc demon hunter': purple[500],
-  'vengeance demon hunter': purple[500],
-  'guardian druid': orange[500],
-  'balance druid': orange[500],
-  'feral druid': orange[500],
-  'restoration druid': orange[500],
-  'beast mastery hunter': lightGreen[500],
-  'marksmanship hunter': lightGreen[500],
-  'survival hunter': lightGreen[500],
-  'arcane mage': lightBlue[500],
-  'fire mage': lightBlue[500],
-  'frost mage': lightBlue[500],
-  'brewmaster monk': teal.A400,
-  'windwalker monk': teal.A400,
-  'mistweaver monk': teal.A400,
-  'protection paladin': pink[200],
-  'retribution paladin': pink[200],
-  'holy paladin': pink[300],
-  'shadow priest': grey[200],
-  'discipline priest': grey[200],
-  'holy priest': grey[200],
-  'assassination rogue': yellow[500],
-  'outlaw rogue': yellow[500],
-  'subtlety rogue': yellow[500],
-  'elemental shaman': indigo.A700,
-  'enhancement shaman': indigo.A700,
-  'restoration shaman': indigo.A700,
-  'affliction warlock': deepPurple[200],
-  'demonology warlock': deepPurple[200],
-  'destruction warlock': deepPurple[200],
-  'protection warrior': brown[500],
-  'arms warrior': brown[500],
-  'fury warrior': brown[500],
+  'blood death knight': '#C41F3B',
+  'frost death knight': '#C41F3B',
+  'unholy death knight': '#C41F3B',
+  'havoc demon hunter': '#A330C9',
+  'vengeance demon hunter': '#A330C9',
+  'guardian druid': '#FF7D0A',
+  'balance druid': '#FF7D0A',
+  'feral druid': '#FF7D0A',
+  'restoration druid': '#FF7D0A',
+  'beast mastery hunter': '#ABD473',
+  'marksmanship hunter': '#ABD473',
+  'survival hunter': '#ABD473',
+  'arcane mage': '#69CCF0',
+  'fire mage': '#69CCF0',
+  'frost mage': '#69CCF0',
+  'brewmaster monk': '#00FF96',
+  'windwalker monk': '#00FF96',
+  'mistweaver monk': '#00FF96',
+  'protection paladin': '#F58CBA',
+  'retribution paladin': '#F58CBA',
+  'holy paladin': '#F58CBA',
+  'shadow priest': '#FFFFFF',
+  'discipline priest': '#FFFFFF',
+  'holy priest': '#FFFFFF',
+  'assassination rogue': '#FFF569',
+  'outlaw rogue': '#FFF569',
+  'subtlety rogue': '#FFF569',
+  'elemental shaman': '#0070DE',
+  'enhancement shaman': '#0070DE',
+  'restoration shaman': '#0070DE',
+  'affliction warlock': '#9482C9',
+  'demonology warlock': '#9482C9',
+  'destruction warlock': '#9482C9',
+  'protection warrior': '#C79C6E',
+  'arms warrior': '#C79C6E',
+  'fury warrior': '#C79C6E',
 
-  default: indigo[200]
+  default: '#FFFFFF'
 }
 
 const classResourceMap = {
@@ -90,7 +88,7 @@ export function getColorBySpecialization (specialization) {
     return classColorMap[lowerSpecialization]
   }
 
-  return indigo[500]
+  return '#FFFFFF'
 }
 
 export function getPrimaryResourceBySpecialization (specialization) {
@@ -112,7 +110,7 @@ export const getColorBySchool = (school = '') => {
       return getColorBySpecialization('arms warrior')
 
     case 'holy':
-      return yellow['A200']
+      return '#FFCC00'
 
     case 'fire':
       return getColorBySpecialization('frost death knight')
@@ -124,7 +122,7 @@ export const getColorBySchool = (school = '') => {
       return getColorBySpecialization('elemental shaman')
 
     case 'shadow':
-      return deepPurple['A100']
+      return '#9482C9'
 
     case 'arcane':
       return getColorBySpecialization('arcane mage')
@@ -133,12 +131,12 @@ export const getColorBySchool = (school = '') => {
       return getColorBySpecialization('windwalker monk')
 
     case 'frostfire':
-      return purple['A400']
+      return '#9900CC'
 
     case 'chaos':
-      return lightGreen['A700']
+      return '#00C800'
 
     default:
-      return grey[50]
+      return '#FFFFFF'
   }
 }
