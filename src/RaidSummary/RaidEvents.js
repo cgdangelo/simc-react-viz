@@ -11,8 +11,19 @@ const RaidEvents = ({maxTime, events}) => {
 
   events.forEach((event, i) => {
     const first = (event.first > 0 ? event.first : 0) * 1000
-    const duration = (event.duration > 0 ? event.duration : 1) * 1000
     const last = (event.last > 0 ? event.last : maxTime) * 1000
+
+    let duration
+
+    if (event.duration > 0) {
+      duration = event.duration
+    } else if (event.type === 'movement_distance') {
+      duration = event.move_distance / 7.0
+    } else {
+      duration = 1
+    }
+
+    duration *= 1000
 
     chartData.push({x: first, x2: first + duration, y: i})
 
