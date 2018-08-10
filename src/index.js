@@ -23,6 +23,9 @@ const theme = createMuiTheme({
     }
   },
   props: {
+    MuiExpansionPanel: {
+      elevation: 6
+    },
     MuiPaper: {
       elevation: 6
     }

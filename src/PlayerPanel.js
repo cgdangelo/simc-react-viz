@@ -359,9 +359,7 @@ const PlayerPanel = ({classes, player, confidence, confidenceEstimator}) => {
                 </Stepper>
               </ExpansionPanelDetails>
             </ExpansionPanel>
-          </Grid>
 
-          <Grid item xs={12}>
             <ExpansionPanel defaultExpanded>
               <ExpansionPanelSummary expandIcon={<ExpandMore />}>
                 <Typography variant='title'>Charts</Typography>
@@ -375,7 +373,12 @@ const PlayerPanel = ({classes, player, confidence, confidenceEstimator}) => {
                       text: 'Damage Per Execute Time'
                     },
                     xAxis: {
-                      categories: actionsByApet.map(action => action.name)
+                      categories: actionsByApet.map(action => action.name),
+                      labels: {
+                        formatter () {
+                          return `<span style='color: ${getColorBySchool(actionsByApet[this.pos].school)}'>${this.value}</span>`
+                        }
+                      }
                     },
                     series: [
                       {
