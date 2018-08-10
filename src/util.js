@@ -1,17 +1,4 @@
-import {
-  brown,
-  deepPurple,
-  grey,
-  indigo,
-  lightBlue,
-  lightGreen,
-  orange,
-  pink,
-  purple,
-  red,
-  teal,
-  yellow
-} from '@material-ui/core/colors'
+import { brown, deepPurple, grey, indigo, lightBlue, lightGreen, orange, pink, purple, red, teal, yellow } from '@material-ui/core/colors'
 
 export const classColorMap = {
   'blood death knight': red[800],
@@ -114,4 +101,44 @@ export function getPrimaryResourceBySpecialization (specialization) {
   }
 
   return 'mana'
+}
+
+export const getTalentTierLevel = (tier) => tier !== 7 ? tier * 15 : 100
+
+// @TODO Other multi-schools
+export const getColorBySchool = (school = '') => {
+  switch (school.toLowerCase()) {
+    case 'physical':
+      return getColorBySpecialization('arms warrior')
+
+    case 'holy':
+      return yellow['A200']
+
+    case 'fire':
+      return getColorBySpecialization('frost death knight')
+
+    case 'nature':
+      return getColorBySpecialization('marksmanship hunter')
+
+    case 'frost':
+      return getColorBySpecialization('elemental shaman')
+
+    case 'shadow':
+      return deepPurple['A100']
+
+    case 'arcane':
+      return getColorBySpecialization('arcane mage')
+
+    case 'elemental':
+      return getColorBySpecialization('windwalker monk')
+
+    case 'frostfire':
+      return purple['A400']
+
+    case 'chaos':
+      return lightGreen['A700']
+
+    default:
+      return grey[50]
+  }
 }

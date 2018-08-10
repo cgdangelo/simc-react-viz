@@ -16,11 +16,14 @@ import TableHead from '@material-ui/core/TableHead/TableHead'
 import TableRow from '@material-ui/core/TableRow/TableRow'
 import Typography from '@material-ui/core/Typography'
 import ExpandMore from '@material-ui/icons/ExpandMore'
-import { numberFormat } from 'highcharts'
+import * as Highcharts from 'highcharts'
+import HighchartsReact from 'highcharts-react-official'
 import PropTypes from 'prop-types'
 import * as React from 'react'
 import ChipMetrics from './ChipMetrics'
-import { getPrimaryResourceBySpecialization } from './specializations'
+import { getColorBySchool, getPrimaryResourceBySpecialization, getTalentTierLevel } from './util'
+
+const {numberFormat} = Highcharts
 
 const emptySampleData = {
   min: 0,
@@ -79,8 +82,6 @@ const getChangedResourceNames = (player) => {
   return resourceNames
 }
 
-const getTalentTierLevel = (tier) => tier !== 7 ? tier * 15 : 100
-
 const styles = theme => createStyles({
   summaryContainer: {
     alignItems: 'center',
@@ -122,6 +123,9 @@ const PlayerPanel = ({classes, player, confidence, confidenceEstimator}) => {
   const tmi = getFilledCollectedDataContainer(player, 'theck_meloree_index')
   const etmi = getFilledCollectedDataContainer(player, 'effective_theck_meloree_index')
   const msa = getFilledCollectedDataContainer(player, 'max_spike_amount')
+
+  const actionsByApet = player.stats.filter(action => action.apet > 0)
+  actionsByApet.sort((a, b) => b.apet - a.apet)
 
   return (
     <ExpansionPanel
@@ -353,6 +357,38 @@ const PlayerPanel = ({classes, player, confidence, confidenceEstimator}) => {
                     </Step>
                   ))}
                 </Stepper>
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
+          </Grid>
+
+          <Grid item xs={12}>
+            <ExpansionPanel defaultExpanded>
+              <ExpansionPanelSummary expandIcon={<ExpandMore />}>
+                <Typography variant='title'>Charts</Typography>
+              </ExpansionPanelSummary>
+
+              <ExpansionPanelDetails>
+                <HighchartsReact
+                  highcharts={Highcharts}
+                  options={{
+                    title: {
+                      text: 'Damage Per Execute Time'
+                    },
+                    xAxis: {
+                      categories: actionsByApet.map(action => action.name)
+                    },
+                    series: [
+                      {
+                        type: 'bar',
+                        data: actionsByApet.map(action => ({
+                          name: action.name,
+                          y: action.apet,
+                          color: getColorBySchool(action.school)
+                        }))
+                      }
+                    ]
+                  }}
+                />
               </ExpansionPanelDetails>
             </ExpansionPanel>
           </Grid>
