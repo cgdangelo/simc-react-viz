@@ -43,6 +43,19 @@ export default {
       medianWidth: 1,
       pointWidth: 25
     },
+    pie: {
+      minSize: 150,
+      center: ['50%', '50%'],
+      dataLabels: {
+        useHTML: true,
+        style: {
+          color: '#fff',
+          fontSize: '0.8rem',
+          fontWeight: 'normal',
+          textOverflow: 'none'
+        }
+      }
+    },
     series: {
       turboThreshold: 2000
     }

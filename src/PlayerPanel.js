@@ -476,26 +476,17 @@ const PlayerPanel = ({classes, player, confidence, confidenceEstimator}) => {
                             type: 'pie',
                             name: 'Damage',
                             data: damageSources,
-                            minSize: 150,
-                            center: ['50%', '50%'],
                             dataLabels: {
-                              useHTML: true,
                               formatter () {
                                 let dataLabel = ''
 
-                                if (damageSources[this.point.x].pet === true) {
-                                  dataLabel = `<b>${damageSources[this.point.x].source}</b><br />`
+                                if (this.series.data[this.point.x].pet === true) {
+                                  dataLabel = `<b>${this.series.data[this.point.x].source}</b><br />`
                                 }
 
                                 dataLabel += `<span style='color: ${this.point.color}'>${this.point.name}</span><br />${numberFormat(this.point.y, 1)}%`
 
                                 return dataLabel
-                              },
-                              style: {
-                                color: '#fff',
-                                fontSize: '0.8rem',
-                                fontWeight: 'normal',
-                                textOverflow: 'none'
                               }
                             }
                           }
@@ -516,18 +507,9 @@ const PlayerPanel = ({classes, player, confidence, confidenceEstimator}) => {
                             type: 'pie',
                             name: 'Time',
                             data: spentTime,
-                            minSize: 150,
-                            center: ['50%', '50%'],
                             dataLabels: {
-                              useHTML: true,
                               formatter () {
                                 return `<span style='color: ${this.point.color}'>${this.point.name}</span><br />${numberFormat(this.point.y, 1)}s`
-                              },
-                              style: {
-                                color: '#fff',
-                                fontSize: '0.8rem',
-                                fontWeight: 'normal',
-                                textOverflow: 'none'
                               }
                             }
                           }
