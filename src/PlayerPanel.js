@@ -143,6 +143,14 @@ const PlayerPanel = ({classes, player, confidence, confidenceEstimator}) => {
       color: getColorBySchool(action.school)
     }))
 
+  const healingSources = player.stats
+    .filter(action => (action.type === 'heal' || action.type === 'absorb') && action.portion_amount > 0)
+    .map(action => ({
+      name: action.name,
+      y: action.portion_amount * 100,
+      color: getColorBySchool(action.school)
+    }))
+
   const spentTime = player.stats
     .filter(action => !action.background && !action.quiet && !action.pet && action.total_time > 0)
     .map(action => ({
@@ -428,36 +436,63 @@ const PlayerPanel = ({classes, player, confidence, confidenceEstimator}) => {
                       />
                     </Grid>
 
-                    <Grid item>
-                      <HighchartsReact
-                        highcharts={Highcharts}
-                        options={{
-                          title: {
-                            text: 'Damage Sources'
-                          },
-                          series: [
-                            {
-                              type: 'pie',
-                              name: 'Damage',
-                              data: damageSources,
-                              dataLabels: {
-                                formatter () {
-                                  let dataLabel = ''
+                    {damageSources.length > 0 && (
+                      <Grid item>
+                        <HighchartsReact
+                          highcharts={Highcharts}
+                          options={{
+                            title: {
+                              text: 'Damage Sources'
+                            },
+                            series: [
+                              {
+                                type: 'pie',
+                                name: 'Damage',
+                                data: damageSources,
+                                dataLabels: {
+                                  formatter () {
+                                    let dataLabel = ''
 
-                                  if (this.series.data[this.point.x].pet === true) {
-                                    dataLabel = `<b>${this.series.data[this.point.x].source}</b><br />`
+                                    if (this.series.data[this.point.x].pet === true) {
+                                      dataLabel = `<b>${this.series.data[this.point.x].source}</b><br />`
+                                    }
+
+                                    dataLabel += `<span style='color: ${this.point.color}'>${this.point.name}</span><br />${numberFormat(this.point.y, 1)}%`
+
+                                    return dataLabel
                                   }
-
-                                  dataLabel += `<span style='color: ${this.point.color}'>${this.point.name}</span><br />${numberFormat(this.point.y, 1)}%`
-
-                                  return dataLabel
                                 }
                               }
-                            }
-                          ]
-                        }}
-                      />
-                    </Grid>
+                            ]
+                          }}
+                        />
+                      </Grid>
+                    )}
+
+                    {healingSources.length > 0 && (
+                      <Grid item>
+                        <HighchartsReact
+                          highcharts={Highcharts}
+                          options={{
+                            title: {
+                              text: 'Healing Sources'
+                            },
+                            series: [
+                              {
+                                type: 'pie',
+                                name: 'Healing',
+                                data: healingSources,
+                                dataLabels: {
+                                  formatter () {
+                                    return `<span style='color: ${this.point.color}'>${this.point.name}</span><br />${numberFormat(this.point.y, 1)}%`
+                                  }
+                                }
+                              }
+                            ]
+                          }}
+                        />
+                      </Grid>
+                    )}
                   </Grid>
 
                   <Grid container item xs={6} spacing={24} direction='column'>
