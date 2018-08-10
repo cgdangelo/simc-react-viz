@@ -457,7 +457,7 @@ const PlayerPanel = ({classes, player, confidence, confidenceEstimator}) => {
                             name: 'DPS',
                             color: getColorBySpecialization(player.specialization),
                             fillOpacity: 0.25,
-                            data: sma(getFilledCollectedDataContainer(player, 'timeline_dmg').data, 25, n => n).map((y, i) => [i * 1000, y])
+                            data: sma(getFilledCollectedDataContainer(player, 'timeline_dmg').data, 20, n => n).map((y, i) => [i * 1000, y])
                           }
                         ]
                       }}
