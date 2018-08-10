@@ -23,6 +23,7 @@ import * as React from 'react'
 import * as sma from 'sma'
 import ChipMetrics from './ChipMetrics'
 import {
+  getColorByResource,
   getColorBySchool,
   getColorBySpecialization,
   getPrimaryResourceBySpecialization,
@@ -496,47 +497,93 @@ const PlayerPanel = ({classes, player, confidence, confidenceEstimator}) => {
                   </Grid>
 
                   <Grid container item xs={6} spacing={24} direction='column'>
-                    <Grid item>
-                      <HighchartsReact
-                        highcharts={Highcharts}
-                        options={{
-                          chart: {
-                            zoomType: 'x'
-                          },
-                          title: {
-                            text: 'Damage Per Second'
-                          },
-                          xAxis: {
-                            type: 'datetime',
-                            crosshair: true,
-                            dateTimeLabelFormats: {
-                              millisecond: '%M:%S',
-                              second: '%M:%S',
-                              minute: '%M:%S',
-                              day: '%M:%S'
+                    {dps.mean > 0 && (
+                      <Grid item>
+                        <HighchartsReact
+                          highcharts={Highcharts}
+                          options={{
+                            chart: {
+                              zoomType: 'x'
                             },
-                            labels: {
-                              style: {
-                                fontSize: null
+                            title: {
+                              text: 'Damage Per Second'
+                            },
+                            xAxis: {
+                              type: 'datetime',
+                              crosshair: true,
+                              dateTimeLabelFormats: {
+                                millisecond: '%M:%S',
+                                second: '%M:%S',
+                                minute: '%M:%S',
+                                day: '%M:%S'
                               },
-                              y: null
-                            }
-                          },
-                          tooltip: {
-                            xDateFormat: '%M:%S'
-                          },
-                          series: [
-                            {
-                              type: 'areaspline',
-                              name: 'DPS',
-                              color: getColorBySpecialization(player.specialization),
-                              fillOpacity: 0.25,
-                              data: sma(getFilledCollectedDataContainer(player, 'timeline_dmg').data, 20, n => n).map((y, i) => [i * 1000, y])
-                            }
-                          ]
-                        }}
-                      />
-                    </Grid>
+                              labels: {
+                                style: {
+                                  fontSize: null
+                                },
+                                y: null
+                              }
+                            },
+                            tooltip: {
+                              xDateFormat: '%M:%S'
+                            },
+                            series: [
+                              {
+                                type: 'areaspline',
+                                name: 'DPS',
+                                color: getColorBySpecialization(player.specialization),
+                                fillOpacity: 0.25,
+                                data: sma(getFilledCollectedDataContainer(player, 'timeline_dmg').data, 20, n => n).map((y, i) => [i * 1000, y])
+                              }
+                            ]
+                          }}
+                        />
+                      </Grid>
+                    )}
+
+                    {dtps.mean > 0 && (
+                      <Grid item>
+                        <HighchartsReact
+                          highcharts={Highcharts}
+                          options={{
+                            chart: {
+                              zoomType: 'x'
+                            },
+                            title: {
+                              text: 'Damage Taken Per Second'
+                            },
+                            xAxis: {
+                              type: 'datetime',
+                              crosshair: true,
+                              dateTimeLabelFormats: {
+                                millisecond: '%M:%S',
+                                second: '%M:%S',
+                                minute: '%M:%S',
+                                day: '%M:%S'
+                              },
+                              labels: {
+                                style: {
+                                  fontSize: null
+                                },
+                                y: null
+                              }
+                            },
+                            tooltip: {
+                              xDateFormat: '%M:%S'
+                            },
+                            series: [
+                              {
+                                type: 'areaspline',
+                                name: 'DTPS',
+                                color: getColorByResource('health'),
+                                fillOpacity: 0.25,
+                                data: sma(getFilledCollectedDataContainer(player, 'timeline_dmg_taken').data, 20, n => n).map((y, i) => [i * 1000, y])
+                              }
+                            ]
+                          }}
+                        />
+                      </Grid>
+                    )}
 
                     <Grid item>
                       <HighchartsReact
