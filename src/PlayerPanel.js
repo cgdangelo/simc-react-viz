@@ -442,7 +442,7 @@ const PlayerPanel = ({classes, player, confidence, confidenceEstimator}) => {
                                   dataLabel = `<b>${damageSources[this.point.x].source}</b><br />`
                                 }
 
-                                dataLabel += `<span style='color: ${this.point.color}'>${this.point.name}</span>: ${numberFormat(this.point.y, 1)}%`
+                                dataLabel += `<span style='color: ${this.point.color}'>${this.point.name}</span><br />${numberFormat(this.point.y, 1)}%`
 
                                 return dataLabel
                               },
@@ -474,7 +474,7 @@ const PlayerPanel = ({classes, player, confidence, confidenceEstimator}) => {
                             dataLabels: {
                               useHTML: true,
                               formatter () {
-                                return `<span style='color: ${this.point.color}'>${this.point.name}</span>: ${numberFormat(this.point.y, 1)}s`
+                                return `<span style='color: ${this.point.color}'>${this.point.name}</span><br />${numberFormat(this.point.y, 1)}s`
                               },
                               style: {
                                 color: '#fff',
