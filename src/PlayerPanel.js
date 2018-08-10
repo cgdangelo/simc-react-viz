@@ -137,6 +137,14 @@ const PlayerPanel = ({classes, player, confidence, confidenceEstimator}) => {
       color: getColorBySchool(action.school)
     }))
 
+  const spentTime = player.stats
+    .filter(action => action.total_time > 0)
+    .map(action => ({
+      name: action.name,
+      y: action.total_time,
+      color: getColorBySchool(action.school)
+    }))
+
   return (
     <ExpansionPanel
       key={player.name}
@@ -418,6 +426,8 @@ const PlayerPanel = ({classes, player, confidence, confidenceEstimator}) => {
                           {
                             type: 'pie',
                             data: damageSources,
+                            minSize: 150,
+                            center: ['50%', '50%'],
                             dataLabels: {
                               useHTML: true,
                               formatter () {
@@ -432,14 +442,39 @@ const PlayerPanel = ({classes, player, confidence, confidenceEstimator}) => {
 
                                 return dataLabel
                               },
-                              filter: {
-                                property: 'x',
-                                operator: '<',
-                                value: 12
+                              style: {
+                                color: '#fff',
+                                fontWeight: 'normal',
+                                textOverflow: 'none'
+                              }
+                            }
+                          }
+                        ]
+                      }}
+                    />
+                  </Grid>
+
+                  <Grid item xs={4}>
+                    <HighchartsReact
+                      highcharts={Highcharts}
+                      options={{
+                        title: {
+                          text: 'Spent Time'
+                        },
+                        series: [
+                          {
+                            type: 'pie',
+                            data: spentTime,
+                            minSize: 150,
+                            center: ['50%', '50%'],
+                            dataLabels: {
+                              useHTML: true,
+                              formatter () {
+                                return `<span style='color: ${this.point.color}'>${this.point.name}</span>: ${numberFormat(this.point.percentage,
+                                  1)}%`
                               },
                               style: {
                                 color: '#fff',
-                                fontSize: '0.8rem',
                                 fontWeight: 'normal',
                                 textOverflow: 'none'
                               }
