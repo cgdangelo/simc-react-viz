@@ -20,8 +20,9 @@ import * as Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 import PropTypes from 'prop-types'
 import * as React from 'react'
+import * as sma from 'sma'
 import ChipMetrics from './ChipMetrics'
-import { getColorBySchool, getPrimaryResourceBySpecialization, getTalentTierLevel } from './util'
+import { getColorBySchool, getColorBySpecialization, getPrimaryResourceBySpecialization, getTalentTierLevel } from './util'
 
 const {numberFormat} = Highcharts
 
@@ -415,6 +416,48 @@ const PlayerPanel = ({classes, player, confidence, confidenceEstimator}) => {
                               y: action.apet,
                               color: getColorBySchool(action.school)
                             }))
+                          }
+                        ]
+                      }}
+                    />
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <HighchartsReact
+                      highcharts={Highcharts}
+                      options={{
+                        chart: {
+                          zoomType: 'x'
+                        },
+                        title: {
+                          text: 'Damage Per Second'
+                        },
+                        xAxis: {
+                          type: 'datetime',
+                          crosshair: true,
+                          dateTimeLabelFormats: {
+                            millisecond: '%M:%S',
+                            second: '%M:%S',
+                            minute: '%M:%S',
+                            day: '%M:%S'
+                          },
+                          labels: {
+                            style: {
+                              fontSize: null
+                            },
+                            y: null
+                          }
+                        },
+                        tooltip: {
+                          xDateFormat: '%M:%S'
+                        },
+                        series: [
+                          {
+                            type: 'areaspline',
+                            name: 'DPS',
+                            color: getColorBySpecialization(player.specialization),
+                            fillOpacity: 0.25,
+                            data: sma(getFilledCollectedDataContainer(player, 'timeline_dmg').data, 25, n => n).map((y, i) => [i * 1000, y])
                           }
                         ]
                       }}

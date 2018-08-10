@@ -59,7 +59,6 @@ export default {
   xAxis: {
     labels: {
       style: {
-        color: grey[50],
         fontSize: '1rem'
       },
       y: 6
