@@ -124,8 +124,18 @@ const PlayerPanel = ({classes, player, confidence, confidenceEstimator}) => {
   const etmi = getFilledCollectedDataContainer(player, 'effective_theck_meloree_index')
   const msa = getFilledCollectedDataContainer(player, 'max_spike_amount')
 
-  const actionsByApet = player.stats.filter(action => action.apet > 0)
+  const actionsByApet = player.stats.filter(action => !action.pet && action.apet > 0)
   actionsByApet.sort((a, b) => b.apet - a.apet)
+
+  const damageSources = player.stats
+    .filter(action => action.portion_amount > 0)
+    .map(action => ({
+      name: action.name,
+      pet: action.pet,
+      source: action.source,
+      y: action.portion_amount * 100,
+      color: getColorBySchool(action.school)
+    }))
 
   return (
     <ExpansionPanel
@@ -366,32 +376,80 @@ const PlayerPanel = ({classes, player, confidence, confidenceEstimator}) => {
               </ExpansionPanelSummary>
 
               <ExpansionPanelDetails>
-                <HighchartsReact
-                  highcharts={Highcharts}
-                  options={{
-                    title: {
-                      text: 'Damage Per Execute Time'
-                    },
-                    xAxis: {
-                      categories: actionsByApet.map(action => action.name),
-                      labels: {
-                        formatter () {
-                          return `<span style='color: ${getColorBySchool(actionsByApet[this.pos].school)}'>${this.value}</span>`
-                        }
-                      }
-                    },
-                    series: [
-                      {
-                        type: 'bar',
-                        data: actionsByApet.map(action => ({
-                          name: action.name,
-                          y: action.apet,
-                          color: getColorBySchool(action.school)
-                        }))
-                      }
-                    ]
-                  }}
-                />
+                <Grid container spacing={24}>
+                  <Grid item xs={4}>
+                    <HighchartsReact
+                      highcharts={Highcharts}
+                      options={{
+                        title: {
+                          text: 'Damage Per Execute Time'
+                        },
+                        xAxis: {
+                          categories: actionsByApet.map(action => action.name),
+                          labels: {
+                            formatter () {
+                              return `<span style='color: ${getColorBySchool(actionsByApet[this.pos].school)}'>${this.value}</span>`
+                            }
+                          }
+                        },
+                        series: [
+                          {
+                            type: 'bar',
+                            name: 'DPET',
+                            data: actionsByApet.map(action => ({
+                              name: action.name,
+                              y: action.apet,
+                              color: getColorBySchool(action.school)
+                            }))
+                          }
+                        ]
+                      }}
+                    />
+                  </Grid>
+
+                  <Grid item xs={4}>
+                    <HighchartsReact
+                      highcharts={Highcharts}
+                      options={{
+                        title: {
+                          text: 'Damage Sources'
+                        },
+                        series: [
+                          {
+                            type: 'pie',
+                            data: damageSources,
+                            dataLabels: {
+                              useHTML: true,
+                              formatter () {
+                                let dataLabel = ''
+
+                                if (damageSources[this.point.x].pet === true) {
+                                  dataLabel = `<b>${damageSources[this.point.x].source}</b><br />`
+                                }
+
+                                dataLabel += `<span style='color: ${this.point.color}'>${this.point.name}</span>: ${numberFormat(
+                                  this.point.percentage, 1)}%`
+
+                                return dataLabel
+                              },
+                              filter: {
+                                property: 'x',
+                                operator: '<',
+                                value: 12
+                              },
+                              style: {
+                                color: '#fff',
+                                fontSize: '0.8rem',
+                                fontWeight: 'normal',
+                                textOverflow: 'none'
+                              }
+                            }
+                          }
+                        ]
+                      }}
+                    />
+                  </Grid>
+                </Grid>
               </ExpansionPanelDetails>
             </ExpansionPanel>
           </Grid>
