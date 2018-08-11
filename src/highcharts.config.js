@@ -57,7 +57,8 @@ export default {
       }
     },
     series: {
-      turboThreshold: 2000
+      turboThreshold: 2000,
+      animation: false
     }
   },
   title: {
