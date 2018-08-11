@@ -18,7 +18,7 @@ const RaidEvents = ({maxTime, events}) => {
     if (event.duration > 0) {
       duration = event.duration
     } else if (event.type === 'movement_distance') {
-      duration = event.move_distance / 7.0
+      duration = (event.move_distance || 7.0) / 7.0
     } else {
       duration = 1
     }
