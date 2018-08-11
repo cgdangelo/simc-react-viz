@@ -4,8 +4,8 @@ import * as React from 'react'
 import Report from './Report'
 
 class App extends React.PureComponent {
-  constructor () {
-    super()
+  constructor (props) {
+    super(props)
 
     this.state = {reportData: null}
   }
@@ -26,9 +26,12 @@ class App extends React.PureComponent {
         container
         alignItems='center'
         justify='center'
-        style={{height: '100vh', width: '100vw'}}
+        style={{
+          height: '100vh',
+          width: '100vw'
+        }}
       >
-        <CircularProgress size={200} color='secondary' />
+        <CircularProgress color='secondary' size={200} />
       </Grid>
     )
   }

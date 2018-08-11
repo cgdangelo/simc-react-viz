@@ -113,6 +113,15 @@
     ],
     "parser": "babel-eslint",
     "rules": {
+      "sort-keys": "warn",
+      "react/jsx-max-props-per-line": "error",
+      "react/jsx-sort-props": [
+        2,
+        {
+          "callbacksLast": true,
+          "shorthandFirst": true
+        }
+      ],
       "react/prop-types": [
         2,
         {

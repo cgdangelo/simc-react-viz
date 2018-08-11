@@ -114,11 +114,14 @@ class PlayerPanel extends React.PureComponent {
   constructor (props) {
     super(props)
 
-    this.state = {expanded: false, rendered: false}
+    this.state = {
+      expanded: false,
+      rendered: false
+    }
   }
 
   render () {
-    const {classes, player, confidence, confidenceEstimator} = this.props
+    const {classes, confidence, confidenceEstimator, player} = this.props
 
     const fightLength = getFilledCollectedDataContainer(player, 'fight_length')
 
@@ -183,12 +186,12 @@ class PlayerPanel extends React.PureComponent {
         onChange={this.setLazyRenderState}
       >
         <ExpansionPanelSummary
-          expandIcon={<ExpandMore />}
           classes={{content: classes.summaryContainer}}
+          expandIcon={<ExpandMore />}
         >
           <Typography
-            variant='title'
             className={classes.heading}
+            variant='title'
           >
             {player.name}
           </Typography>
@@ -197,18 +200,24 @@ class PlayerPanel extends React.PureComponent {
             <ChipMetrics
               aps={aps.mean}
               dps={dps.mean}
+              etmi={etmi.mean}
               hps={hps.mean}
               priorityDps={priorityDps.mean}
               tmi={tmi.mean}
-              etmi={etmi.mean}
             />
           </div>
         </ExpansionPanelSummary>
 
         {(this.state.expanded || this.state.rendered) && (
           <ExpansionPanelDetails>
-            <Grid container spacing={24}>
-              <Grid xs={6} item>
+            <Grid
+              container
+              spacing={24}
+            >
+              <Grid
+                item
+                xs={6}
+              >
                 <Paper>
                   <Table>
                     <TableHead>
@@ -257,7 +266,10 @@ class PlayerPanel extends React.PureComponent {
                 </Paper>
               </Grid>
 
-              <Grid xs={6} item>
+              <Grid
+                item
+                xs={6}
+              >
                 <Paper>
                   <Table>
                     <TableHead>
@@ -304,7 +316,12 @@ class PlayerPanel extends React.PureComponent {
                         </TableCell>
 
                         {getChangedResourceNames(player).map(resourceName => (
-                          <TableCell key={resourceName} numeric>{resourceName}</TableCell>
+                          <TableCell
+                            numeric
+                            key={resourceName}
+                          >
+                            {resourceName}
+                          </TableCell>
                         ))}
                       </TableRow>
                     </TableHead>
@@ -313,7 +330,10 @@ class PlayerPanel extends React.PureComponent {
                         <TableCell>Spent Per Second</TableCell>
 
                         {getChangedResourceNames(player).map(resourceName => (
-                          <TableCell key={resourceName} numeric>
+                          <TableCell
+                            numeric
+                            key={resourceName}
+                          >
                             {numberFormat(getFilledCollectedDataContainer(player, `resource_lost.${resourceName}`).mean / fightLength.mean)}
                           </TableCell>
                         ))}
@@ -323,7 +343,10 @@ class PlayerPanel extends React.PureComponent {
                         <TableCell>Generated Per Second</TableCell>
 
                         {getChangedResourceNames(player).map(resourceName => (
-                          <TableCell key={resourceName} numeric>
+                          <TableCell
+                            numeric
+                            key={resourceName}
+                          >
                             {numberFormat(getFilledCollectedDataContainer(player, `resource_gained.${resourceName}`).mean / fightLength.mean)}
                           </TableCell>
                         ))}
@@ -391,17 +414,17 @@ class PlayerPanel extends React.PureComponent {
                     >
                       {player.talents.map(talent => (
                         <Step
-                          key={talent.tier}
                           active
                           connector={null}
+                          key={talent.tier}
                         >
                           <StepLabel
+                            icon={getTalentTierLevel(talent.tier)}
                             StepIconProps={{
                               classes: {
                                 root: classes.talentStep
                               }
                             }}
-                            icon={getTalentTierLevel(talent.tier)}
                           >
                             {talent.name}
                           </StepLabel>
@@ -418,7 +441,13 @@ class PlayerPanel extends React.PureComponent {
 
                   <ExpansionPanelDetails>
                     <Grid container spacing={24}>
-                      <Grid container item xs={6} spacing={24} direction='column'>
+                      <Grid
+                        container
+                        item
+                        direction='column'
+                        spacing={24}
+                        xs={6}
+                      >
                         <Grid item>
                           <HighchartsReact
                             highcharts={Highcharts}
@@ -531,7 +560,13 @@ class PlayerPanel extends React.PureComponent {
                         </Grid>
                       </Grid>
 
-                      <Grid container item xs={6} spacing={24} direction='column'>
+                      <Grid
+                        container
+                        item
+                        direction='column'
+                        spacing={24}
+                        xs={6}
+                      >
                         {dps.mean > 0 && (
                           <Grid item>
                             <HighchartsReact

@@ -28,29 +28,62 @@ const buildFightLengthString = (maxTime, varyCombatLength) => {
   return fightLength
 }
 
-const TitleBar = ({buildDate, buildLevel, buildTime, classes, fightStyle, gameVersion, iterations, maxTime, simcVersion, targetError, varyCombatLength, wowVersion}) => (
-  <AppBar position='fixed' color='default' className={classes.appBar}>
-    <Toolbar>
-      <Typography variant='title' color='inherit'>
-        SimulationCraft
+const TitleBar = (props) => {
+  const {
+    buildDate,
+    buildLevel,
+    buildTime,
+    classes,
+    fightStyle,
+    gameVersion,
+    iterations,
+    maxTime,
+    simcVersion,
+    targetError,
+    varyCombatLength,
+    wowVersion
+  } = props
 
-        <Typography variant='caption' style={{display: 'inline-block'}}>
-          {simcVersion} for {gameVersion} {wowVersion}.{buildLevel}
+  return (
+    <AppBar
+      className={classes.appBar}
+      color='default'
+      position='fixed'
+    >
+      <Toolbar>
+        <Typography
+          variant='title'
+          color='inherit'
+        >
+          SimulationCraft
+
+          <Typography
+            variant='caption'
+            style={{
+              display: 'inline-block'
+            }}
+          >
+            {simcVersion} for {gameVersion} {wowVersion}.{buildLevel}
+          </Typography>
         </Typography>
-      </Typography>
 
-      <Grid container justify='flex-end' wrap='nowrap'>
-        <ChipOptions
-          buildTimestamp={`${buildDate} ${buildTime}`}
-          fightLength={buildFightLengthString(maxTime, varyCombatLength)}
-          fightStyle={fightStyle}
-          iterations={iterations}
-          targetError={targetError}
-        />
-      </Grid>
-    </Toolbar>
-  </AppBar>
-)
+        <Grid
+          container
+          justify='flex-end'
+          wrap='nowrap'
+        >
+          <ChipOptions
+            buildTimestamp={`${buildDate} ${buildTime}`}
+            fightLength={buildFightLengthString(maxTime, varyCombatLength)}
+            fightStyle={fightStyle}
+            iterations={iterations}
+            targetError={targetError}
+          />
+        </Grid>
+      </Toolbar>
+    </AppBar>
+  )
+}
 
 TitleBar.propTypes = {
   buildDate: PropTypes.string.isRequired,

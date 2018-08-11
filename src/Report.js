@@ -28,17 +28,17 @@ const Report = ({report, classes}) => {
   return (
     <React.Fragment>
       <TitleBar
-        simcVersion={report.version}
-        gameVersion={versionUsed}
-        wowVersion={gameData.wow_version}
-        buildLevel={gameData.build_level}
         buildDate={report.build_date}
+        buildLevel={gameData.build_level}
         buildTime={report.build_time}
         fightStyle={report.sim.options.fight_style}
+        gameVersion={versionUsed}
         iterations={report.sim.options.iterations}
         maxTime={report.sim.options.max_time}
+        simcVersion={report.version}
         targetError={report.sim.options.target_error}
         varyCombatLength={report.sim.options.vary_combat_length}
+        wowVersion={gameData.wow_version}
       />
 
       <Navigation players={report.sim.players} />
@@ -48,22 +48,22 @@ const Report = ({report, classes}) => {
 
         <RaidSummary
           buildPriorityDpsChart={report.sim.targets.length > 1}
-          players={report.sim.players}
-          raidDps={report.sim.statistics.raid_dps.mean}
-          totalDamage={report.sim.statistics.total_dmg.mean}
-          raidHps={raidHps && raidHps.mean}
-          totalHeal={totalHeal && totalHeal.mean}
           raidAps={raidAps && raidAps.mean}
-          totalAbsorb={totalAbsorb && totalAbsorb.mean}
+          raidDps={report.sim.statistics.raid_dps.mean}
+          raidHps={raidHps && raidHps.mean}
           maxTime={report.sim.options.max_time}
+          players={report.sim.players}
           raidEvents={report.sim.raid_events}
+          totalAbsorb={totalAbsorb && totalAbsorb.mean}
+          totalDamage={report.sim.statistics.total_dmg.mean}
+          totalHeal={totalHeal && totalHeal.mean}
         />
 
         {report.sim.players.map(player => (
           <PlayerPanel
-            key={player.name}
             confidence={report.sim.options.confidence}
             confidenceEstimator={report.sim.options.confidence_estimator}
+            key={player.name}
             player={player}
           />
         ))}

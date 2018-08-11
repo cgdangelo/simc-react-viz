@@ -99,8 +99,11 @@ const RaidSummary = ({buildPriorityDpsChart, classes, maxTime, players, raidAps,
     const playersByPriorityDps = createSortedPlayerList(players, player => player.collected_data.prioritydps.mean)
 
     playersByPriorityDpsChart = <StackedActorChart
+      series={{
+        name: 'Priority DPS',
+        data: playersByPriorityDps
+      }}
       title='Priority Target Damage Per Second'
-      series={{name: 'Priority DPS', data: playersByPriorityDps}}
     />
   }
 
@@ -109,8 +112,12 @@ const RaidSummary = ({buildPriorityDpsChart, classes, maxTime, players, raidAps,
     player => (player.collected_data.executed_foreground_actions.mean / player.collected_data.fight_length.mean) * 60
   )
   const playersByApmChart = <StackedActorChart
+    series={{
+      name: 'APM',
+      data: playersByApm,
+      precision: 2
+    }}
     title='Actions per Minute'
-    series={{name: 'APM', data: playersByApm, precision: 2}}
   />
 
   const playersByDpsVariance = createSortedPlayerList(
@@ -118,8 +125,12 @@ const RaidSummary = ({buildPriorityDpsChart, classes, maxTime, players, raidAps,
     player => (player.collected_data.dps.std_dev / player.collected_data.dps.mean) * 100
   )
   const playersByDpsVarianceChart = <StackedActorChart
+    series={{
+      name: 'Variance (%)',
+      data: playersByDpsVariance,
+      precision: 2
+    }}
     title='DPS Variance Percentage'
-    series={{name: 'Variance (%)', data: playersByDpsVariance, precision: 2}}
   />
 
   const tanks = players.filter(player => player.role === 'tank')
@@ -127,12 +138,12 @@ const RaidSummary = ({buildPriorityDpsChart, classes, maxTime, players, raidAps,
   return (
     <ExpansionPanel defaultExpanded>
       <ExpansionPanelSummary
-        expandIcon={<ExpandMore />}
         classes={{content: classes.summaryContainer}}
+        expandIcon={<ExpandMore />}
       >
         <Typography
-          variant='title'
           className={classes.heading}
+          variant='title'
         >
           Raid Summary
         </Typography>

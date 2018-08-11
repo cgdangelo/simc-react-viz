@@ -9,7 +9,6 @@ const TankCharts = ({players}) => (
   <React.Fragment>
     <Grid item xs={4}>
       <StackedActorChart
-        title='Damage Taken per Second'
         series={{
           name: 'DTPS',
           data: createSortedPlayerList(
@@ -17,12 +16,12 @@ const TankCharts = ({players}) => (
             player => getFilledCollectedDataContainer(player, 'dmg_taken').mean / getFilledCollectedDataContainer(player, 'fight_length').mean
           )
         }}
+        title='Damage Taken per Second'
       />
     </Grid>
 
     <Grid item xs={4}>
       <StackedActorChart
-        title='Heal & Absorb per Second'
         series={{
           name: 'H&APS',
           data: createSortedPlayerList(
@@ -30,12 +29,12 @@ const TankCharts = ({players}) => (
             player => getFilledCollectedDataContainer(player, 'hps').mean + getFilledCollectedDataContainer(player, 'aps').mean
           )
         }}
+        title='Heal & Absorb per Second'
       />
     </Grid>
 
     <Grid item xs={4}>
       <StackedActorChart
-        title='Theck-Meloree Index'
         series={{
           name: 'TMI',
           data: createSortedPlayerList(
@@ -43,6 +42,7 @@ const TankCharts = ({players}) => (
             player => getFilledCollectedDataContainer(player, 'theck_meloree_index').mean
           )
         }}
+        title='Theck-Meloree Index'
       />
     </Grid>
   </React.Fragment>
