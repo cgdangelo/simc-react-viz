@@ -1,3 +1,4 @@
+/* eslint-disable sort-keys */
 import { decomposeColor, recomposeColor } from '@material-ui/core/styles/colorManipulator'
 
 export const classColorMap = {
