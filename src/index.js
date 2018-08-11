@@ -9,10 +9,11 @@ import App from './App'
 import highchartsConfig from './highcharts.config'
 import registerServiceWorker from './registerServiceWorker'
 
-Highcharts.setOptions(highchartsConfig)
 require('highcharts/highcharts-more')(Highcharts)
 require('highcharts/modules/xrange')(Highcharts)
 require('highcharts/modules/histogram-bellcurve')(Highcharts)
+
+Highcharts.setOptions(highchartsConfig)
 
 const theme = createMuiTheme({
   palette: {type: 'dark'},

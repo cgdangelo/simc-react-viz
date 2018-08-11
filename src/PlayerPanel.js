@@ -423,6 +423,17 @@ class PlayerPanel extends React.PureComponent {
                           <HighchartsReact
                             highcharts={Highcharts}
                             options={{
+                              series: [
+                                {
+                                  data: actionsByApet.map(action => ({
+                                    color: getColorBySchool(action.school),
+                                    name: action.name,
+                                    y: action.apet
+                                  })),
+                                  name: 'DPET',
+                                  type: 'bar'
+                                }
+                              ],
                               title: {
                                 text: 'Damage Per Execute Time'
                               },
@@ -433,18 +444,7 @@ class PlayerPanel extends React.PureComponent {
                                     return `<span style='color: ${getColorBySchool(actionsByApet[this.pos].school)}'>${this.value}</span>`
                                   }
                                 }
-                              },
-                              series: [
-                                {
-                                  type: 'bar',
-                                  name: 'DPET',
-                                  data: actionsByApet.map(action => ({
-                                    name: action.name,
-                                    y: action.apet,
-                                    color: getColorBySchool(action.school)
-                                  }))
-                                }
-                              ]
+                              }
                             }}
                           />
                         </Grid>
@@ -454,13 +454,8 @@ class PlayerPanel extends React.PureComponent {
                             <HighchartsReact
                               highcharts={Highcharts}
                               options={{
-                                title: {
-                                  text: 'Damage Sources'
-                                },
                                 series: [
                                   {
-                                    type: 'pie',
-                                    name: 'Damage',
                                     data: damageSources,
                                     dataLabels: {
                                       formatter () {
@@ -470,15 +465,18 @@ class PlayerPanel extends React.PureComponent {
                                           dataLabel = `<b>${this.series.data[this.point.x].source}</b><br />`
                                         }
 
-                                        dataLabel += `<span style='color: ${this.point.color}'>${this.point.name}</span><br />${numberFormat(
-                                          this.point.y,
-                                          1)}%`
+                                        dataLabel += `<span style='color: ${this.point.color}'>${this.point.name}</span><br />${numberFormat(this.point.y, 1)}%`
 
                                         return dataLabel
                                       }
-                                    }
+                                    },
+                                    name: 'Damage',
+                                    type: 'pie'
                                   }
-                                ]
+                                ],
+                                title: {
+                                  text: 'Damage Sources'
+                                }
                               }}
                             />
                           </Grid>
@@ -489,22 +487,21 @@ class PlayerPanel extends React.PureComponent {
                             <HighchartsReact
                               highcharts={Highcharts}
                               options={{
-                                title: {
-                                  text: 'Healing Sources'
-                                },
                                 series: [
                                   {
-                                    type: 'pie',
-                                    name: 'Healing',
                                     data: healingSources,
                                     dataLabels: {
                                       formatter () {
-                                        return `<span style='color: ${this.point.color}'>${this.point.name}</span><br />${numberFormat(this.point.y,
-                                          1)}%`
+                                        return `<span style='color: ${this.point.color}'>${this.point.name}</span><br />${numberFormat(this.point.y, 1)}%`
                                       }
-                                    }
+                                    },
+                                    name: 'Healing',
+                                    type: 'pie'
                                   }
-                                ]
+                                ],
+                                title: {
+                                  text: 'Healing Sources'
+                                }
                               }}
                             />
                           </Grid>
@@ -514,22 +511,21 @@ class PlayerPanel extends React.PureComponent {
                           <HighchartsReact
                             highcharts={Highcharts}
                             options={{
-                              title: {
-                                text: 'Spent Time'
-                              },
                               series: [
                                 {
-                                  type: 'pie',
-                                  name: 'Time',
                                   data: spentTime,
                                   dataLabels: {
                                     formatter () {
-                                      return `<span style='color: ${this.point.color}'>${this.point.name}</span><br />${numberFormat(this.point.y,
-                                        1)}s`
+                                      return `<span style='color: ${this.point.color}'>${this.point.name}</span><br />${numberFormat(this.point.y, 1)}s`
                                     }
-                                  }
+                                  },
+                                  name: 'Time',
+                                  type: 'pie'
                                 }
-                              ]
+                              ],
+                              title: {
+                                text: 'Spent Time'
+                              }
                             }}
                           />
                         </Grid>
@@ -544,18 +540,20 @@ class PlayerPanel extends React.PureComponent {
                                 chart: {
                                   zoomType: 'x'
                                 },
+                                series: [
+                                  {
+                                    color: getColorBySpecialization(player.specialization),
+                                    data: sma(getFilledCollectedDataContainer(player, 'timeline_dmg').data, 20, n => n).map((y, i) => [i * 1000, y]),
+                                    name: 'DPS',
+                                    type: 'areaspline'
+                                  }
+                                ],
                                 title: {
                                   text: 'Damage Per Second'
                                 },
                                 xAxis: {
                                   type: 'datetime',
                                   crosshair: true,
-                                  dateTimeLabelFormats: {
-                                    millisecond: '%M:%S',
-                                    second: '%M:%S',
-                                    minute: '%M:%S',
-                                    day: '%M:%S'
-                                  },
                                   labels: {
                                     style: {
                                       fontSize: null
@@ -566,36 +564,24 @@ class PlayerPanel extends React.PureComponent {
                                 yAxis: {
                                   plotLines: [
                                     {
+                                      color: lighten(getColorBySpecialization(player.specialization), 0.5),
                                       label: {
                                         align: 'right',
-                                        textAlign: 'right',
-                                        text: `Mean: ${numberFormat(dps.mean)}`,
                                         style: {
-                                          fontSize: '0.9rem',
-                                          fontWeight: 'bold',
                                           color: lighten(getColorBySpecialization(player.specialization), 0.5),
+                                          fontSize: '1rem',
+                                          fontWeight: 'bold',
                                           textShadow: '2px 2px 1px rgba(0, 0, 0, 1)'
-                                        }
+                                        },
+                                        text: `Mean: ${numberFormat(dps.mean)}`,
+                                        textAlign: 'right'
                                       },
-                                      color: lighten(getColorBySpecialization(player.specialization), 0.5),
                                       value: dps.mean,
                                       width: 1,
                                       zIndex: 5
                                     }
                                   ]
-                                },
-                                tooltip: {
-                                  xDateFormat: '%M:%S'
-                                },
-                                series: [
-                                  {
-                                    type: 'areaspline',
-                                    name: 'DPS',
-                                    color: getColorBySpecialization(player.specialization),
-                                    fillOpacity: 0.25,
-                                    data: sma(getFilledCollectedDataContainer(player, 'timeline_dmg').data, 20, n => n).map((y, i) => [i * 1000, y])
-                                  }
-                                ]
+                                }
                               }}
                             />
                           </Grid>
@@ -609,38 +595,27 @@ class PlayerPanel extends React.PureComponent {
                                 chart: {
                                   zoomType: 'x'
                                 },
+                                series: [
+                                  {
+                                    color: getColorByResource('health'),
+                                    data: sma(getFilledCollectedDataContainer(player, 'timeline_dmg_taken').data, 20, n => n).map((y, i) => [i * 1000, y]),
+                                    name: 'DTPS',
+                                    type: 'areaspline'
+                                  }
+                                ],
                                 title: {
                                   text: 'Damage Taken Per Second'
                                 },
                                 xAxis: {
                                   type: 'datetime',
                                   crosshair: true,
-                                  dateTimeLabelFormats: {
-                                    millisecond: '%M:%S',
-                                    second: '%M:%S',
-                                    minute: '%M:%S',
-                                    day: '%M:%S'
-                                  },
                                   labels: {
                                     style: {
                                       fontSize: null
                                     },
                                     y: null
                                   }
-                                },
-                                tooltip: {
-                                  xDateFormat: '%M:%S'
-                                },
-                                series: [
-                                  {
-                                    type: 'areaspline',
-                                    name: 'DTPS',
-                                    color: getColorByResource('health'),
-                                    fillOpacity: 0.25,
-                                    data: sma(getFilledCollectedDataContainer(player, 'timeline_dmg_taken').data, 20, n => n)
-                                      .map((y, i) => [i * 1000, y])
-                                  }
-                                ]
+                                }
                               }}
                             />
                           </Grid>
@@ -654,38 +629,27 @@ class PlayerPanel extends React.PureComponent {
                                 chart: {
                                   zoomType: 'x'
                                 },
+                                series: [
+                                  {
+                                    color: getColorByResource('health'),
+                                    data: sma(getFilledCollectedDataContainer(player, 'timeline_healing_taken').data, 20, n => n).map((y, i) => [i * 1000, y]),
+                                    name: 'HTPS',
+                                    type: 'areaspline'
+                                  }
+                                ],
                                 title: {
                                   text: 'Healing Taken Per Second'
                                 },
                                 xAxis: {
-                                  type: 'datetime',
                                   crosshair: true,
-                                  dateTimeLabelFormats: {
-                                    millisecond: '%M:%S',
-                                    second: '%M:%S',
-                                    minute: '%M:%S',
-                                    day: '%M:%S'
-                                  },
                                   labels: {
                                     style: {
                                       fontSize: null
                                     },
                                     y: null
-                                  }
-                                },
-                                tooltip: {
-                                  xDateFormat: '%M:%S'
-                                },
-                                series: [
-                                  {
-                                    type: 'areaspline',
-                                    name: 'HTPS',
-                                    color: getColorByResource('health'),
-                                    fillOpacity: 0.25,
-                                    data: sma(getFilledCollectedDataContainer(player, 'timeline_healing_taken').data, 20, n => n)
-                                      .map((y, i) => [i * 1000, y])
-                                  }
-                                ]
+                                  },
+                                  type: 'datetime'
+                                }
                               }}
                             />
                           </Grid>
@@ -696,51 +660,50 @@ class PlayerPanel extends React.PureComponent {
                             <HighchartsReact
                               highcharts={Highcharts}
                               options={{
+                                series: [
+                                  {
+                                    baseSeries: 's1',
+                                    color: getColorBySpecialization(player.specialization),
+                                    name: 'Iterations',
+                                    type: 'histogram',
+                                    xAxis: 1,
+                                    yAxis: 1
+                                  },
+                                  {
+                                    data: dps.data,
+                                    id: 's1',
+                                    name: 'DPS',
+                                    type: 'scatter'
+                                  }
+                                ],
                                 title: {
                                   text: 'DPS Distribution'
                                 },
                                 xAxis: [
                                   {
                                     labels: false,
-                                    alignTicks: false,
                                     opposite: true
                                   },
                                   {
-                                    title: {text: 'DPS'},
                                     labels: {
-                                      y: null,
                                       style: {
                                         fontSize: null
-                                      }
+                                      },
+                                      y: null
+                                    },
+                                    title: {
+                                      text: 'DPS'
                                     }
                                   }
                                 ],
                                 yAxis: [
-                                  {opposite: true},
-                                  {title: {text: 'Iterations'}}
-                                ],
-                                series: [
                                   {
-                                    type: 'histogram',
-                                    name: 'Iterations',
-                                    color: getColorBySpecialization(player.specialization),
-                                    baseSeries: 's1',
-                                    binsNumber: 50,
-                                    xAxis: 1,
-                                    yAxis: 1,
-                                    zIndex: -1,
-                                    tooltip: {
-                                      pointFormat: '{point.x:.0f} to {point.x2:.0f} DPS<br /><b>{series.name}</b>: {point.y}'
-                                    }
+                                    labels: false,
+                                    opposite: true
                                   },
                                   {
-                                    type: 'scatter',
-                                    name: 'DPS',
-                                    data: dps.data,
-                                    id: 's1',
-                                    enableMouseTracking: false,
-                                    marker: {
-                                      fillColor: 'transparent'
+                                    title: {
+                                      text: 'Iterations'
                                     }
                                   }
                                 ]
@@ -754,52 +717,50 @@ class PlayerPanel extends React.PureComponent {
                             <HighchartsReact
                               highcharts={Highcharts}
                               options={{
+                                series: [
+                                  {
+                                    baseSeries: 's1',
+                                    color: getColorByResource('health'),
+                                    name: 'Iterations',
+                                    type: 'histogram',
+                                    xAxis: 1,
+                                    yAxis: 1
+                                  },
+                                  {
+                                    data: hps.data,
+                                    id: 's1',
+                                    name: 'HPS',
+                                    type: 'scatter'
+                                  }
+                                ],
                                 title: {
                                   text: 'HPS Distribution'
                                 },
                                 xAxis: [
                                   {
                                     labels: false,
-                                    alignTicks: false,
                                     opposite: true
                                   },
                                   {
-                                    title: {text: 'HPS'},
                                     labels: {
-                                      y: null,
                                       style: {
                                         fontSize: null
-                                      }
+                                      },
+                                      y: null
+                                    },
+                                    title: {
+                                      text: 'HPS'
                                     }
                                   }
                                 ],
                                 yAxis: [
-                                  {opposite: true},
-                                  {title: {text: 'Iterations'}}
-                                ],
-                                series: [
                                   {
-                                    type: 'histogram',
-                                    name: 'Iterations',
-                                    borderColor: '#000',
-                                    color: getColorByResource('health'),
-                                    baseSeries: 's1',
-                                    binsNumber: 50,
-                                    xAxis: 1,
-                                    yAxis: 1,
-                                    zIndex: -1,
-                                    tooltip: {
-                                      pointFormat: '{point.x:.0f} to {point.x2:.0f} HPS<br /><b>{series.name}</b>: {point.y}'
-                                    }
+                                    labels: false,
+                                    opposite: true
                                   },
                                   {
-                                    type: 'scatter',
-                                    name: 'HPS',
-                                    data: hps.data,
-                                    id: 's1',
-                                    enableMouseTracking: false,
-                                    marker: {
-                                      fillColor: 'transparent'
+                                    title: {
+                                      text: 'Iterations'
                                     }
                                   }
                                 ]
