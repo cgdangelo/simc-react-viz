@@ -12,10 +12,10 @@ import PropTypes from 'prop-types'
 import * as React from 'react'
 
 const styles = theme => createStyles({
-  toolbar: theme.mixins.toolbar,
   drawerPaper: {
     width: 300
-  }
+  },
+  toolbar: theme.mixins.toolbar
 })
 
 @withStyles(styles)
@@ -24,18 +24,14 @@ class Navigation extends React.PureComponent {
     players: PropTypes.arrayOf(PropTypes.object)
   }
 
-  constructor () {
-    super()
+  constructor (props) {
+    super(props)
 
     this.state = {
-      raidSummary: false,
       actors: false,
-      actorGroup: {}
+      actorGroup: {},
+      raidSummary: false
     }
-  }
-
-  toggleNavigationSection (name) {
-    return () => this.setState(prevState => ({[name]: !prevState[name]}))
   }
 
   toggleActorSection (name) {
@@ -48,58 +44,67 @@ class Navigation extends React.PureComponent {
       }))
   }
 
+  toggleNavigationSection (name) {
+    return () => this.setState(prevState => ({[name]: !prevState[name]}))
+  }
+
   render () {
     const {classes, players} = this.props
 
     const playersNavigation = players.map(player => (
       <React.Fragment key={player.name}>
-        <ListItem dense button onClick={this.toggleActorSection(player.name)}>
+        <ListItem
+          button
+          dense
+          onClick={this.toggleActorSection(player.name)}
+        >
           <ListItemText primary={player.name} />
+
           {this.state.actorGroup[player.name] ? <ExpandLess /> : <ExpandMore />}
         </ListItem>
 
         <Collapse in={this.state.actorGroup[player.name]}>
           <List>
-            <ListItem dense button>
+            <ListItem button dense>
               <ListItemText primary='DPS Summary' />
             </ListItem>
-            <ListItem dense button>
+            <ListItem button dense>
               <ListItemText primary='Results, Spec and Gear' />
             </ListItem>
-            <ListItem dense button>
+            <ListItem button dense>
               <ListItemText primary='Charts' />
             </ListItem>
-            <ListItem dense button>
+            <ListItem button dense>
               <ListItemText primary='Abilities' />
             </ListItem>
-            <ListItem dense button>
+            <ListItem button dense>
               <ListItemText primary='Buffs' />
             </ListItem>
-            <ListItem dense button>
+            <ListItem button dense>
               <ListItemText primary='Procs' />
             </ListItem>
-            <ListItem dense button>
+            <ListItem button dense>
               <ListItemText primary='Resources' />
             </ListItem>
-            <ListItem dense button>
+            <ListItem button dense>
               <ListItemText primary='Benefits & Uptimes' />
             </ListItem>
-            <ListItem dense button>
+            <ListItem button dense>
               <ListItemText primary='Statistics & Data Analysis' />
             </ListItem>
-            <ListItem dense button>
+            <ListItem button dense>
               <ListItemText primary='Action Priority List' />
             </ListItem>
-            <ListItem dense button>
+            <ListItem button dense>
               <ListItemText primary='Stats' />
             </ListItem>
-            <ListItem dense button>
+            <ListItem button dense>
               <ListItemText primary='Gear' />
             </ListItem>
-            <ListItem dense button>
+            <ListItem button dense>
               <ListItemText primary='Talents' />
             </ListItem>
-            <ListItem dense button>
+            <ListItem button dense>
               <ListItemText primary='Profile' />
             </ListItem>
 
@@ -110,7 +115,11 @@ class Navigation extends React.PureComponent {
     ))
 
     return (
-      <Drawer open variant='permanent' classes={{paper: classes.drawerPaper}}>
+      <Drawer
+        open
+        classes={{paper: classes.drawerPaper}}
+        variant='permanent'
+      >
         <div className={classes.toolbar} />
 
         <List component='nav'>
@@ -121,8 +130,15 @@ class Navigation extends React.PureComponent {
             <ListItemText primary='Raid Summary' />
             {this.state.raidSummary ? <ExpandLess /> : <ExpandMore />}
           </ListItem>
-          <Collapse in={this.state.raidSummary} timeout='auto' unmountOnExit>
-            <List component='div' disablePadding>
+          <Collapse
+            unmountOnExit
+            in={this.state.raidSummary}
+            timeout='auto'
+          >
+            <List
+              disablePadding
+              component='div'
+            >
               <ListItem button dense>
                 <ListItemText primary='Damage per Second' />
               </ListItem>
@@ -144,12 +160,23 @@ class Navigation extends React.PureComponent {
             <Divider />
           </Collapse>
 
-          <ListItem button onClick={this.toggleNavigationSection('actors')}>
+          <ListItem
+            button
+            onClick={this.toggleNavigationSection('actors')}
+          >
             <ListItemText primary='Actors' />
+
             {this.state.actors ? <ExpandLess /> : <ExpandMore />}
           </ListItem>
-          <Collapse in={this.state.actors} timeout='auto' unmountOnExit>
-            <List component='div' disablePadding>
+          <Collapse
+            unmountOnExit
+            in={this.state.actors}
+            timeout='auto'
+          >
+            <List
+              disablePadding
+              component='div'
+            >
               {playersNavigation}
             </List>
 

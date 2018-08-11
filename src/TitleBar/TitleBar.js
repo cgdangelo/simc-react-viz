@@ -52,16 +52,16 @@ const TitleBar = (props) => {
     >
       <Toolbar>
         <Typography
-          variant='title'
           color='inherit'
+          variant='title'
         >
           SimulationCraft
 
           <Typography
-            variant='caption'
             style={{
               display: 'inline-block'
             }}
+            variant='caption'
           >
             {simcVersion} for {gameVersion} {wowVersion}.{buildLevel}
           </Typography>

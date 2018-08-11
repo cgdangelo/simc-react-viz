@@ -7,7 +7,9 @@ class App extends React.PureComponent {
   constructor (props) {
     super(props)
 
-    this.state = {reportData: null}
+    this.state = {
+      reportData: null
+    }
   }
 
   async componentDidMount () {
@@ -31,7 +33,10 @@ class App extends React.PureComponent {
           width: '100vw'
         }}
       >
-        <CircularProgress color='secondary' size={200} />
+        <CircularProgress
+          color='secondary'
+          size={200}
+        />
       </Grid>
     )
   }

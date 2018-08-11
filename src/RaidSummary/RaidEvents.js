@@ -40,6 +40,13 @@ const RaidEvents = ({maxTime, events}) => {
           height: events.length * 75,
           zoomType: 'x'
         },
+        series: [
+          {
+            data: chartData,
+            pointWidth: 20,
+            type: 'xrange'
+          }
+        ],
         title: {
           text: 'Raid Events'
         },
@@ -53,10 +60,10 @@ const RaidEvents = ({maxTime, events}) => {
 
             return `${start} - ${end}<hr /><h3>${this.yCategory}</h3><pre style='margin: 0'>${options}</pre>`
           },
+          outside: true,
           positioner () {
             return {x: this.chart.container.offsetLeft + 295, y: this.chart.container.offsetTop + 75}
           },
-          outside: true,
           useHTML: true,
           xDateFormat: '%M:%S'
         },
@@ -87,34 +94,27 @@ const RaidEvents = ({maxTime, events}) => {
               fontSize: '1rem'
             }
           }
-        },
-        series: [
-          {
-            type: 'xrange',
-            pointWidth: 20,
-            data: chartData
-          }
-        ]
+        }
       }}
     />
   )
 }
 
 RaidEvents.propTypes = {
-  maxTime: PropTypes.number.isRequired,
   events: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string,
-    type: PropTypes.string,
+    cooldown: PropTypes.number,
+    cooldown_max: PropTypes.number,
+    cooldown_min: PropTypes.number,
+    duration: PropTypes.number,
+    duration_max: PropTypes.number,
+    duration_min: PropTypes.number,
     first: PropTypes.number,
     last: PropTypes.number,
-    cooldown: PropTypes.number,
-    cooldown_min: PropTypes.number,
-    cooldown_max: PropTypes.number,
-    duration: PropTypes.number,
-    duration_min: PropTypes.number,
-    duration_max: PropTypes.number,
-    saved_duration: PropTypes.number
-  })).isRequired
+    name: PropTypes.string,
+    saved_duration: PropTypes.number,
+    type: PropTypes.string
+  })).isRequired,
+  maxTime: PropTypes.number.isRequired
 }
 
 export default RaidEvents

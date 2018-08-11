@@ -16,14 +16,15 @@ const styles = theme => createStyles({
 })
 
 const Report = ({report, classes}) => {
+  const {
+    raid_aps: raidAps,
+    raid_hps: raidHps,
+    total_absorb: totalAbsorb,
+    total_heal: totalHeal
+  } = report.sim.statistics
+
   const versionUsed = report.sim.options.dbc.version_used
   const gameData = report.sim.options.dbc[versionUsed]
-  const {
-    raid_hps: raidHps,
-    total_heal: totalHeal,
-    raid_aps: raidAps,
-    total_absorb: totalAbsorb
-  } = report.sim.statistics
 
   return (
     <React.Fragment>
@@ -48,12 +49,12 @@ const Report = ({report, classes}) => {
 
         <RaidSummary
           buildPriorityDpsChart={report.sim.targets.length > 1}
-          raidAps={raidAps && raidAps.mean}
-          raidDps={report.sim.statistics.raid_dps.mean}
-          raidHps={raidHps && raidHps.mean}
           maxTime={report.sim.options.max_time}
           players={report.sim.players}
+          raidAps={raidAps && raidAps.mean}
+          raidDps={report.sim.statistics.raid_dps.mean}
           raidEvents={report.sim.raid_events}
+          raidHps={raidHps && raidHps.mean}
           totalAbsorb={totalAbsorb && totalAbsorb.mean}
           totalDamage={report.sim.statistics.total_dmg.mean}
           totalHeal={totalHeal && totalHeal.mean}

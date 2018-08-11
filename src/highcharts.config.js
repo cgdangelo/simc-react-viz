@@ -14,17 +14,19 @@ export default {
     enabled: false
   },
   lang: {
-    thousandsSep: localeNumber.find(part => part.type === 'group').value,
-    decimalPoint: localeNumber.find(part => part.type === 'decimal').value
+    decimalPoint: localeNumber.find(part => part.type === 'decimal').value,
+    thousandsSep: localeNumber.find(part => part.type === 'group').value
   },
   legend: {
     enabled: false
   },
   plotOptions: {
+    /* eslint-disable sort-keys */
     series: {
       animation: false,
       turboThreshold: 2000
     },
+    /* eslint-enable sort-keys */
 
     areaspline: {
       fillOpacity: 0.25
@@ -47,9 +49,9 @@ export default {
       pointPadding: 0.075
     },
     boxplot: {
-      whiskerWidth: 1,
       medianWidth: 1,
-      pointWidth: 25
+      pointWidth: 25,
+      whiskerWidth: 1
     },
     histogram: {
       binsNumber: 50,
@@ -59,7 +61,6 @@ export default {
       }
     },
     pie: {
-      minSize: 150,
       center: ['50%', '50%'],
       dataLabels: {
         useHTML: true,
@@ -69,7 +70,8 @@ export default {
           fontWeight: 'normal',
           textOverflow: 'none'
         }
-      }
+      },
+      minSize: 150
     },
     scatter: {
       enableMouseTracking: false,
@@ -90,10 +92,10 @@ export default {
   },
   xAxis: {
     dateTimeLabelFormats: {
+      day: '%M:%S',
       millisecond: '%M:%S',
-      second: '%M:%S',
       minute: '%M:%S',
-      day: '%M:%S'
+      second: '%M:%S'
     },
     gridLineColor: 'transparent',
     labels: {

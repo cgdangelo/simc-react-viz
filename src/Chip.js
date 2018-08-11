@@ -20,7 +20,12 @@ const Chip = ({label, value, ...muiProps}) => {
     </Typography>
   )
 
-  return <MuiChip label={labelComponent} {...muiProps} />
+  return (
+    <MuiChip
+      {...muiProps}
+      label={labelComponent}
+    />
+  )
 }
 
 Chip.propTypes = {

@@ -28,16 +28,16 @@ import { getColorByResource, getColorBySchool, getColorBySpecialization, getPrim
 const {numberFormat} = Highcharts
 
 const emptySampleData = {
-  min: 0,
+  data: [],
+  distribution: [],
   max: 0,
   mean: 0,
-  median: 0,
-  data: [],
-  variance: 0,
-  std_dev: 0,
-  mean_variance: 0,
   mean_std_dev: 0,
-  distribution: []
+  mean_variance: 0,
+  median: 0,
+  min: 0,
+  std_dev: 0,
+  variance: 0
 }
 
 export const getFilledCollectedDataContainer = (player, collectionPath) => {
@@ -85,21 +85,21 @@ const getChangedResourceNames = (player) => {
 }
 
 const styles = theme => createStyles({
-  summaryContainer: {
-    alignItems: 'center',
-    margin: '0 !important'
-  },
   heading: {
     flexBasis: '25%',
     flexShrink: 0
+  },
+  paddedPaper: {
+    width: '100%'
   },
   talentStep: {
     color: `${grey[900]} !important`,
     marginBottom: theme.spacing.unit,
     transform: 'scale(2.0)'
   },
-  paddedPaper: {
-    width: '100%'
+  summaryContainer: {
+    alignItems: 'center',
+    margin: '0 !important'
   }
 })
 
@@ -121,7 +121,12 @@ class PlayerPanel extends React.PureComponent {
   }
 
   render () {
-    const {classes, confidence, confidenceEstimator, player} = this.props
+    const {
+      classes,
+      confidence,
+      confidenceEstimator,
+      player
+    } = this.props
 
     const fightLength = getFilledCollectedDataContainer(player, 'fight_length')
 
@@ -146,6 +151,7 @@ class PlayerPanel extends React.PureComponent {
     const msa = getFilledCollectedDataContainer(player, 'max_spike_amount')
 
     const actionsByApet = player.stats.filter(action => !action.pet && action.apet > 0)
+
     actionsByApet.sort((a, b) => b.apet - a.apet)
 
     const damageSources = player.stats
@@ -210,14 +216,8 @@ class PlayerPanel extends React.PureComponent {
 
         {(this.state.expanded || this.state.rendered) && (
           <ExpansionPanelDetails>
-            <Grid
-              container
-              spacing={24}
-            >
-              <Grid
-                item
-                xs={6}
-              >
+            <Grid container spacing={24}>
+              <Grid item xs={6}>
                 <Paper>
                   <Table>
                     <TableHead>
@@ -266,10 +266,7 @@ class PlayerPanel extends React.PureComponent {
                 </Paper>
               </Grid>
 
-              <Grid
-                item
-                xs={6}
-              >
+              <Grid item xs={6}>
                 <Paper>
                   <Table>
                     <TableHead>
@@ -316,10 +313,7 @@ class PlayerPanel extends React.PureComponent {
                         </TableCell>
 
                         {getChangedResourceNames(player).map(resourceName => (
-                          <TableCell
-                            numeric
-                            key={resourceName}
-                          >
+                          <TableCell numeric key={resourceName}>
                             {resourceName}
                           </TableCell>
                         ))}
@@ -330,10 +324,7 @@ class PlayerPanel extends React.PureComponent {
                         <TableCell>Spent Per Second</TableCell>
 
                         {getChangedResourceNames(player).map(resourceName => (
-                          <TableCell
-                            numeric
-                            key={resourceName}
-                          >
+                          <TableCell numeric key={resourceName}>
                             {numberFormat(getFilledCollectedDataContainer(player, `resource_lost.${resourceName}`).mean / fightLength.mean)}
                           </TableCell>
                         ))}
@@ -343,10 +334,7 @@ class PlayerPanel extends React.PureComponent {
                         <TableCell>Generated Per Second</TableCell>
 
                         {getChangedResourceNames(player).map(resourceName => (
-                          <TableCell
-                            numeric
-                            key={resourceName}
-                          >
+                          <TableCell numeric key={resourceName}>
                             {numberFormat(getFilledCollectedDataContainer(player, `resource_gained.${resourceName}`).mean / fightLength.mean)}
                           </TableCell>
                         ))}
@@ -419,12 +407,12 @@ class PlayerPanel extends React.PureComponent {
                           key={talent.tier}
                         >
                           <StepLabel
-                            icon={getTalentTierLevel(talent.tier)}
                             StepIconProps={{
                               classes: {
                                 root: classes.talentStep
                               }
                             }}
+                            icon={getTalentTierLevel(talent.tier)}
                           >
                             {talent.name}
                           </StepLabel>

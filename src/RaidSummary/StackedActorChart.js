@@ -3,11 +3,21 @@ import HighchartsReact from 'highcharts-react-official'
 import PropTypes from 'prop-types'
 import * as React from 'react'
 
-export const StackedActorChart = ({title, series: {name, data, precision}}) => {
+export const StackedActorChart = ({series: {data, name, precision}, title}) => {
   const chartOptions = {
     chart: {
       height: Math.max(data.length * 50, 300)
     },
+    series: [
+      {
+        data,
+        dataLabels: {
+          format: `{point.y:,.${precision || 0}f}`
+        },
+        name,
+        type: 'bar'
+      }
+    ],
     title: {
       text: title
     },
@@ -18,20 +28,15 @@ export const StackedActorChart = ({title, series: {name, data, precision}}) => {
           return `<span style='color: ${data[this.pos].color}'>${this.value}</span>`
         }
       }
-    },
-    series: [
-      {
-        type: 'bar',
-        name,
-        data,
-        dataLabels: {
-          format: `{point.y:,.${precision || 0}f}`
-        }
-      }
-    ]
+    }
   }
 
-  return <HighchartsReact highcharts={Highcharts} options={chartOptions} />
+  return (
+    <HighchartsReact
+      highcharts={Highcharts}
+      options={chartOptions}
+    />
+  )
 }
 
 StackedActorChart.propTypes = {

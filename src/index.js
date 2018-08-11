@@ -16,13 +16,15 @@ require('highcharts/modules/histogram-bellcurve')(Highcharts)
 Highcharts.setOptions(highchartsConfig)
 
 const theme = createMuiTheme({
-  palette: {type: 'dark'},
   overrides: {
     MuiTableHead: {
       root: {
         backgroundColor: grey[900]
       }
     }
+  },
+  palette: {
+    type: 'dark'
   },
   props: {
     MuiExpansionPanel: {
@@ -34,12 +36,11 @@ const theme = createMuiTheme({
   }
 })
 
-ReactDOM.render(
+ReactDOM.render((
   <MuiThemeProvider theme={theme}>
     <CssBaseline />
     <App />
-  </MuiThemeProvider>,
-  document.getElementById('root')
-)
+  </MuiThemeProvider>
+), document.getElementById('root'))
 
 registerServiceWorker()
