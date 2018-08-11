@@ -115,8 +115,8 @@ class PlayerPanel extends React.PureComponent {
     super(props)
 
     this.state = {
-      expanded: false,
-      rendered: false
+      expanded: true,
+      rendered: true
     }
   }
 
@@ -186,8 +186,18 @@ class PlayerPanel extends React.PureComponent {
       color: '#fff'
     })
 
+    const playerDamageActions = player.stats.filter(action => (
+      action.type === 'damage' &&
+      !action.pet &&
+      action.actual_amount &&
+      action.actual_amount.mean > 0
+    ))
+
+    playerDamageActions.sort((a, b) => b.name - a.name)
+
     return (
       <ExpansionPanel
+        defaultExpanded
         key={player.name}
         onChange={this.setLazyRenderState}
       >
@@ -793,6 +803,99 @@ class PlayerPanel extends React.PureComponent {
                         )}
                       </Grid>
                     </Grid>
+                  </ExpansionPanelDetails>
+                </ExpansionPanel>
+              </Grid>
+
+              <Grid item xs={12}>
+                <ExpansionPanel defaultExpanded>
+                  <ExpansionPanelSummary
+                    classes={{content: classes.summaryContainer}}
+                    expandIcon={<ExpandMore />}
+                  >
+                    <Typography variant='title'>Abilities</Typography>
+                  </ExpansionPanelSummary>
+                  <ExpansionPanelDetails>
+                    <Table>
+                      <TableHead>
+                        <TableRow>
+                          <TableCell padding='dense'>Damage Stats</TableCell>
+                          <TableCell padding='dense'>Type</TableCell>
+                          <TableCell numeric padding='dense'>DPS</TableCell>
+                          <TableCell numeric padding='dense'>DPS %</TableCell>
+                          <TableCell numeric padding='dense'>Execute</TableCell>
+                          <TableCell numeric padding='dense'>Interval</TableCell>
+                          <TableCell numeric padding='dense'>DPE</TableCell>
+                          <TableCell numeric padding='dense'>DPET</TableCell>
+                          <TableCell numeric padding='dense'>Count</TableCell>
+                          <TableCell numeric padding='dense'>Hit</TableCell>
+                          <TableCell numeric padding='dense'>Crit</TableCell>
+                          <TableCell numeric padding='dense'>Avg</TableCell>
+                          <TableCell numeric padding='dense'>Crit%</TableCell>
+                          <TableCell numeric padding='dense'>B%</TableCell>
+                          <TableCell numeric padding='dense'>Up%</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {playerDamageActions.map(action => {
+                          const damageType = !action.tick_results || action.tick_results.mean === 0 ? 'Direct' : 'Periodic'
+                          const damageCount = (
+                            damageType === 'Direct'
+                              ? action.num_direct_results && action.num_direct_results.mean
+                              : action.num_tick_results && action.num_tick_results.mean
+                          ) || 0
+                          const damageResults = action.tick_results || action.direct_results
+
+                          return (
+                            <TableRow key={action.name}>
+                              <TableCell padding='dense'>{action.name}</TableCell>
+                              <TableCell padding='dense'>
+                                {damageType}
+                              </TableCell>
+                              <TableCell numeric padding='dense'>
+                                {numberFormat(action.actual_amount.mean / fightLength.mean)}
+                              </TableCell>
+                              <TableCell numeric padding='dense'>
+                                {numberFormat(action.portion_amount * 100)}%
+                              </TableCell>
+                              <TableCell numeric padding='dense'>
+                                {numberFormat(action.num_executes.mean)}
+                              </TableCell>
+                              <TableCell numeric padding='dense'>
+                                {numberFormat((action.total_intervals || {}).mean)}s
+                              </TableCell>
+                              <TableCell numeric padding='dense'>
+                                {numberFormat(action.actual_amount.mean / action.num_executes.mean)}
+                              </TableCell>
+                              <TableCell numeric padding='dense'>
+                                {numberFormat(action.apet)}
+                              </TableCell>
+                              <TableCell numeric padding='dense'>
+                                {numberFormat(damageCount)}
+                              </TableCell>
+                              <TableCell numeric padding='dense'>
+                                {numberFormat(damageResults && damageResults.hit && damageResults.hit.avg_actual_amount.mean)}
+                              </TableCell>
+                              <TableCell numeric padding='dense'>
+                                {numberFormat(damageResults && damageResults.crit && damageResults.crit.avg_actual_amount.mean)}
+                              </TableCell>
+                              <TableCell numeric padding='dense'>
+                                {numberFormat(damageResults && damageResults.hit && damageResults.hit.avg_actual_amount.sum / action.num_executes.count)}
+                              </TableCell>
+                              <TableCell numeric padding='dense'>
+                                {numberFormat(damageResults && damageResults.crit && damageResults.crit.pct)}%
+                              </TableCell>
+                              <TableCell numeric padding='dense'>
+                                {numberFormat(damageResults && damageResults['hit (blocked)'] && damageResults['hit (blocked)'].pct)}%
+                              </TableCell>
+                              <TableCell numeric padding='dense'>
+                                {(damageType === 'Periodic' && `${numberFormat(action.total_tick_time && action.total_tick_time.mean / fightLength.mean * 100)}%`) || 'N/A'}
+                              </TableCell>
+                            </TableRow>
+                          )
+                        })}
+                      </TableBody>
+                    </Table>
                   </ExpansionPanelDetails>
                 </ExpansionPanel>
               </Grid>
