@@ -21,8 +21,7 @@ const styles = theme => createStyles({
 class AbilitiesTable extends React.PureComponent {
   static propTypes = {
     actions: PropTypes.arrayOf(PropTypes.object).isRequired,
-    fightLength: PropTypes.number.isRequired,
-    playerName: PropTypes.string.isRequired
+    fightLength: PropTypes.number.isRequired
   }
 
   constructor () {
@@ -35,7 +34,7 @@ class AbilitiesTable extends React.PureComponent {
   }
 
   render () {
-    const {actions, classes, fightLength, playerName} = this.props
+    const {actions, classes, fightLength} = this.props
 
     const damageActions = actions.filter(action => action.type === 'damage' && action.actual_amount && action.actual_amount.mean > 0)
 
@@ -57,12 +56,11 @@ class AbilitiesTable extends React.PureComponent {
     const damageActionsMap = new Map()
 
     damageActions.forEach(action => {
-      const source = action.pet ? action.source.slice(playerName.length + 1) : action.source
-      const actions = damageActionsMap.get(source) || []
+      const actions = damageActionsMap.get(action.source) || []
 
       actions.push(action)
 
-      damageActionsMap.set(source, actions)
+      damageActionsMap.set(action.source, actions)
     })
 
     return (
