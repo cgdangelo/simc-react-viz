@@ -22,8 +22,8 @@ import HighchartsReact from 'highcharts-react-official'
 import PropTypes from 'prop-types'
 import * as React from 'react'
 import * as sma from 'sma'
-import ChipMetrics from './ChipMetrics'
-import { getColorByResource, getColorBySchool, getColorBySpecialization, getPrimaryResourceBySpecialization, getTalentTierLevel } from './util'
+import ChipMetrics from '../ChipMetrics'
+import { getColorByResource, getColorBySchool, getColorBySpecialization, getPrimaryResourceBySpecialization, getTalentTierLevel } from '../util'
 
 const {numberFormat} = Highcharts
 

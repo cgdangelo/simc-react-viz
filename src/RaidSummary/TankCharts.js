@@ -1,7 +1,7 @@
 import Grid from '@material-ui/core/Grid'
 import PropTypes from 'prop-types'
 import * as React from 'react'
-import { getFilledCollectedDataContainer } from '../PlayerPanel'
+import { getFilledCollectedDataContainer } from '../PlayerPanel/PlayerPanel'
 import { createSortedPlayerList } from './RaidSummary'
 import StackedActorChart from './StackedActorChart'
 
