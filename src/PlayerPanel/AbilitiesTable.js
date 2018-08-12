@@ -53,11 +53,7 @@ class AbilitiesTable extends React.PureComponent {
       .filter(action => action.type === actionType && action.actual_amount && action.actual_amount.mean > 0)
       .map(action => {
         const damageType = !action.tick_results || action.tick_results.mean === 0 ? 'Direct' : 'Periodic'
-        const damageCount = (
-          damageType === 'Direct'
-            ? action.num_direct_results && action.num_direct_results.mean
-            : action.num_tick_results && action.num_tick_results.mean
-        ) || 0
+        const damageCount = (damageType === 'Direct' ? action.num_direct_results.mean : action.num_tick_results.mean) || 0
         const damageResults = action.tick_results || action.direct_results
 
         return {
@@ -80,22 +76,6 @@ class AbilitiesTable extends React.PureComponent {
         }
       })
 
-    damageActions.sort((a, b) => {
-      if (a.pet === b.pet) {
-        if (a.source === b.source) {
-          if (['name', 'type'].indexOf(sortKey) !== -1) {
-            return sortAsc ? a[sortKey].localeCompare(b[sortKey]) : b[sortKey].localeCompare(a[sortKey])
-          } else {
-            return sortAsc ? a[sortKey] - b[sortKey] : b[sortKey] - a[sortKey]
-          }
-        } else {
-          return b.source - a.source
-        }
-      } else {
-        return a.pet - b.pet
-      }
-    })
-
     const damageActionsMap = new Map()
 
     damageActions.forEach(action => {
@@ -105,6 +85,20 @@ class AbilitiesTable extends React.PureComponent {
 
       damageActionsMap.set(action.source, actions)
     })
+
+    for (const key of damageActionsMap.keys()) {
+      const actions = damageActionsMap.get(key)
+
+      actions.sort((a, b) => {
+        if (['name', 'type'].indexOf(sortKey) !== -1) {
+          return sortAsc ? a[sortKey].localeCompare(b[sortKey]) : b[sortKey].localeCompare(a[sortKey])
+        } else {
+          return sortAsc ? a[sortKey] - b[sortKey] : b[sortKey] - a[sortKey]
+        }
+      })
+
+      damageActionsMap.set(key, actions)
+    }
 
     /* eslint-disable sort-keys */
     const abilityColumns = [
