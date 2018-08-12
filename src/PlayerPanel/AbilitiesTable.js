@@ -83,7 +83,8 @@ class AbilitiesTable extends React.PureComponent {
     damageActions.sort((a, b) => {
       if (a.pet === b.pet) {
         if (a.source === b.source) {
-          if (a.name === b.name) {
+          if (['name', 'type'].indexOf(sortKey) !== -1) {
+            return sortAsc ? a[sortKey].localeCompare(b[sortKey]) : b[sortKey].localeCompare(a[sortKey])
           } else {
             return sortAsc ? a[sortKey] - b[sortKey] : b[sortKey] - a[sortKey]
           }
