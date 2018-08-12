@@ -112,8 +112,8 @@ class PlayerPanel extends React.PureComponent {
     }))
   }
 
-  constructor (props) {
-    super(props)
+  constructor () {
+    super()
 
     this.state = {
       expanded: false,
@@ -189,6 +189,7 @@ class PlayerPanel extends React.PureComponent {
 
     return (
       <ExpansionPanel
+        defaultExpanded={this.state.expanded}
         key={player.name}
         onChange={this.setLazyRenderState}
       >
