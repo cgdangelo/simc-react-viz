@@ -1,18 +1,13 @@
-/* tslint:disable jsx-no-multiline-js */
 import createStyles from '@material-ui/core/styles/createStyles'
 import withStyles from '@material-ui/core/styles/withStyles'
 import PropTypes from 'prop-types'
 import * as React from 'react'
-import Navigation from './Navigation'
 import PlayerPanel from './PlayerPanel'
 import RaidSummary from './RaidSummary'
 import TitleBar from './TitleBar'
 
 const styles = theme => createStyles({
-  toolbar: theme.mixins.toolbar,
-  content: {
-    marginLeft: 300
-  }
+  toolbar: theme.mixins.toolbar
 })
 
 const Report = ({report, classes}) => {
@@ -41,8 +36,6 @@ const Report = ({report, classes}) => {
         varyCombatLength={report.sim.options.vary_combat_length}
         wowVersion={gameData.wow_version}
       />
-
-      <Navigation players={report.sim.players} />
 
       <main className={classes.content}>
         <div className={classes.toolbar} />
