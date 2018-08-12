@@ -71,11 +71,11 @@ class AbilitiesTable extends React.PureComponent {
           dpe: action.actual_amount.mean / action.num_executes.mean,
           dpet: action.apet,
           count: damageCount,
-          hit: damageResults && damageResults.hit && damageResults.hit.avg_actual_amount.mean,
-          crit: damageResults && damageResults.crit && damageResults.crit.avg_actual_amount.mean,
-          avgHit: damageResults && damageResults.hit && damageResults.hit.avg_actual_amount.sum / action.num_executes.count,
-          critPct: damageResults && damageResults.crit && damageResults.crit.pct,
-          blockPct: damageResults && damageResults['hit (blocked)'] && damageResults['hit (blocked)'].pct,
+          hit: (damageResults && damageResults.hit && damageResults.hit.avg_actual_amount.mean) || 0,
+          crit: (damageResults && damageResults.crit && damageResults.crit.avg_actual_amount.mean) || 0,
+          avgHit: (damageResults && damageResults.hit && damageResults.hit.avg_actual_amount.sum / action.num_executes.count) || 0,
+          critPct: (damageResults && damageResults.crit && damageResults.crit.pct) || 0,
+          blockPct: (damageResults && damageResults['hit (blocked)'] && damageResults['hit (blocked)'].pct) || 0,
           uptimePct: damageType === 'Periodic' ? action.total_tick_time && action.total_tick_time.mean / fightLength * 100 : 0
         }
       })
