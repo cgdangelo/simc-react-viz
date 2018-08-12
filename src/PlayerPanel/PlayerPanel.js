@@ -809,9 +809,9 @@ class PlayerPanel extends React.PureComponent {
                   </ExpansionPanelSummary>
                   <ExpansionPanelDetails>
                     <AbilitiesTable
+                      actionType='damage'
                       actions={player.stats}
                       fightLength={fightLength.mean}
-                      playerName={player.name}
                     />
                   </ExpansionPanelDetails>
                 </ExpansionPanel>

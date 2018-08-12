@@ -21,6 +21,7 @@ const styles = theme => createStyles({
 @withStyles(styles)
 class AbilitiesTable extends React.PureComponent {
   static propTypes = {
+    actionType: PropTypes.oneOf('absorb', 'damage', 'healing').isRequired,
     actions: PropTypes.arrayOf(PropTypes.object).isRequired,
     fightLength: PropTypes.number.isRequired
   }
@@ -45,11 +46,11 @@ class AbilitiesTable extends React.PureComponent {
   }
 
   render () {
-    const {actions, classes, fightLength} = this.props
+    const {actions, actionType, classes, fightLength} = this.props
     const {sortAsc, sortKey} = this.state
 
     const damageActions = actions
-      .filter(action => action.type === 'damage' && action.actual_amount && action.actual_amount.mean > 0)
+      .filter(action => action.type === actionType && action.actual_amount && action.actual_amount.mean > 0)
       .map(action => {
         const damageType = !action.tick_results || action.tick_results.mean === 0 ? 'Direct' : 'Periodic'
         const damageCount = (
