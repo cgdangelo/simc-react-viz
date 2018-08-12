@@ -106,23 +106,25 @@ class AbilitiesTable extends React.PureComponent {
       damageActionsMap.set(action.source, actions)
     })
 
+    /* eslint-disable sort-keys */
     const abilityColumns = [
       {key: 'name', label: 'Name', text: true},
       {key: 'type', label: 'Type', text: true},
       {key: 'dps', label: 'DPS'},
-      {key: 'dpsPct', label: 'DPS %'},
+      {key: 'dpsPct', label: 'DPS %', valueSuffix: '%'},
       {key: 'execute', label: 'Execute'},
-      {key: 'interval', label: 'Interval'},
+      {key: 'interval', label: 'Interval', valueSuffix: 's'},
       {key: 'dpe', label: 'DPE'},
       {key: 'dpet', label: 'DPET'},
       {key: 'count', label: 'Count'},
       {key: 'hit', label: 'Hit'},
       {key: 'crit', label: 'Crit'},
       {key: 'avgHit', label: 'Avg'},
-      {key: 'critPct', label: 'Crit%'},
-      {key: 'blockPct', label: 'B%'},
-      {key: 'uptimePct', label: 'Up%'}
+      {key: 'critPct', label: 'Crit%', valueSuffix: '%'},
+      {key: 'blockPct', label: 'B%', valueSuffix: '%'},
+      {key: 'uptimePct', label: 'Up%', valueSuffix: '%'}
     ]
+    /* eslint-enable sort-keys */
 
     return (
       <Paper style={{overflowX: 'auto', width: '100%'}}>
@@ -172,6 +174,7 @@ class AbilitiesTable extends React.PureComponent {
                           padding='dense'
                         >
                           {!column.text ? numberFormat(actionColumns[i + 1]) : actionColumns[i + 1]}
+                          {column.valueSuffix}
                         </TableCell>
                       ))}
                     </TableRow>
