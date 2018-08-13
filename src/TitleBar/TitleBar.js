@@ -1,6 +1,5 @@
 import AppBar from '@material-ui/core/AppBar'
 import Grid from '@material-ui/core/Grid'
-import withStyles from '@material-ui/core/styles/withStyles'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import { numberFormat } from 'highcharts'
@@ -101,4 +100,4 @@ TitleBar.propTypes = {
   wowVersion: PropTypes.string.isRequired
 }
 
-export default withStyles(styles)(TitleBar)
+export default TitleBar
