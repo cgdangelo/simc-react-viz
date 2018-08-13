@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import * as React from 'react'
-import SortableTable from './SortableTable'
+import SortableGroupedDataTable from './SortableGroupedDataTable'
 
 class AbilitiesTable extends React.PureComponent {
   static propTypes = {
@@ -60,7 +60,7 @@ class AbilitiesTable extends React.PureComponent {
     /* eslint-enable sort-keys */
 
     return (
-      <SortableTable
+      <SortableGroupedDataTable
         columns={abilityColumns}
         data={metricActions}
         title={`${actionType} Actions`}

@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import SortableTable from './SortableTable'
+import SortableGroupedDataTable from './SortableGroupedDataTable'
 
 const BuffsTable = ({buffs, playerName, title}) => (
-  <SortableTable
+  <SortableGroupedDataTable
     columns={[
       {key: 'name', label: 'Name', text: true},
       {key: 'start', label: 'Start'},

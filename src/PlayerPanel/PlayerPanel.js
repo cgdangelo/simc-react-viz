@@ -26,7 +26,7 @@ import ChipMetrics from '../ChipMetrics'
 import { getColorByResource, getColorBySchool, getColorBySpecialization, getPrimaryResourceBySpecialization, getTalentTierLevel } from '../util'
 import AbilitiesTable from './AbilitiesTable'
 import BuffsTable from './BuffsTable'
-import SortableTable from './SortableTable'
+import SortableGroupedDataTable from './SortableGroupedDataTable'
 
 const {numberFormat} = Highcharts
 
@@ -875,7 +875,7 @@ class PlayerPanel extends React.PureComponent {
                       <Typography variant='title'>Procs</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
-                      <SortableTable
+                      <SortableGroupedDataTable
                         columns={[
                           {key: 'name', label: 'Name', text: true},
                           {key: 'count', label: 'Count'},

@@ -27,7 +27,7 @@ const styles = theme => createStyles({
 })
 
 @withStyles(styles)
-class SortableTable extends React.PureComponent {
+class SortableGroupedDataTable extends React.PureComponent {
   static propTypes = {
     columns: PropTypes.array.isRequired,
     data: PropTypes.array.isRequired,
@@ -160,4 +160,4 @@ class SortableTable extends React.PureComponent {
   }
 }
 
-export default SortableTable
+export default SortableGroupedDataTable
