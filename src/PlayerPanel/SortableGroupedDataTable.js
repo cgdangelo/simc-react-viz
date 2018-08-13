@@ -157,7 +157,7 @@ class SortableGroupedDataTable extends React.PureComponent {
                   const actionColumns = Object.values(action)
 
                   return (
-                    <TableRow key={`${action.source}_${action.name}`}>
+                    <TableRow hover key={`${action.source}_${action.name}`}>
                       {columns.map((column, i) => (
                         <TableCell
                           key={`${action.name}_${column.key}`}
