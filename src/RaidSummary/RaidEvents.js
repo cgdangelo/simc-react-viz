@@ -1,4 +1,3 @@
-/* eslint-disable */
 import grey from '@material-ui/core/colors/grey'
 import * as Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
