@@ -59,6 +59,7 @@ const Report = ({report, classes}) => {
             confidenceEstimator={report.sim.options.confidence_estimator}
             key={player.name}
             player={player}
+            raidBuffs={report.sim.sim_auras || []}
           />
         ))}
       </main>

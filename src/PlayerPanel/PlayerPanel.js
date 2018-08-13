@@ -25,7 +25,7 @@ import * as sma from 'sma'
 import ChipMetrics from '../ChipMetrics'
 import { getColorByResource, getColorBySchool, getColorBySpecialization, getPrimaryResourceBySpecialization, getTalentTierLevel } from '../util'
 import AbilitiesTable from './AbilitiesTable'
-import SortableTable from './SortableTable'
+import BuffsTable from './BuffsTable'
 
 const {numberFormat} = Highcharts
 
@@ -127,7 +127,8 @@ class PlayerPanel extends React.PureComponent {
       classes,
       confidence,
       confidenceEstimator,
-      player
+      player,
+      raidBuffs
     } = this.props
 
     const fightLength = getFilledCollectedDataContainer(player, 'fight_length')
@@ -849,32 +850,17 @@ class PlayerPanel extends React.PureComponent {
                   <ExpansionPanelDetails>
                     <Grid container spacing={24}>
                       <Grid item xs={12}>
-                        <SortableTable
-                          columns={[
-                            {key: 'name', label: 'Name', text: true},
-                            {key: 'start', label: 'Start'},
-                            {key: 'refresh', label: 'Refresh'},
-                            {key: 'interval', label: 'Interval', valueSuffix: 's'},
-                            {key: 'trigger', label: 'Trigger', valueSuffix: 's'},
-                            {key: 'uptime', label: 'Uptime', valueSuffix: '%'},
-                            {key: 'benefit', label: 'Benefit', valueSuffix: '%'},
-                            {key: 'overflow', label: 'Overflow'},
-                            {key: 'expiry', label: 'Expiry'}
-                          ]}
-                          data={player.buffs.map(buff => {
-                            return {
-                              source: buff.source,
-                              name: buff.name,
-                              start: buff.start_count || 0,
-                              refresh: buff.refresh_count || 0,
-                              interval: buff.interval || 0,
-                              trigger: buff.trigger || 0,
-                              uptime: buff.uptime || 0,
-                              benefit: buff.benefit || 0,
-                              overflow: buff.overflow_total || 0,
-                              expiry: buff.expire_count || 0
-                            }
-                          })}
+                        <BuffsTable
+                          buffs={player.buffs}
+                          playerName={player.name}
+                          title='Dynamic Buffs'
+                        />
+                      </Grid>
+
+                      <Grid item xs={12}>
+                        <BuffsTable
+                          buffs={raidBuffs}
+                          playerName={player.name}
                           title='Dynamic Buffs'
                         />
                       </Grid>
@@ -893,7 +879,8 @@ class PlayerPanel extends React.PureComponent {
 PlayerPanel.propTypes = {
   confidence: PropTypes.number.isRequired,
   confidenceEstimator: PropTypes.number.isRequired,
-  player: PropTypes.object.isRequired
+  player: PropTypes.object.isRequired,
+  raidBuffs: PropTypes.array.isRequired
 }
 
 export default withStyles(styles)(PlayerPanel)
