@@ -9,12 +9,6 @@ import PropTypes from 'prop-types'
 import * as React from 'react'
 import ChipOptions from './ChipOptions'
 
-const styles = theme => createStyles({
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1
-  }
-})
-
 const buildFightLengthString = (maxTime, varyCombatLength) => {
   const minFightLength = maxTime * (1 - varyCombatLength)
   const maxFightLength = maxTime * (1 + varyCombatLength)
@@ -27,6 +21,12 @@ const buildFightLengthString = (maxTime, varyCombatLength) => {
 
   return fightLength
 }
+
+const styles = theme => createStyles({
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1
+  }
+})
 
 const TitleBar = (props) => {
   const {
