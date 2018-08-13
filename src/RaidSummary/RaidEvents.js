@@ -61,7 +61,7 @@ const RaidEvents = ({maxTime, events}) => {
           },
           outside: true,
           positioner () {
-            return {x: this.chart.container.offsetLeft + 295, y: this.chart.container.offsetTop + 75}
+            return {x: this.chart.container.offsetLeft - 5, y: this.chart.container.offsetTop + 75}
           },
           useHTML: true,
           xDateFormat: '%M:%S'
