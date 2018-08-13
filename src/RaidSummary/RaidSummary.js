@@ -7,8 +7,6 @@ import createStyles from '@material-ui/core/styles/createStyles'
 import withStyles from '@material-ui/core/styles/withStyles'
 import Typography from '@material-ui/core/Typography'
 import ExpandMore from '@material-ui/icons/ExpandMore'
-import * as Highcharts from 'highcharts'
-import HighchartsReact from 'highcharts-react-official'
 import PropTypes from 'prop-types'
 import * as React from 'react'
 import ChipMetrics from '../ChipMetrics'
@@ -28,6 +26,11 @@ export const createSortedPlayerList = (players, accessor) => {
 
   return playersByProperty
 }
+
+const getBoxplotColorsBySpecialization = (specialization) => ({
+  color: darken(getColorBySpecialization(specialization), 0.4),
+  fillColor: fade(darken(getColorBySpecialization(specialization), 0.75), 0.5)
+})
 
 const styles = createStyles({
   summaryContainer: {
@@ -55,72 +58,59 @@ const RaidSummary = (props) => {
     totalDamage
   } = props
 
-  // const playersByDps = createSortedPlayerList(players, player => player.collected_data.dps.mean)
-  // const playersByDpsChart = <StackedActorChart title='Damage per Second' series={{name: 'DPS', data: playersByDps}} />
-
   const playersByMeanDps = [...players]
 
   playersByMeanDps.sort((a, b) => b.collected_data.dps.mean - a.collected_data.dps.mean)
 
   const playersByDpsChart = (
-    <HighchartsReact
-      highcharts={Highcharts}
-      options={{
-        chart: {
-          height: Math.max(players.length * 50, 300)
-        },
-        series: [
-          {
-            data: playersByMeanDps.map(player => ({
-              color: getColorBySpecialization(player.specialization),
-              name: player.name,
-              y: player.collected_data.dps.mean
-            })),
-            name: 'DPS',
-            type: 'bar'
-          },
-          {
-            data: playersByMeanDps.map((player, x) => ({
-              color: darken(getColorBySpecialization(player.specialization), 0.4),
-              fillColor: fade(darken(getColorBySpecialization(player.specialization), 0.75), 0.5),
-              high: player.collected_data.dps.max,
-              low: player.collected_data.dps.min,
-              mean: player.collected_data.dps.mean,
-              median: player.collected_data.dps.median,
-              q1: player.collected_data.dps.q1,
-              q3: player.collected_data.dps.q3,
-              x
-            })),
-            tooltip: {
-              pointFormat: `Maximum: <b>{point.high}</b><br/>Upper quartile: <b>{point.q3}</b><br/>Mean: <b>{point.mean:,.1f}</b><br/>Median: <b>{point.median}</b><br/>Lower quartile: <b>{point.q1}</b><br/>Minimum: <b>{point.low}</b><br/>`
-            },
-            type: 'boxplot'
-          }
-        ],
-        title: {
-          text: 'Damage per Second'
-        },
-        xAxis: {
-          categories: playersByMeanDps.map(player => player.name),
-          labels: {
-            formatter () {
-              return `<span style='color: ${getColorBySpecialization(playersByMeanDps[this.pos].specialization)}'>${this.value}</span>`
-            }
-          }
-        }
+    <StackedActorChart
+      boxPlot={playersByMeanDps.map((player, x) => ({
+        ...getBoxplotColorsBySpecialization(player.specialization),
+        high: player.collected_data.dps.max,
+        low: player.collected_data.dps.min,
+        mean: player.collected_data.dps.mean,
+        median: player.collected_data.dps.median,
+        q1: player.collected_data.dps.q1,
+        q3: player.collected_data.dps.q3,
+        x
+      }))}
+      series={{
+        data: playersByMeanDps.map(player => ({
+          color: getColorBySpecialization(player.specialization),
+          name: player.name,
+          y: player.collected_data.dps.mean
+        })),
+        name: 'DPS'
       }}
+      title='Damage per Second'
     />
   )
 
   let playersByPriorityDpsChart
 
   if (buildPriorityDpsChart) {
-    const playersByPriorityDps = createSortedPlayerList(players, player => player.collected_data.prioritydps.mean)
+    const playersByPriorityDps = [...players]
+
+    playersByPriorityDps.sort((a, b) => b.collected_data.prioritydps.mean - a.collected_data.prioritydps.mean)
 
     playersByPriorityDpsChart = (
       <StackedActorChart
+        boxPlot={playersByPriorityDps.map((player, x) => ({
+          ...getBoxplotColorsBySpecialization(player.specialization),
+          high: player.collected_data.prioritydps.max,
+          low: player.collected_data.prioritydps.min,
+          mean: player.collected_data.prioritydps.mean,
+          median: player.collected_data.prioritydps.median,
+          q1: player.collected_data.prioritydps.q1,
+          q3: player.collected_data.prioritydps.q3,
+          x
+        }))}
         series={{
-          data: playersByPriorityDps,
+          data: playersByPriorityDps.map(player => ({
+            color: getColorBySpecialization(player.specialization),
+            name: player.name,
+            y: player.collected_data.prioritydps.mean
+          })),
           name: 'Priority DPS'
         }}
         title='Priority Target Damage Per Second'

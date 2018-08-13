@@ -3,7 +3,7 @@ import HighchartsReact from 'highcharts-react-official'
 import PropTypes from 'prop-types'
 import * as React from 'react'
 
-export const StackedActorChart = ({series: {data, name, precision}, title}) => {
+export const StackedActorChart = ({boxPlot, series: {data, name, precision}, title}) => {
   const chartOptions = {
     chart: {
       height: Math.max(data.length * 50, 300)
@@ -31,6 +31,17 @@ export const StackedActorChart = ({series: {data, name, precision}, title}) => {
     }
   }
 
+  if (boxPlot) {
+    chartOptions.series.push({
+      name,
+      data: boxPlot,
+      tooltip: {
+        pointFormat: `Maximum: <b>{point.high}</b><br/>Upper quartile: <b>{point.q3}</b><br/>Mean: <b>{point.mean:,.1f}</b><br/>Median: <b>{point.median}</b><br/>Lower quartile: <b>{point.q1}</b><br/>Minimum: <b>{point.low}</b><br/>`
+      },
+      type: 'boxplot'
+    })
+  }
+
   return (
     <HighchartsReact
       highcharts={Highcharts}
@@ -40,6 +51,8 @@ export const StackedActorChart = ({series: {data, name, precision}, title}) => {
 }
 
 StackedActorChart.propTypes = {
+  boxPlot: PropTypes.array,
+
   series: PropTypes.shape({
     data: PropTypes.arrayOf(PropTypes.shape({
       color: PropTypes.string.isRequired,
