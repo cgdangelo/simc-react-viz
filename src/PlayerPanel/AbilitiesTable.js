@@ -1,33 +1,7 @@
-import Paper from '@material-ui/core/Paper/Paper'
-import createStyles from '@material-ui/core/styles/createStyles'
-import withStyles from '@material-ui/core/styles/withStyles'
-import Table from '@material-ui/core/Table/Table'
-import TableBody from '@material-ui/core/TableBody/TableBody'
-import TableCell from '@material-ui/core/TableCell/TableCell'
-import TableHead from '@material-ui/core/TableHead/TableHead'
-import TableRow from '@material-ui/core/TableRow/TableRow'
-import TableSortLabel from '@material-ui/core/TableSortLabel/TableSortLabel'
-import Typography from '@material-ui/core/Typography'
-import { numberFormat } from 'highcharts'
 import PropTypes from 'prop-types'
 import * as React from 'react'
+import SortableTable from './SortableTable'
 
-const styles = theme => createStyles({
-  tableHeadRow: {
-    backgroundColor: theme.palette.background.default
-  },
-
-  tableWrapper: {
-    overflowX: 'auto',
-    width: '100%'
-  },
-
-  titleHeadCell: {
-    borderBottom: 0
-  }
-})
-
-@withStyles(styles)
 class AbilitiesTable extends React.PureComponent {
   static propTypes = {
     actionType: PropTypes.oneOf(['Absorb', 'Damage', 'Heal']).isRequired,
@@ -35,28 +9,8 @@ class AbilitiesTable extends React.PureComponent {
     fightLength: PropTypes.number.isRequired
   }
 
-  constructor () {
-    super()
-
-    this.state = {
-      sortKey: 'name',
-      sortAsc: true
-    }
-  }
-
-  createSortHandler (key) {
-    return () => {
-      if (this.state.sortKey === key) {
-        this.setState(prevState => ({sortAsc: !prevState.sortAsc}))
-      } else {
-        this.setState({sortKey: key})
-      }
-    }
-  }
-
   render () {
-    const {actions, actionType, classes, fightLength} = this.props
-    const {sortAsc, sortKey} = this.state
+    const {actions, actionType, fightLength} = this.props
 
     const metricActions = actions
       .filter(action => action.type === actionType.toLowerCase() && action.actual_amount && action.actual_amount.mean > 0)
@@ -85,30 +39,6 @@ class AbilitiesTable extends React.PureComponent {
         }
       })
 
-    const actionsSourceMap = new Map()
-
-    metricActions.forEach(action => {
-      const actions = actionsSourceMap.get(action.source) || []
-
-      actions.push(action)
-
-      actionsSourceMap.set(action.source, actions)
-    })
-
-    for (const key of actionsSourceMap.keys()) {
-      const actions = actionsSourceMap.get(key)
-
-      actions.sort((a, b) => {
-        if (['name', 'type'].indexOf(sortKey) !== -1) {
-          return sortAsc ? a[sortKey].localeCompare(b[sortKey]) : b[sortKey].localeCompare(a[sortKey])
-        } else {
-          return sortAsc ? a[sortKey] - b[sortKey] : b[sortKey] - a[sortKey]
-        }
-      })
-
-      actionsSourceMap.set(key, actions)
-    }
-
     /* eslint-disable sort-keys */
     const abilityColumns = [
       {key: 'name', label: 'Name', text: true},
@@ -130,74 +60,11 @@ class AbilitiesTable extends React.PureComponent {
     /* eslint-enable sort-keys */
 
     return (
-      <Paper className={classes.tableWrapper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell
-                className={classes.titleHeadCell}
-                colSpan={15}
-              >
-                <Typography variant='title'>{actionType} Actions</Typography>
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableHead>
-            <TableRow>
-              {abilityColumns.map(column => (
-                <TableCell
-                  key={column.label}
-                  numeric={!column.text}
-                  padding='dense'
-                >
-                  <TableSortLabel
-                    active={sortKey === column.key}
-                    direction={sortAsc ? 'asc' : 'desc'}
-                    style={{whiteSpace: 'nowrap'}}
-                    onClick={this.createSortHandler(column.key)}
-                  >
-                    {column.label}
-                  </TableSortLabel>
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {[...actionsSourceMap].map(([sourceName, actions], i) => (
-              <React.Fragment key={`${sourceName}_${i}`}>
-                <TableRow>
-                  <TableCell
-                    className={classes.tableHeadRow}
-                    colSpan={15}
-                    padding='dense'
-                    variant='head'
-                  >
-                    <Typography variant='subheading'>{sourceName}</Typography>
-                  </TableCell>
-                </TableRow>
-                {actions.map(action => {
-                  const actionColumns = Object.values(action)
-
-                  return (
-                    <TableRow key={`${action.source}_${action.name}`}>
-                      {abilityColumns.map((column, i) => (
-                        <TableCell
-                          key={`${action.name}_${column.key}`}
-                          numeric={!column.text}
-                          padding='dense'
-                        >
-                          {!column.text ? numberFormat(actionColumns[i + 1]) : actionColumns[i + 1]}
-                          {column.valueSuffix}
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  )
-                })}
-              </React.Fragment>
-            ))}
-          </TableBody>
-        </Table>
-      </Paper>
+      <SortableTable
+        columns={abilityColumns}
+        data={metricActions}
+        title={`${actionType} Actions`}
+      />
     )
   }
 }
