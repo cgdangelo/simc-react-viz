@@ -37,7 +37,17 @@ ChipOptions.propTypes = {
   buildTimestamp: PropTypes.string.isRequired,
   iterations: PropTypes.number.isRequired,
   fightLength: PropTypes.string.isRequired,
-  fightStyle: PropTypes.string.isRequired,
+  fightStyle: PropTypes.oneOf([
+    'Patchwerk',
+    'Ultraxion',
+    'CleaveAdd',
+    'HelterSkelter',
+    'LightMovement',
+    'HeavyMovement',
+    'HecticAddCleave',
+    'Beastlord',
+    'CastingPatchwerk'
+  ]).isRequired,
   targetError: PropTypes.number.isRequired
 }
 

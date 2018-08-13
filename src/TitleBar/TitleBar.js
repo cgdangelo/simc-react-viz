@@ -89,7 +89,17 @@ TitleBar.propTypes = {
   buildDate: PropTypes.string.isRequired,
   buildLevel: PropTypes.number.isRequired,
   buildTime: PropTypes.string.isRequired,
-  fightStyle: PropTypes.string.isRequired,
+  fightStyle: PropTypes.oneOf([
+    'Patchwerk',
+    'Ultraxion',
+    'CleaveAdd',
+    'HelterSkelter',
+    'LightMovement',
+    'HeavyMovement',
+    'HecticAddCleave',
+    'Beastlord',
+    'CastingPatchwerk'
+  ]).isRequired,
   gameVersion: PropTypes.string.isRequired,
   iterations: PropTypes.number.isRequired,
   maxTime: PropTypes.number.isRequired,
