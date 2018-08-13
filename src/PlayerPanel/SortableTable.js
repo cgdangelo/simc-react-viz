@@ -34,8 +34,8 @@ class SortableTable extends React.PureComponent {
     title: PropTypes.string
   }
 
-  constructor () {
-    super()
+  constructor (props) {
+    super(props)
 
     this.state = {
       sortKey: 'name',
