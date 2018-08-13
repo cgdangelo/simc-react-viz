@@ -1,6 +1,5 @@
 import AppBar from '@material-ui/core/AppBar'
 import Grid from '@material-ui/core/Grid'
-import createStyles from '@material-ui/core/styles/createStyles'
 import withStyles from '@material-ui/core/styles/withStyles'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
@@ -21,12 +20,6 @@ const buildFightLengthString = (maxTime, varyCombatLength) => {
 
   return fightLength
 }
-
-const styles = theme => createStyles({
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1
-  }
-})
 
 const TitleBar = (props) => {
   const {
