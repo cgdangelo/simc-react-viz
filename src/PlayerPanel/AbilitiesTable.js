@@ -30,7 +30,7 @@ const styles = theme => createStyles({
 @withStyles(styles)
 class AbilitiesTable extends React.PureComponent {
   static propTypes = {
-    actionType: PropTypes.oneOf(['Absorb', 'Damage', 'Healing']).isRequired,
+    actionType: PropTypes.oneOf(['Absorb', 'Damage', 'Heal']).isRequired,
     actions: PropTypes.arrayOf(PropTypes.object).isRequired,
     fightLength: PropTypes.number.isRequired
   }

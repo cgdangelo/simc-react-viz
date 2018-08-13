@@ -808,11 +808,31 @@ class PlayerPanel extends React.PureComponent {
                     <Typography variant='title'>Abilities</Typography>
                   </ExpansionPanelSummary>
                   <ExpansionPanelDetails>
-                    <AbilitiesTable
-                      actionType='Damage'
-                      actions={player.stats}
-                      fightLength={fightLength.mean}
-                    />
+                    <Grid container spacing={24}>
+                      <Grid item xs={12}>
+                        <AbilitiesTable
+                          actionType='Damage'
+                          actions={player.stats}
+                          fightLength={fightLength.mean}
+                        />
+                      </Grid>
+
+                      <Grid item xs={12}>
+                        <AbilitiesTable
+                          actionType='Heal'
+                          actions={player.stats}
+                          fightLength={fightLength.mean}
+                        />
+                      </Grid>
+
+                      <Grid item xs={12}>
+                        <AbilitiesTable
+                          actionType='Absorb'
+                          actions={player.stats}
+                          fightLength={fightLength.mean}
+                        />
+                      </Grid>
+                    </Grid>
                   </ExpansionPanelDetails>
                 </ExpansionPanel>
               </Grid>
