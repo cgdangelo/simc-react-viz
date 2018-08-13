@@ -427,7 +427,9 @@ class PlayerPanel extends React.PureComponent {
                             }}
                             icon={getTalentTierLevel(talent.tier)}
                           >
-                            {talent.name}
+                            <a data-wowhead={`spell=${talent.spell_id}`}>
+                              {talent.name}
+                            </a>
                           </StepLabel>
                         </Step>
                       ))}
