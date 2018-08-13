@@ -889,9 +889,9 @@ class PlayerPanel extends React.PureComponent {
                     <ExpansionPanelDetails>
                       <SortableGroupedDataTable
                         columns={[
-                          {key: 'name', label: 'Name', text: true},
-                          {key: 'count', label: 'Count'},
-                          {key: 'interval', label: 'Interval', valueSuffix: 's'}
+                          {key: 'name', label: 'Name', text: true, tooltip: 'Name or description of the proc.'},
+                          {key: 'count', label: 'Count', tooltip: 'Average number of times the proc occurred.'},
+                          {key: 'interval', label: 'Interval', valueSuffix: 's', tooltip: 'Average amount of time between procs.'}
                         ]}
                         data={player.procs.map(proc => ({
                           source: null,

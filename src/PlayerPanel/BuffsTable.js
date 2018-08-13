@@ -5,15 +5,15 @@ import SortableGroupedDataTable from './SortableGroupedDataTable'
 const BuffsTable = ({buffs, playerName, title}) => (
   <SortableGroupedDataTable
     columns={[
-      {key: 'name', label: 'Name', text: true},
-      {key: 'start', label: 'Start'},
-      {key: 'refresh', label: 'Refresh'},
-      {key: 'interval', label: 'Interval', valueSuffix: 's'},
-      {key: 'trigger', label: 'Trigger', valueSuffix: 's'},
-      {key: 'uptime', label: 'Uptime', valueSuffix: '%'},
-      {key: 'benefit', label: 'Benefit', valueSuffix: '%'},
-      {key: 'overflow', label: 'Overflow'},
-      {key: 'expiry', label: 'Expiry'}
+      {key: 'name', label: 'Name', text: true, tooltip: 'Name of the buff.'},
+      {key: 'start', label: 'Start', tooltip: 'Average number of times the buff was applied.'},
+      {key: 'refresh', label: 'Refresh', tooltip: 'Average number of times the buff was refreshed.'},
+      {key: 'interval', label: 'Interval', valueSuffix: 's', tooltip: 'Average time between applications.'},
+      {key: 'trigger', label: 'Trigger', valueSuffix: 's', tooltip: 'I honestly do not remember.'},
+      {key: 'uptime', label: 'Uptime', valueSuffix: '%', tooltip: 'Amount of time the buff was active.'},
+      {key: 'benefit', label: 'Benefit', valueSuffix: '%', tooltip: 'The percentage of times the buff had a actual benefit for its mainly intended purpose, eg. damage buffed / spell executes.'},
+      {key: 'overflow', label: 'Overflow', tooltip: 'Average number of times the buff overflowed its maximum stacks, or refreshed.'},
+      {key: 'expiry', label: 'Expiry', tooltip: 'Average number of times the buff ran its full duration and expired.'}
     ]}
     data={buffs.map(buff => ({
       source: buff.source || playerName,
