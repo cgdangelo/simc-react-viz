@@ -117,13 +117,9 @@ class PlayerPanel extends React.PureComponent {
     }))
   }
 
-  constructor (props) {
-    super(props)
-
-    this.state = {
-      expanded: false,
-      rendered: false
-    }
+  state = {
+    expanded: false,
+    rendered: false
   }
 
   render () {

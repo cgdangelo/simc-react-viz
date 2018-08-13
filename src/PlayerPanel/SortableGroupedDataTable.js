@@ -34,13 +34,9 @@ class SortableGroupedDataTable extends React.PureComponent {
     title: PropTypes.string
   }
 
-  constructor (props) {
-    super(props)
-
-    this.state = {
-      sortKey: 'name',
-      sortAsc: true
-    }
+  state = {
+    sortKey: 'name',
+    sortAsc: true
   }
 
   createSortHandler (key) {

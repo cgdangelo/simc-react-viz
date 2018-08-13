@@ -24,14 +24,10 @@ class Navigation extends React.PureComponent {
     players: PropTypes.arrayOf(PropTypes.object)
   }
 
-  constructor (props) {
-    super(props)
-
-    this.state = {
-      actors: false,
-      actorGroup: {},
-      raidSummary: false
-    }
+  state = {
+    actors: false,
+    actorGroup: {},
+    raidSummary: false
   }
 
   toggleActorSection (name) {
