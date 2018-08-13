@@ -15,6 +15,15 @@ import * as React from 'react'
 const styles = theme => createStyles({
   tableHeadRow: {
     backgroundColor: theme.palette.background.default
+  },
+
+  tableWrapper: {
+    overflowX: 'auto',
+    width: '100%'
+  },
+
+  titleHeadCell: {
+    borderBottom: 0
   }
 })
 
@@ -121,8 +130,18 @@ class AbilitiesTable extends React.PureComponent {
     /* eslint-enable sort-keys */
 
     return (
-      <Paper style={{overflowX: 'auto', width: '100%'}}>
+      <Paper className={classes.tableWrapper}>
         <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell
+                className={classes.titleHeadCell}
+                colSpan={15}
+              >
+                <Typography variant='title'>Damage Actions</Typography>
+              </TableCell>
+            </TableRow>
+          </TableHead>
           <TableHead>
             <TableRow>
               {abilityColumns.map(column => (
