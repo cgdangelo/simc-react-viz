@@ -7,6 +7,7 @@ import TableCell from '@material-ui/core/TableCell/TableCell'
 import TableHead from '@material-ui/core/TableHead/TableHead'
 import TableRow from '@material-ui/core/TableRow/TableRow'
 import TableSortLabel from '@material-ui/core/TableSortLabel/TableSortLabel'
+import Tooltip from '@material-ui/core/Tooltip/Tooltip'
 import Typography from '@material-ui/core/Typography'
 import { numberFormat } from 'highcharts'
 import PropTypes from 'prop-types'
@@ -23,6 +24,10 @@ const styles = theme => createStyles({
 
   titleHeadCell: {
     borderBottom: 0
+  },
+
+  tooltip: {
+    fontSize: theme.typography.pxToRem(14)
   }
 })
 
@@ -102,14 +107,33 @@ class SortableGroupedDataTable extends React.PureComponent {
                   numeric={!column.text}
                   padding='dense'
                 >
-                  <TableSortLabel
-                    active={sortKey === column.key}
-                    direction={sortAsc ? 'asc' : 'desc'}
-                    style={{whiteSpace: 'nowrap'}}
-                    onClick={this.createSortHandler(column.key)}
-                  >
-                    {column.label}
-                  </TableSortLabel>
+                  {column.tooltip
+                    ? (
+                      <Tooltip
+                        classes={{tooltip: classes.tooltip}}
+                        placement='top'
+                        title={column.tooltip}
+                      >
+                        <TableSortLabel
+                          active={sortKey === column.key}
+                          direction={sortAsc ? 'asc' : 'desc'}
+                          style={{whiteSpace: 'nowrap'}}
+                          onClick={this.createSortHandler(column.key)}
+                        >
+                          {column.label}
+                        </TableSortLabel>
+                      </Tooltip>
+                    )
+                    : (
+                      <TableSortLabel
+                        active={sortKey === column.key}
+                        direction={sortAsc ? 'asc' : 'desc'}
+                        style={{whiteSpace: 'nowrap'}}
+                        onClick={this.createSortHandler(column.key)}
+                      >
+                        {column.label}
+                      </TableSortLabel>
+                    )}
                 </TableCell>
               ))}
             </TableRow>
