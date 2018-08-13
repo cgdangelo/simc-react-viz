@@ -30,7 +30,7 @@ const styles = theme => createStyles({
 @withStyles(styles)
 class AbilitiesTable extends React.PureComponent {
   static propTypes = {
-    actionType: PropTypes.oneOf('absorb', 'damage', 'healing').isRequired,
+    actionType: PropTypes.oneOf(['Absorb', 'Damage', 'Healing']).isRequired,
     actions: PropTypes.arrayOf(PropTypes.object).isRequired,
     fightLength: PropTypes.number.isRequired
   }
@@ -58,45 +58,45 @@ class AbilitiesTable extends React.PureComponent {
     const {actions, actionType, classes, fightLength} = this.props
     const {sortAsc, sortKey} = this.state
 
-    const damageActions = actions
-      .filter(action => action.type === actionType && action.actual_amount && action.actual_amount.mean > 0)
+    const metricActions = actions
+      .filter(action => action.type === actionType.toLowerCase() && action.actual_amount && action.actual_amount.mean > 0)
       .map(action => {
-        const damageType = !action.tick_results || action.tick_results.mean === 0 ? 'Direct' : 'Periodic'
-        const damageCount = (damageType === 'Direct' ? action.num_direct_results.mean : action.num_tick_results.mean) || 0
-        const damageResults = action.tick_results || action.direct_results
+        const type = !action.tick_results || action.tick_results.mean === 0 ? 'Direct' : 'Periodic'
+        const count = (type === 'Direct' ? action.num_direct_results.mean : action.num_tick_results.mean) || 0
+        const results = action.tick_results || action.direct_results
 
         return {
           source: action.source,
           name: action.name,
-          type: damageType,
-          dps: action.actual_amount.mean / fightLength,
-          dpsPct: action.portion_amount * 100,
+          type: type,
+          aps: action.actual_amount.mean / fightLength,
+          apsPct: action.portion_amount * 100,
           execute: action.num_executes.mean,
           interval: (action.total_intervals && action.total_intervals.mean) || 0,
-          dpe: action.actual_amount.mean / action.num_executes.mean,
-          dpet: action.apet,
-          count: damageCount,
-          hit: (damageResults && damageResults.hit && damageResults.hit.avg_actual_amount.mean) || 0,
-          crit: (damageResults && damageResults.crit && damageResults.crit.avg_actual_amount.mean) || 0,
-          avgHit: (damageResults && damageResults.hit && damageResults.hit.avg_actual_amount.sum / action.num_executes.count) || 0,
-          critPct: (damageResults && damageResults.crit && damageResults.crit.pct) || 0,
-          blockPct: (damageResults && damageResults['hit (blocked)'] && damageResults['hit (blocked)'].pct) || 0,
-          uptimePct: damageType === 'Periodic' ? action.total_tick_time && action.total_tick_time.mean / fightLength * 100 : 0
+          ape: action.actual_amount.mean / action.num_executes.mean,
+          apet: action.apet,
+          count: count,
+          hit: (results && results.hit && results.hit.avg_actual_amount.mean) || 0,
+          crit: (results && results.crit && results.crit.avg_actual_amount.mean) || 0,
+          avgHit: (results && results.hit && results.hit.avg_actual_amount.sum / action.num_executes.count) || 0,
+          critPct: (results && results.crit && results.crit.pct) || 0,
+          blockPct: (results && results['hit (blocked)'] && results['hit (blocked)'].pct) || 0,
+          uptimePct: type === 'Periodic' ? action.total_tick_time && action.total_tick_time.mean / fightLength * 100 : 0
         }
       })
 
-    const damageActionsMap = new Map()
+    const actionsSourceMap = new Map()
 
-    damageActions.forEach(action => {
-      const actions = damageActionsMap.get(action.source) || []
+    metricActions.forEach(action => {
+      const actions = actionsSourceMap.get(action.source) || []
 
       actions.push(action)
 
-      damageActionsMap.set(action.source, actions)
+      actionsSourceMap.set(action.source, actions)
     })
 
-    for (const key of damageActionsMap.keys()) {
-      const actions = damageActionsMap.get(key)
+    for (const key of actionsSourceMap.keys()) {
+      const actions = actionsSourceMap.get(key)
 
       actions.sort((a, b) => {
         if (['name', 'type'].indexOf(sortKey) !== -1) {
@@ -106,19 +106,19 @@ class AbilitiesTable extends React.PureComponent {
         }
       })
 
-      damageActionsMap.set(key, actions)
+      actionsSourceMap.set(key, actions)
     }
 
     /* eslint-disable sort-keys */
     const abilityColumns = [
       {key: 'name', label: 'Name', text: true},
       {key: 'type', label: 'Type', text: true},
-      {key: 'dps', label: 'DPS'},
-      {key: 'dpsPct', label: 'DPS %', valueSuffix: '%'},
+      {key: 'aps', label: 'APS'},
+      {key: 'apsPct', label: 'APS %', valueSuffix: '%'},
       {key: 'execute', label: 'Execute'},
       {key: 'interval', label: 'Interval', valueSuffix: 's'},
-      {key: 'dpe', label: 'DPE'},
-      {key: 'dpet', label: 'DPET'},
+      {key: 'ape', label: 'APE'},
+      {key: 'apet', label: 'APET'},
       {key: 'count', label: 'Count'},
       {key: 'hit', label: 'Hit'},
       {key: 'crit', label: 'Crit'},
@@ -138,7 +138,7 @@ class AbilitiesTable extends React.PureComponent {
                 className={classes.titleHeadCell}
                 colSpan={15}
               >
-                <Typography variant='title'>Damage Actions</Typography>
+                <Typography variant='title'>{actionType} Actions</Typography>
               </TableCell>
             </TableRow>
           </TableHead>
@@ -163,7 +163,7 @@ class AbilitiesTable extends React.PureComponent {
             </TableRow>
           </TableHead>
           <TableBody>
-            {[...damageActionsMap].map(([sourceName, actions], i) => (
+            {[...actionsSourceMap].map(([sourceName, actions], i) => (
               <React.Fragment key={`${sourceName}_${i}`}>
                 <TableRow>
                   <TableCell
