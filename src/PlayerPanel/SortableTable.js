@@ -68,8 +68,8 @@ class SortableTable extends React.PureComponent {
       dataSourceMap.set(action.source, actions)
     })
 
-    for (const key of dataSourceMap.keys()) {
-      const data = dataSourceMap.get(key)
+    for (const source of dataSourceMap.keys()) {
+      const data = dataSourceMap.get(source)
 
       data.sort((a, b) => {
         if (typeof a[sortKey] !== 'number' && typeof b[sortKey] !== 'number') {
@@ -79,7 +79,7 @@ class SortableTable extends React.PureComponent {
         }
       })
 
-      dataSourceMap.set(key, data)
+      dataSourceMap.set(source, data)
     }
 
     return (

@@ -25,6 +25,7 @@ import * as sma from 'sma'
 import ChipMetrics from '../ChipMetrics'
 import { getColorByResource, getColorBySchool, getColorBySpecialization, getPrimaryResourceBySpecialization, getTalentTierLevel } from '../util'
 import AbilitiesTable from './AbilitiesTable'
+import SortableTable from './SortableTable'
 
 const {numberFormat} = Highcharts
 
@@ -830,6 +831,51 @@ class PlayerPanel extends React.PureComponent {
                           actionType='Absorb'
                           actions={player.stats}
                           fightLength={fightLength.mean}
+                        />
+                      </Grid>
+                    </Grid>
+                  </ExpansionPanelDetails>
+                </ExpansionPanel>
+              </Grid>
+
+              <Grid item xs={12}>
+                <ExpansionPanel>
+                  <ExpansionPanelSummary
+                    classes={{content: classes.summaryContainer}}
+                    expandIcon={<ExpandMore />}
+                  >
+                    <Typography variant='title'>Buffs</Typography>
+                  </ExpansionPanelSummary>
+                  <ExpansionPanelDetails>
+                    <Grid container spacing={24}>
+                      <Grid item xs={12}>
+                        <SortableTable
+                          columns={[
+                            {key: 'name', label: 'Name', text: true},
+                            {key: 'start', label: 'Start'},
+                            {key: 'refresh', label: 'Refresh'},
+                            {key: 'interval', label: 'Interval', valueSuffix: 's'},
+                            {key: 'trigger', label: 'Trigger', valueSuffix: 's'},
+                            {key: 'uptime', label: 'Uptime', valueSuffix: '%'},
+                            {key: 'benefit', label: 'Benefit', valueSuffix: '%'},
+                            {key: 'overflow', label: 'Overflow'},
+                            {key: 'expiry', label: 'Expiry'}
+                          ]}
+                          data={player.buffs.map(buff => {
+                            return {
+                              source: buff.source,
+                              name: buff.name,
+                              start: buff.start_count || 0,
+                              refresh: buff.refresh_count || 0,
+                              interval: buff.interval || 0,
+                              trigger: buff.trigger || 0,
+                              uptime: buff.uptime || 0,
+                              benefit: buff.benefit || 0,
+                              overflow: buff.overflow_total || 0,
+                              expiry: buff.expire_count || 0
+                            }
+                          })}
+                          title='Dynamic Buffs'
                         />
                       </Grid>
                     </Grid>
