@@ -34,7 +34,8 @@ declare type ClassSpecialization =
   'protection warrior' |
   'arms warrior' |
   'fury warrior' |
-  'default'
+  'default' |
+  'Unknown'
 
 interface IDbc {
   Beta: {
@@ -49,6 +50,17 @@ interface IDbc {
 
   version_used: string
 }
+
+declare type FightStyle =
+  'Patchwerk' |
+  'Ultraxion' |
+  'CleaveAdd' |
+  'HelterSkelter' |
+  'LightMovement' |
+  'HeavyMovement' |
+  'HecticAddCleave' |
+  'Beastlord' |
+  'CastingPatchwerk'
 
 declare interface ISimOptions {
   auto_ready_trigger: number
@@ -68,7 +80,7 @@ declare interface ISimOptions {
   deterministic: number
   enemy_death_pct: number
   expected_iteration_time: number
-  fight_style: string
+  fight_style: FightStyle
   fixed_time: boolean
   gcd_lag: number
   gcd_lag_stddev: number
@@ -88,6 +100,17 @@ declare interface ISimOptions {
   rng: {
     name: string
   }
+  scaling?: {
+    calculate_scale_factors: number
+    center_scale_delta?: number
+    normalize_scale_factors: number
+    positive_scale_delta?: number
+    scale_delta_multiplier?: number
+    scale_lag?: number
+    scale_only?: string
+    scale_over?: string
+    scale_over_player?: string
+  }
   seed: number
   show_etmi: boolean
   single_actor_batch: boolean
@@ -105,11 +128,17 @@ declare interface ISimOptions {
 }
 
 declare interface ISimOverrides {
-  bleeding: number
-  bloodlust: number
-  bloodlust_percent: number
-  bloodlust_time: number
-  mortal_wounds: number
+  arcane_intellect?: number
+  battle_shout?: number
+  bleeding?: number
+  bloodlust?: number
+  bloodlust_percent?: number
+  bloodlust_time?: number
+  chaos_brand?: number
+  mortal_wounds?: number
+  mystic_touch?: number
+  power_word_fortitude?: number
+  target_health?: number[]
 }
 
 declare const enum ActorRole {
@@ -133,6 +162,7 @@ declare interface IArtifactTrait {
   crucible_rank: number
   id: number
   name: string
+  override_rank?: number
   purchased_rank: number
   relic_rank: number
   spell_id: number
@@ -259,7 +289,23 @@ declare interface IGearPiece {
 }
 
 declare interface IActor {
-  artifact: IArtifactTrait[]
+  artifact?: IArtifactTrait[]
+  base_astral_power_regen_per_second?: number
+  base_chi_regen_per_second?: number
+  base_combo_point_regen_per_second?: number
+  base_energy_regen_per_second?: number
+  base_focus_regen_per_second?: number
+  base_fury_regen_per_second?: number
+  base_health_regen_per_second?: number
+  base_holy_power_regen_per_second?: number
+  base_insanity_regen_per_second?: number
+  base_maelstrom_regen_per_second?: number
+  base_mana_regen_per_second?: number
+  base_pain_regen_per_second?: number
+  base_rage_regen_per_second?: number
+  base_rune_regen_per_second?: number
+  base_runic_power_regen_per_second?: number
+  base_soul_shard_regen_per_second?: number
   brain_lag: number
   brain_lag_stddev: number
   buffs: IBuffData[]
@@ -324,17 +370,21 @@ declare interface IActor {
     timeline_dmg: ITimelineData
     waiting_time: IExtremaSampleData
   }
+  combat_reach?: number
   dbc: IDbc
+  death_pct?: number
   gains: IGainData[]
   gear: {
     [slotName: string]: IGearPiece
   }
+  height?: number
   invert_scaling: number
   level: number
   name: string
   party: number
   potion_used: boolean
   procs: IProcData[]
+  professions?: string
   race: string
   reaction_max: number
   reaction_mean: number
