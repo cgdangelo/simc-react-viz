@@ -168,7 +168,7 @@ const RaidSummary = (props) => {
       >
         <Typography
           className={classes.heading}
-          variant='title'
+          variant='headline'
         >
           Raid Summary
         </Typography>
