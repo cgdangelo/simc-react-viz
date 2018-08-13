@@ -51,8 +51,4 @@ ChipOptions.propTypes = {
   targetError: PropTypes.number.isRequired
 }
 
-ChipOptions.defaultProps = {
-  targetError: 0.0
-}
-
 export default ChipOptions
