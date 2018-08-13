@@ -88,6 +88,9 @@ const getChangedResourceNames = (player) => {
 }
 
 const styles = theme => createStyles({
+  flexColumnItem: {
+    marginBottom: 24
+  },
   heading: {
     flexBasis: '25%',
     flexShrink: 0
@@ -447,10 +450,9 @@ class PlayerPanel extends React.PureComponent {
                         container
                         item
                         direction='column'
-                        spacing={24}
                         xs={6}
                       >
-                        <Grid item>
+                        <Grid item className={classes.flexColumnItem}>
                           <HighchartsReact
                             highcharts={Highcharts}
                             options={{
@@ -481,7 +483,7 @@ class PlayerPanel extends React.PureComponent {
                         </Grid>
 
                         {damageSources.length > 0 && (
-                          <Grid item>
+                          <Grid item className={classes.flexColumnItem}>
                             <HighchartsReact
                               highcharts={Highcharts}
                               options={{
@@ -514,7 +516,7 @@ class PlayerPanel extends React.PureComponent {
                         )}
 
                         {healingSources.length > 0 && (
-                          <Grid item>
+                          <Grid item className={classes.flexColumnItem}>
                             <HighchartsReact
                               highcharts={Highcharts}
                               options={{
@@ -538,7 +540,7 @@ class PlayerPanel extends React.PureComponent {
                           </Grid>
                         )}
 
-                        <Grid item>
+                        <Grid item className={classes.flexColumnItem}>
                           <HighchartsReact
                             highcharts={Highcharts}
                             options={{
@@ -566,11 +568,10 @@ class PlayerPanel extends React.PureComponent {
                         container
                         item
                         direction='column'
-                        spacing={24}
                         xs={6}
                       >
                         {dps.mean > 0 && (
-                          <Grid item>
+                          <Grid item className={classes.flexColumnItem}>
                             <HighchartsReact
                               highcharts={Highcharts}
                               options={{
@@ -625,7 +626,7 @@ class PlayerPanel extends React.PureComponent {
                         )}
 
                         {dtps.mean > 0 && (
-                          <Grid item>
+                          <Grid item className={classes.flexColumnItem}>
                             <HighchartsReact
                               highcharts={Highcharts}
                               options={{
@@ -659,7 +660,7 @@ class PlayerPanel extends React.PureComponent {
                         )}
 
                         {htps.mean > 0 && (
-                          <Grid item>
+                          <Grid item className={classes.flexColumnItem}>
                             <HighchartsReact
                               highcharts={Highcharts}
                               options={{
@@ -693,7 +694,7 @@ class PlayerPanel extends React.PureComponent {
                         )}
 
                         {dps.data.length > 0 && (
-                          <Grid item>
+                          <Grid item className={classes.flexColumnItem}>
                             <HighchartsReact
                               highcharts={Highcharts}
                               options={{
@@ -750,7 +751,7 @@ class PlayerPanel extends React.PureComponent {
                         )}
 
                         {hps.data.length > 0 && (
-                          <Grid item>
+                          <Grid item className={classes.flexColumnItem}>
                             <HighchartsReact
                               highcharts={Highcharts}
                               options={{
