@@ -58,9 +58,8 @@ const TitleBar = (props) => {
           SimulationCraft
 
           <Typography
-            style={{
-              display: 'inline-block'
-            }}
+            noWrap
+            component='span'
             variant='caption'
           >
             {simcVersion} for {gameVersion} {wowVersion}.{buildLevel}
