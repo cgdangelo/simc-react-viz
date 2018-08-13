@@ -25,7 +25,6 @@ const TitleBar = (props) => {
     buildDate,
     buildLevel,
     buildTime,
-    classes,
     fightStyle,
     gameVersion,
     iterations,
@@ -38,7 +37,6 @@ const TitleBar = (props) => {
 
   return (
     <AppBar
-      className={classes.appBar}
       color='default'
       position='fixed'
     >
