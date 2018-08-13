@@ -26,6 +26,7 @@ import ChipMetrics from '../ChipMetrics'
 import { getColorByResource, getColorBySchool, getColorBySpecialization, getPrimaryResourceBySpecialization, getTalentTierLevel } from '../util'
 import AbilitiesTable from './AbilitiesTable'
 import BuffsTable from './BuffsTable'
+import SortableTable from './SortableTable'
 
 const {numberFormat} = Highcharts
 
@@ -799,9 +800,7 @@ class PlayerPanel extends React.PureComponent {
                     </Grid>
                   </ExpansionPanelDetails>
                 </ExpansionPanel>
-              </Grid>
 
-              <Grid item xs={12}>
                 <ExpansionPanel>
                   <ExpansionPanelSummary
                     classes={{content: classes.summaryContainer}}
@@ -837,9 +836,7 @@ class PlayerPanel extends React.PureComponent {
                     </Grid>
                   </ExpansionPanelDetails>
                 </ExpansionPanel>
-              </Grid>
 
-              <Grid item xs={12}>
                 <ExpansionPanel>
                   <ExpansionPanelSummary
                     classes={{content: classes.summaryContainer}}
@@ -867,6 +864,27 @@ class PlayerPanel extends React.PureComponent {
                     </Grid>
                   </ExpansionPanelDetails>
                 </ExpansionPanel>
+
+                {player.procs && player.procs.length > 0 && (
+                  <ExpansionPanel>
+                    <ExpansionPanelSummary>
+                      <Typography variant='title'>Procs</Typography>
+                    </ExpansionPanelSummary>
+                    <ExpansionPanelDetails>
+                      <SortableTable
+                        columns={[
+                          {key: 'name', label: 'Name', text: true},
+                          {key: 'count', label: 'Count'},
+                          {key: 'interval', label: 'Interval', valueSuffix: 's'}
+                        ]}
+                        data={player.procs.map(proc => ({
+                          source: null,
+                          ...proc
+                        }))}
+                      />
+                    </ExpansionPanelDetails>
+                  </ExpansionPanel>
+                )}
               </Grid>
             </Grid>
           </ExpansionPanelDetails>

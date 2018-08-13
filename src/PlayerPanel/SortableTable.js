@@ -18,8 +18,7 @@ const styles = theme => createStyles({
   },
 
   tableWrapper: {
-    overflowX: 'auto',
-    width: '100%'
+    overflowX: 'auto'
   },
 
   titleHeadCell: {
@@ -32,7 +31,7 @@ class SortableTable extends React.PureComponent {
   static propTypes = {
     columns: PropTypes.array.isRequired,
     data: PropTypes.array.isRequired,
-    title: PropTypes.string.isRequired
+    title: PropTypes.string
   }
 
   constructor () {
@@ -85,18 +84,20 @@ class SortableTable extends React.PureComponent {
     return (
       <Paper className={classes.tableWrapper}>
         <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell
-                className={classes.titleHeadCell}
-                colSpan={15}
-              >
-                <Typography variant='title'>
-                  {title}
-                </Typography>
-              </TableCell>
-            </TableRow>
-          </TableHead>
+          {title && (
+            <TableHead>
+              <TableRow>
+                <TableCell
+                  className={classes.titleHeadCell}
+                  colSpan={15}
+                >
+                  <Typography variant='title'>
+                    {title}
+                  </Typography>
+                </TableCell>
+              </TableRow>
+            </TableHead>
+          )}
           <TableHead>
             <TableRow>
               {columns.map(column => (
@@ -120,16 +121,18 @@ class SortableTable extends React.PureComponent {
           <TableBody>
             {[...dataSourceMap].map(([sourceName, actions], i) => (
               <React.Fragment key={`${sourceName}_${i}`}>
-                <TableRow>
-                  <TableCell
-                    className={classes.tableHeadRow}
-                    colSpan={15}
-                    padding='dense'
-                    variant='head'
-                  >
-                    <Typography variant='subheading'>{sourceName}</Typography>
-                  </TableCell>
-                </TableRow>
+                {Object.keys(dataSourceMap).length > 1 && (
+                  <TableRow>
+                    <TableCell
+                      className={classes.tableHeadRow}
+                      colSpan={15}
+                      padding='dense'
+                      variant='head'
+                    >
+                      <Typography variant='subheading'>{sourceName}</Typography>
+                    </TableCell>
+                  </TableRow>
+                )}
                 {actions.map(action => {
                   const actionColumns = Object.values(action)
 
