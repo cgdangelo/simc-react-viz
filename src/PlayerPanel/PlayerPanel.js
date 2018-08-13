@@ -809,63 +809,77 @@ class PlayerPanel extends React.PureComponent {
                   </ExpansionPanelDetails>
                 </ExpansionPanel>
 
-                <ExpansionPanel defaultExpanded>
-                  <ExpansionPanelSummary expandIcon={<ExpandMore />}>
-                    <Typography variant='title'>Abilities</Typography>
-                  </ExpansionPanelSummary>
-                  <ExpansionPanelDetails>
-                    <Grid container spacing={24}>
-                      <Grid item xs={12}>
-                        <AbilitiesTable
-                          actionType='Damage'
-                          actions={player.stats}
-                          fightLength={fightLength.mean}
-                        />
-                      </Grid>
+                {dmg.mean + heal.mean + absorb.mean > 0 && (
+                  <ExpansionPanel defaultExpanded>
+                    <ExpansionPanelSummary expandIcon={<ExpandMore />}>
+                      <Typography variant='title'>Abilities</Typography>
+                    </ExpansionPanelSummary>
+                    <ExpansionPanelDetails>
+                      <Grid container spacing={24}>
+                        {dmg.mean > 0 && (
+                          <Grid item xs={12}>
+                            <AbilitiesTable
+                              actionType='Damage'
+                              actions={player.stats}
+                              fightLength={fightLength.mean}
+                            />
+                          </Grid>
+                        )}
 
-                      <Grid item xs={12}>
-                        <AbilitiesTable
-                          actionType='Heal'
-                          actions={player.stats}
-                          fightLength={fightLength.mean}
-                        />
-                      </Grid>
+                        {heal.mean > 0 && (
+                          <Grid item xs={12}>
+                            <AbilitiesTable
+                              actionType='Heal'
+                              actions={player.stats}
+                              fightLength={fightLength.mean}
+                            />
+                          </Grid>
+                        )}
 
-                      <Grid item xs={12}>
-                        <AbilitiesTable
-                          actionType='Absorb'
-                          actions={player.stats}
-                          fightLength={fightLength.mean}
-                        />
+                        {absorb.mean > 0 && (
+                          <Grid item xs={12}>
+                            <AbilitiesTable
+                              actionType='Absorb'
+                              actions={player.stats}
+                              fightLength={fightLength.mean}
+                            />
+                          </Grid>
+                        )}
                       </Grid>
-                    </Grid>
-                  </ExpansionPanelDetails>
-                </ExpansionPanel>
+                    </ExpansionPanelDetails>
+                  </ExpansionPanel>
+                )}
 
-                <ExpansionPanel defaultExpanded>
-                  <ExpansionPanelSummary expandIcon={<ExpandMore />}>
-                    <Typography variant='title'>Buffs</Typography>
-                  </ExpansionPanelSummary>
-                  <ExpansionPanelDetails>
-                    <Grid container spacing={24}>
-                      <Grid item xs={12}>
-                        <BuffsTable
-                          buffs={player.buffs}
-                          playerName={player.name}
-                          title='Dynamic Buffs'
-                        />
-                      </Grid>
+                {((player.buffs && player.buffs.length > 0) || raidBuffs.length > 0) && (
+                  <ExpansionPanel defaultExpanded>
+                    <ExpansionPanelSummary expandIcon={<ExpandMore />}>
+                      <Typography variant='title'>Buffs</Typography>
+                    </ExpansionPanelSummary>
+                    <ExpansionPanelDetails>
+                      <Grid container spacing={24}>
+                        {player.buffs && player.buffs.length > 0 && (
+                          <Grid item xs={12}>
+                            <BuffsTable
+                              buffs={player.buffs}
+                              playerName={player.name}
+                              title='Dynamic Buffs'
+                            />
+                          </Grid>
+                        )}
 
-                      <Grid item xs={12}>
-                        <BuffsTable
-                          buffs={raidBuffs}
-                          playerName={player.name}
-                          title='Dynamic Buffs'
-                        />
+                        {raidBuffs.length > 0 && (
+                          <Grid item xs={12}>
+                            <BuffsTable
+                              buffs={raidBuffs}
+                              playerName={player.name}
+                              title='Dynamic Buffs'
+                            />
+                          </Grid>
+                        )}
                       </Grid>
-                    </Grid>
-                  </ExpansionPanelDetails>
-                </ExpansionPanel>
+                    </ExpansionPanelDetails>
+                  </ExpansionPanel>
+                )}
 
                 {player.procs && player.procs.length > 0 && (
                   <ExpansionPanel defaultExpanded>
