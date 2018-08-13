@@ -202,7 +202,7 @@ class PlayerPanel extends React.PureComponent {
         >
           <Typography
             className={classes.heading}
-            variant='title'
+            variant='headline'
           >
             {player.name}
           </Typography>
@@ -221,180 +221,189 @@ class PlayerPanel extends React.PureComponent {
 
         {(this.state.expanded || this.state.rendered) && (
           <ExpansionPanelDetails>
-            <Grid container spacing={24}>
-              <Grid item xs={6}>
-                <Paper>
-                  <Table>
-                    <TableHead>
-                      <TableRow>
-                        <TableCell>
-                          <Typography variant='subheading'>Outgoing Metrics</Typography>
-                        </TableCell>
-                        <TableCell numeric>Damage</TableCell>
-                        <TableCell numeric>Healing</TableCell>
-                        <TableCell numeric>Absorb</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      <TableRow>
-                        <TableCell>Per Second</TableCell>
-                        <TableCell numeric>{numberFormat(dps.mean)}</TableCell>
-                        <TableCell numeric>{numberFormat(hps.mean)}</TableCell>
-                        <TableCell numeric>{numberFormat(aps.mean)}</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell>Per Second (Effective)</TableCell>
-                        <TableCell numeric>{numberFormat(dpse.mean)}</TableCell>
-                        <TableCell numeric>{numberFormat(hpse.mean)}</TableCell>
-                        <TableCell numeric>N/A</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell>Per Second, Error</TableCell>
-                        <TableCell numeric>{buildErrorString(confidenceEstimator, dps.mean_std_dev, dps.mean)}</TableCell>
-                        <TableCell numeric>{buildErrorString(confidenceEstimator, hps.mean_std_dev, hps.mean)}</TableCell>
-                        <TableCell numeric>{buildErrorString(confidenceEstimator, aps.mean_std_dev, aps.mean)}</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell>Per Second, Range</TableCell>
-                        <TableCell numeric>{buildRangeString(confidence, dps.mean, dps.data)}</TableCell>
-                        <TableCell numeric>{buildRangeString(confidence, hps.mean, hps.data)}</TableCell>
-                        <TableCell numeric>{buildRangeString(confidence, aps.mean, aps.data)}</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell>Per Resource</TableCell>
-                        <TableCell numeric>{buildMetricPerPrimaryResourceString(dmg.mean, player)}</TableCell>
-                        <TableCell numeric>{buildMetricPerPrimaryResourceString(heal.mean, player)}</TableCell>
-                        <TableCell numeric>{buildMetricPerPrimaryResourceString(absorb.mean, player)}</TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                </Paper>
-              </Grid>
-
-              <Grid item xs={6}>
-                <Paper>
-                  <Table>
-                    <TableHead>
-                      <TableRow>
-                        <TableCell>
-                          <Typography variant='subheading'>Incoming Metrics</Typography>
-                        </TableCell>
-                        <TableCell numeric>Damage</TableCell>
-                        <TableCell numeric>Healing</TableCell>
-                        <TableCell numeric>Absorb</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      <TableRow>
-                        <TableCell>Per Second</TableCell>
-                        <TableCell numeric>{numberFormat(dtps.mean)}</TableCell>
-                        <TableCell numeric>{numberFormat(htps.mean)}</TableCell>
-                        <TableCell numeric>{numberFormat(atps.mean)}</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell>Per Second, Error</TableCell>
-                        <TableCell numeric>{buildErrorString(confidenceEstimator, dtps.mean_std_dev, dtps.mean)}</TableCell>
-                        <TableCell numeric>{buildErrorString(confidenceEstimator, htps.mean_std_dev, htps.mean)}</TableCell>
-                        <TableCell numeric>{buildErrorString(confidenceEstimator, atps.mean_std_dev, atps.mean)}</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell>Per Second, Range</TableCell>
-                        <TableCell numeric>{buildRangeString(confidence, dtps.mean, dtps.data)}</TableCell>
-                        <TableCell numeric>{buildRangeString(confidence, htps.mean, htps.data)}</TableCell>
-                        <TableCell numeric>{buildRangeString(confidence, atps.mean, atps.data)}</TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                </Paper>
-              </Grid>
-
-              <Grid item xs={6}>
-                <Paper>
-                  <Table>
-                    <TableHead>
-                      <TableRow>
-                        <TableCell>
-                          <Typography variant='subheading'>Resources</Typography>
-                        </TableCell>
-
-                        {getChangedResourceNames(player).map(resourceName => (
-                          <TableCell numeric key={resourceName}>
-                            {resourceName}
-                          </TableCell>
-                        ))}
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      <TableRow>
-                        <TableCell>Spent Per Second</TableCell>
-
-                        {getChangedResourceNames(player).map(resourceName => (
-                          <TableCell numeric key={resourceName}>
-                            {numberFormat(getFilledCollectedDataContainer(player, `resource_lost.${resourceName}`).mean / fightLength.mean)}
-                          </TableCell>
-                        ))}
-                      </TableRow>
-
-                      <TableRow>
-                        <TableCell>Generated Per Second</TableCell>
-
-                        {getChangedResourceNames(player).map(resourceName => (
-                          <TableCell numeric key={resourceName}>
-                            {numberFormat(getFilledCollectedDataContainer(player, `resource_gained.${resourceName}`).mean / fightLength.mean)}
-                          </TableCell>
-                        ))}
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                </Paper>
-              </Grid>
-
-              {player.role === 'tank' && (
-                <Grid item xs={6}>
-                  <Paper>
-                    <Table>
-                      <TableHead>
-                        <TableRow>
-                          <TableCell padding='dense'>
-                            <Typography variant='subheading'>Tank Metrics</Typography>
-                          </TableCell>
-                          <TableCell numeric>Theck-Meloree Index</TableCell>
-                          <TableCell numeric>Maximum Spike Damage</TableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        <TableRow>
-                          <TableCell>Minimum</TableCell>
-                          <TableCell numeric>{numberFormat(tmi.min)}</TableCell>
-                          <TableCell numeric>{numberFormat(msa.min)}%</TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell>Maximum</TableCell>
-                          <TableCell numeric>{numberFormat(tmi.max)}%</TableCell>
-                          <TableCell numeric>{numberFormat(msa.max)}%</TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell>Mean</TableCell>
-                          <TableCell numeric>{numberFormat(tmi.mean)}</TableCell>
-                          <TableCell numeric>{numberFormat(msa.mean)}%</TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell>Error</TableCell>
-                          <TableCell numeric>{buildErrorString(confidenceEstimator, tmi.mean_std_dev, tmi.mean)}</TableCell>
-                          <TableCell numeric>N/A</TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell>Range</TableCell>
-                          <TableCell numeric>{buildRangeString(confidence, tmi.mean, tmi.data)}</TableCell>
-                          <TableCell numeric>N/A</TableCell>
-                        </TableRow>
-                      </TableBody>
-                    </Table>
-                  </Paper>
-                </Grid>
-              )}
-
+            <Grid container>
               <Grid item xs={12}>
+                <ExpansionPanel defaultExpanded>
+                  <ExpansionPanelSummary>
+                    <Typography variant='title'>Results</Typography>
+                  </ExpansionPanelSummary>
+                  <ExpansionPanelDetails>
+                    <Grid container spacing={24}>
+                      <Grid item xs={6}>
+                        <Paper>
+                          <Table>
+                            <TableHead>
+                              <TableRow>
+                                <TableCell>
+                                  <Typography variant='subheading'>Outgoing Metrics</Typography>
+                                </TableCell>
+                                <TableCell numeric>Damage</TableCell>
+                                <TableCell numeric>Healing</TableCell>
+                                <TableCell numeric>Absorb</TableCell>
+                              </TableRow>
+                            </TableHead>
+                            <TableBody>
+                              <TableRow>
+                                <TableCell>Per Second</TableCell>
+                                <TableCell numeric>{numberFormat(dps.mean)}</TableCell>
+                                <TableCell numeric>{numberFormat(hps.mean)}</TableCell>
+                                <TableCell numeric>{numberFormat(aps.mean)}</TableCell>
+                              </TableRow>
+                              <TableRow>
+                                <TableCell>Per Second (Effective)</TableCell>
+                                <TableCell numeric>{numberFormat(dpse.mean)}</TableCell>
+                                <TableCell numeric>{numberFormat(hpse.mean)}</TableCell>
+                                <TableCell numeric>N/A</TableCell>
+                              </TableRow>
+                              <TableRow>
+                                <TableCell>Per Second, Error</TableCell>
+                                <TableCell numeric>{buildErrorString(confidenceEstimator, dps.mean_std_dev, dps.mean)}</TableCell>
+                                <TableCell numeric>{buildErrorString(confidenceEstimator, hps.mean_std_dev, hps.mean)}</TableCell>
+                                <TableCell numeric>{buildErrorString(confidenceEstimator, aps.mean_std_dev, aps.mean)}</TableCell>
+                              </TableRow>
+                              <TableRow>
+                                <TableCell>Per Second, Range</TableCell>
+                                <TableCell numeric>{buildRangeString(confidence, dps.mean, dps.data)}</TableCell>
+                                <TableCell numeric>{buildRangeString(confidence, hps.mean, hps.data)}</TableCell>
+                                <TableCell numeric>{buildRangeString(confidence, aps.mean, aps.data)}</TableCell>
+                              </TableRow>
+                              <TableRow>
+                                <TableCell>Per Resource</TableCell>
+                                <TableCell numeric>{buildMetricPerPrimaryResourceString(dmg.mean, player)}</TableCell>
+                                <TableCell numeric>{buildMetricPerPrimaryResourceString(heal.mean, player)}</TableCell>
+                                <TableCell numeric>{buildMetricPerPrimaryResourceString(absorb.mean, player)}</TableCell>
+                              </TableRow>
+                            </TableBody>
+                          </Table>
+                        </Paper>
+                      </Grid>
+
+                      <Grid item xs={6}>
+                        <Paper>
+                          <Table>
+                            <TableHead>
+                              <TableRow>
+                                <TableCell>
+                                  <Typography variant='subheading'>Incoming Metrics</Typography>
+                                </TableCell>
+                                <TableCell numeric>Damage</TableCell>
+                                <TableCell numeric>Healing</TableCell>
+                                <TableCell numeric>Absorb</TableCell>
+                              </TableRow>
+                            </TableHead>
+                            <TableBody>
+                              <TableRow>
+                                <TableCell>Per Second</TableCell>
+                                <TableCell numeric>{numberFormat(dtps.mean)}</TableCell>
+                                <TableCell numeric>{numberFormat(htps.mean)}</TableCell>
+                                <TableCell numeric>{numberFormat(atps.mean)}</TableCell>
+                              </TableRow>
+                              <TableRow>
+                                <TableCell>Per Second, Error</TableCell>
+                                <TableCell numeric>{buildErrorString(confidenceEstimator, dtps.mean_std_dev, dtps.mean)}</TableCell>
+                                <TableCell numeric>{buildErrorString(confidenceEstimator, htps.mean_std_dev, htps.mean)}</TableCell>
+                                <TableCell numeric>{buildErrorString(confidenceEstimator, atps.mean_std_dev, atps.mean)}</TableCell>
+                              </TableRow>
+                              <TableRow>
+                                <TableCell>Per Second, Range</TableCell>
+                                <TableCell numeric>{buildRangeString(confidence, dtps.mean, dtps.data)}</TableCell>
+                                <TableCell numeric>{buildRangeString(confidence, htps.mean, htps.data)}</TableCell>
+                                <TableCell numeric>{buildRangeString(confidence, atps.mean, atps.data)}</TableCell>
+                              </TableRow>
+                            </TableBody>
+                          </Table>
+                        </Paper>
+                      </Grid>
+
+                      <Grid item xs={6}>
+                        <Paper>
+                          <Table>
+                            <TableHead>
+                              <TableRow>
+                                <TableCell>
+                                  <Typography variant='subheading'>Resources</Typography>
+                                </TableCell>
+
+                                {getChangedResourceNames(player).map(resourceName => (
+                                  <TableCell numeric key={resourceName}>
+                                    {resourceName}
+                                  </TableCell>
+                                ))}
+                              </TableRow>
+                            </TableHead>
+                            <TableBody>
+                              <TableRow>
+                                <TableCell>Spent Per Second</TableCell>
+
+                                {getChangedResourceNames(player).map(resourceName => (
+                                  <TableCell numeric key={resourceName}>
+                                    {numberFormat(getFilledCollectedDataContainer(player, `resource_lost.${resourceName}`).mean / fightLength.mean)}
+                                  </TableCell>
+                                ))}
+                              </TableRow>
+
+                              <TableRow>
+                                <TableCell>Generated Per Second</TableCell>
+
+                                {getChangedResourceNames(player).map(resourceName => (
+                                  <TableCell numeric key={resourceName}>
+                                    {numberFormat(getFilledCollectedDataContainer(player, `resource_gained.${resourceName}`).mean / fightLength.mean)}
+                                  </TableCell>
+                                ))}
+                              </TableRow>
+                            </TableBody>
+                          </Table>
+                        </Paper>
+                      </Grid>
+
+                      {player.role === 'tank' && (
+                        <Grid item xs={6}>
+                          <Paper>
+                            <Table>
+                              <TableHead>
+                                <TableRow>
+                                  <TableCell padding='dense'>
+                                    <Typography variant='subheading'>Tank Metrics</Typography>
+                                  </TableCell>
+                                  <TableCell numeric>Theck-Meloree Index</TableCell>
+                                  <TableCell numeric>Maximum Spike Damage</TableCell>
+                                </TableRow>
+                              </TableHead>
+                              <TableBody>
+                                <TableRow>
+                                  <TableCell>Minimum</TableCell>
+                                  <TableCell numeric>{numberFormat(tmi.min)}</TableCell>
+                                  <TableCell numeric>{numberFormat(msa.min)}%</TableCell>
+                                </TableRow>
+                                <TableRow>
+                                  <TableCell>Maximum</TableCell>
+                                  <TableCell numeric>{numberFormat(tmi.max)}%</TableCell>
+                                  <TableCell numeric>{numberFormat(msa.max)}%</TableCell>
+                                </TableRow>
+                                <TableRow>
+                                  <TableCell>Mean</TableCell>
+                                  <TableCell numeric>{numberFormat(tmi.mean)}</TableCell>
+                                  <TableCell numeric>{numberFormat(msa.mean)}%</TableCell>
+                                </TableRow>
+                                <TableRow>
+                                  <TableCell>Error</TableCell>
+                                  <TableCell numeric>{buildErrorString(confidenceEstimator, tmi.mean_std_dev, tmi.mean)}</TableCell>
+                                  <TableCell numeric>N/A</TableCell>
+                                </TableRow>
+                                <TableRow>
+                                  <TableCell>Range</TableCell>
+                                  <TableCell numeric>{buildRangeString(confidence, tmi.mean, tmi.data)}</TableCell>
+                                  <TableCell numeric>N/A</TableCell>
+                                </TableRow>
+                              </TableBody>
+                            </Table>
+                          </Paper>
+                        </Grid>
+                      )}
+                    </Grid>
+                  </ExpansionPanelDetails>
+                </ExpansionPanel>
+
                 <ExpansionPanel defaultExpanded>
                   <ExpansionPanelSummary expandIcon={<ExpandMore />}>
                     <Typography variant='title'>Talents</Typography>
@@ -801,11 +810,8 @@ class PlayerPanel extends React.PureComponent {
                   </ExpansionPanelDetails>
                 </ExpansionPanel>
 
-                <ExpansionPanel>
-                  <ExpansionPanelSummary
-                    classes={{content: classes.summaryContainer}}
-                    expandIcon={<ExpandMore />}
-                  >
+                <ExpansionPanel defaultExpanded>
+                  <ExpansionPanelSummary expandIcon={<ExpandMore />}>
                     <Typography variant='title'>Abilities</Typography>
                   </ExpansionPanelSummary>
                   <ExpansionPanelDetails>
@@ -837,11 +843,8 @@ class PlayerPanel extends React.PureComponent {
                   </ExpansionPanelDetails>
                 </ExpansionPanel>
 
-                <ExpansionPanel>
-                  <ExpansionPanelSummary
-                    classes={{content: classes.summaryContainer}}
-                    expandIcon={<ExpandMore />}
-                  >
+                <ExpansionPanel defaultExpanded>
+                  <ExpansionPanelSummary expandIcon={<ExpandMore />}>
                     <Typography variant='title'>Buffs</Typography>
                   </ExpansionPanelSummary>
                   <ExpansionPanelDetails>
@@ -866,7 +869,7 @@ class PlayerPanel extends React.PureComponent {
                 </ExpansionPanel>
 
                 {player.procs && player.procs.length > 0 && (
-                  <ExpansionPanel>
+                  <ExpansionPanel defaultExpanded>
                     <ExpansionPanelSummary>
                       <Typography variant='title'>Procs</Typography>
                     </ExpansionPanelSummary>
