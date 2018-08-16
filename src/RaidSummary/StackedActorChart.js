@@ -3,7 +3,11 @@ import HighchartsReact from 'highcharts-react-official'
 import PropTypes from 'prop-types'
 import * as React from 'react'
 
+const {numberFormat} = Highcharts
+
 export const StackedActorChart = ({boxPlot, series: {data, name, precision}, title}) => {
+  const benchMetric = data.slice(-1).shift().y
+
   const chartOptions = {
     chart: {
       height: Math.max(data.length * 50, 300)
@@ -22,7 +26,15 @@ export const StackedActorChart = ({boxPlot, series: {data, name, precision}, tit
       text: title
     },
     xAxis: {
-      categories: data.map(bar => bar.name),
+      categories: data.map(bar => {
+        if (bar.y === benchMetric) {
+          return bar.name
+        }
+
+        const relativeDifference = (bar.y - benchMetric) / benchMetric * 100
+
+        return `${bar.name} (${numberFormat(relativeDifference)}%)`
+      }),
       labels: {
         formatter () {
           return `<span style='color: ${data[this.pos].color}'>${this.value}</span>`

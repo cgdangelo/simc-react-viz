@@ -100,7 +100,8 @@ export default {
     gridLineColor: 'transparent',
     labels: {
       style: {
-        fontSize: '1rem'
+        fontSize: '1rem',
+        whiteSpace: 'nowrap'
       },
       y: 5
     },
