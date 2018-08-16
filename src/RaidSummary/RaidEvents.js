@@ -27,7 +27,12 @@ const RaidEvents = ({maxTime, events}) => {
     chartData.push({x: first, x2: first + duration, y: i})
 
     for (let t = first; t < last; t += event.cooldown * 1000) {
-      chartData.push({x: t, x2: t + duration, y: i, originalEvent: event})
+      chartData.push({
+        originalEvent: event,
+        x: t,
+        x2: t + duration,
+        y: i
+      })
     }
   })
 

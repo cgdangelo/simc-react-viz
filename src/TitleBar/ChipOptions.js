@@ -35,7 +35,6 @@ const ChipOptions = ({buildTimestamp, fightLength, fightStyle, iterations, targe
 
 ChipOptions.propTypes = {
   buildTimestamp: PropTypes.string.isRequired,
-  iterations: PropTypes.number.isRequired,
   fightLength: PropTypes.string.isRequired,
   fightStyle: PropTypes.oneOf([
     'Patchwerk',
@@ -48,6 +47,7 @@ ChipOptions.propTypes = {
     'Beastlord',
     'CastingPatchwerk'
   ]).isRequired,
+  iterations: PropTypes.number.isRequired,
   targetError: PropTypes.number.isRequired
 }
 

@@ -104,14 +104,14 @@ const styles = theme => createStyles({
   paddedPaper: {
     width: '100%'
   },
+  summaryContainer: {
+    alignItems: 'center',
+    margin: '0 !important'
+  },
   talentStep: {
     color: `${grey[900]} !important`,
     marginBottom: theme.spacing.unit,
     transform: 'scale(2.0)'
-  },
-  summaryContainer: {
-    alignItems: 'center',
-    margin: '0 !important'
   }
 })
 
@@ -166,33 +166,33 @@ class PlayerPanel extends React.PureComponent {
     const damageSources = player.stats
       .filter(action => action.type === 'damage' && action.portion_amount > 0)
       .map(action => ({
+        color: getColorBySchool(action.school),
         name: action.name,
         pet: action.pet,
         source: action.source,
-        y: action.portion_amount * 100,
-        color: getColorBySchool(action.school)
+        y: action.portion_amount * 100
       }))
 
     const healingSources = player.stats
       .filter(action => (action.type === 'heal' || action.type === 'absorb') && action.portion_amount > 0)
       .map(action => ({
+        color: getColorBySchool(action.school),
         name: action.name,
-        y: action.portion_amount * 100,
-        color: getColorBySchool(action.school)
+        y: action.portion_amount * 100
       }))
 
     const spentTime = player.stats
       .filter(action => !action.background && !action.quiet && !action.pet && action.total_time > 0)
       .map(action => ({
+        color: getColorBySchool(action.school),
         name: action.name,
-        y: action.total_time,
-        color: getColorBySchool(action.school)
+        y: action.total_time
       }))
 
     spentTime.push({
+      color: '#fff',
       name: 'Waiting',
-      y: getFilledCollectedDataContainer(player, 'waiting_time').mean,
-      color: '#fff'
+      y: getFilledCollectedDataContainer(player, 'waiting_time').mean
     })
 
     const constantBuffs = [...raidBuffs, ...player.buffs.filter(buff => !buff.quiet && buff.constant && buff.start_count > 0)]
@@ -596,14 +596,14 @@ class PlayerPanel extends React.PureComponent {
                                   text: 'Damage Per Second'
                                 },
                                 xAxis: {
-                                  type: 'datetime',
                                   crosshair: true,
                                   labels: {
                                     style: {
                                       fontSize: null
                                     },
                                     y: null
-                                  }
+                                  },
+                                  type: 'datetime'
                                 },
                                 yAxis: {
                                   plotLines: [
@@ -651,14 +651,14 @@ class PlayerPanel extends React.PureComponent {
                                   text: 'Damage Taken Per Second'
                                 },
                                 xAxis: {
-                                  type: 'datetime',
                                   crosshair: true,
                                   labels: {
                                     style: {
                                       fontSize: null
                                     },
                                     y: null
-                                  }
+                                  },
+                                  type: 'datetime'
                                 }
                               }}
                             />
@@ -897,13 +897,22 @@ class PlayerPanel extends React.PureComponent {
                     <ExpansionPanelDetails>
                       <SortableGroupedDataTable
                         columns={[
-                          {key: 'name', label: 'Name', text: true, tooltip: 'Name or description of the proc.'},
-                          {key: 'count', label: 'Count', tooltip: 'Average number of times the proc occurred.'},
+                          {
+                            key: 'name',
+                            label: 'Name',
+                            text: true,
+                            tooltip: 'Name or description of the proc.'
+                          },
+                          {
+                            key: 'count',
+                            label: 'Count',
+                            tooltip: 'Average number of times the proc occurred.'
+                          },
                           {
                             key: 'interval',
                             label: 'Interval',
-                            valueSuffix: 's',
-                            tooltip: 'Average amount of time between procs.'
+                            tooltip: 'Average amount of time between procs.',
+                            valueSuffix: 's'
                           }
                         ]}
                         data={player.procs.map(proc => ({

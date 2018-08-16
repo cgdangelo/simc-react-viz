@@ -45,8 +45,8 @@ export const StackedActorChart = ({boxPlot, series: {data, name, precision}, tit
 
   if (boxPlot) {
     chartOptions.series.push({
-      name,
       data: boxPlot,
+      name,
       tooltip: {
         pointFormat: `Maximum: <b>{point.high}</b><br/>Upper quartile: <b>{point.q3}</b><br/>Mean: <b>{point.mean:,.1f}</b><br/>Median: <b>{point.median}</b><br/>Lower quartile: <b>{point.q1}</b><br/>Minimum: <b>{point.low}</b><br/>`
       },

@@ -33,13 +33,13 @@ const getBoxplotColorsBySpecialization = (specialization) => ({
 })
 
 const styles = createStyles({
-  summaryContainer: {
-    alignItems: 'center',
-    margin: '0 !important'
-  },
   heading: {
     flexBasis: '25%',
     flexShrink: 0
+  },
+  summaryContainer: {
+    alignItems: 'center',
+    margin: '0 !important'
   }
 })
 

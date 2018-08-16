@@ -19,6 +19,7 @@ class AbilitiesTable extends React.PureComponent {
         const count = (type === 'Direct' ? action.num_direct_results.mean : action.num_tick_results.mean) || 0
         const results = action.tick_results || action.direct_results
 
+        /* eslint-disable sort-keys */
         return {
           source: action.source,
           name: action.name,
@@ -37,27 +38,93 @@ class AbilitiesTable extends React.PureComponent {
           blockPct: (results && results['hit (blocked)'] && results['hit (blocked)'].pct) || 0,
           uptimePct: type === 'Periodic' ? action.total_tick_time && action.total_tick_time.mean / fightLength * 100 : 0
         }
+        /* eslint-enable sort-keys */
       })
 
-    /* eslint-disable sort-keys */
     const abilityColumns = [
-      {key: 'name', label: 'Name', text: true, tooltip: 'Name of the ability.'},
-      {key: 'type', label: 'Type', text: true, tooltip: 'Type (direct or over-time) of the ability.'},
-      {key: 'aps', label: 'APS', tooltip: 'Average amount per active player duration.'},
-      {key: 'apsPct', label: 'APS %', valueSuffix: '%', tooltip: 'Percentage of total amount contributed by a single action.'},
-      {key: 'execute', label: 'Execute', tooltip: 'Average number of times the action was performed.'},
-      {key: 'interval', label: 'Interval', valueSuffix: 's', tooltip: 'Average amount of time between executes.'},
-      {key: 'ape', label: 'APE', tooltip: 'Average amount per execute.'},
-      {key: 'apet', label: 'APET', tooltip: 'Average damage per execute time of an individual action; the amount of damage generated, divided by the time taken to execute the action, including time spent in the GCD.'},
-      {key: 'count', label: 'Count', tooltip: 'Average number of times an action is executed per iteration.'},
-      {key: 'hit', label: 'Hit', tooltip: 'Average non-crit amount.'},
-      {key: 'crit', label: 'Crit', tooltip: 'Average crit amount.'},
-      {key: 'avgHit', label: 'Avg', tooltip: 'Average direct amount per execution.'},
-      {key: 'critPct', label: 'Crit%', valueSuffix: '%', tooltip: 'Percentage of executes that resulted in critical strikes.'},
-      {key: 'blockPct', label: 'B%', valueSuffix: '%', tooltip: 'Percentage of executes that resulted in a blocked strike.'},
-      {key: 'uptimePct', label: 'Up%', valueSuffix: '%', tooltip: 'Amount of time a periodic effect was active on the target.'}
+      {
+        key: 'name',
+        label: 'Name',
+        text: true,
+        tooltip: 'Name of the ability.'
+      },
+      {
+        key: 'type',
+        label: 'Type',
+        text: true,
+        tooltip: 'Type (direct or over-time) of the ability.'
+      },
+      {
+        key: 'aps',
+        label: 'APS',
+        tooltip: 'Average amount per active player duration.'
+      },
+      {
+        key: 'apsPct',
+        label: 'APS %',
+        tooltip: 'Percentage of total amount contributed by a single action.',
+        valueSuffix: '%'
+      },
+      {
+        key: 'execute',
+        label: 'Execute',
+        tooltip: 'Average number of times the action was performed.'
+      },
+      {
+        key: 'interval',
+        label: 'Interval',
+        tooltip: 'Average amount of time between executes.',
+        valueSuffix: 's'
+      },
+      {
+        key: 'ape',
+        label: 'APE',
+        tooltip: 'Average amount per execute.'
+      },
+      {
+        key: 'apet',
+        label: 'APET',
+        tooltip: 'Average damage per execute time of an individual action; the amount of damage generated, divided by the time taken to execute the action, including time spent in the GCD.'
+      },
+      {
+        key: 'count',
+        label: 'Count',
+        tooltip: 'Average number of times an action is executed per iteration.'
+      },
+      {
+        key: 'hit',
+        label: 'Hit',
+        tooltip: 'Average non-crit amount.'
+      },
+      {
+        key: 'crit',
+        label: 'Crit',
+        tooltip: 'Average crit amount.'
+      },
+      {
+        key: 'avgHit',
+        label: 'Avg',
+        tooltip: 'Average direct amount per execution.'
+      },
+      {
+        key: 'critPct',
+        label: 'Crit%',
+        tooltip: 'Percentage of executes that resulted in critical strikes.',
+        valueSuffix: '%'
+      },
+      {
+        key: 'blockPct',
+        label: 'B%',
+        tooltip: 'Percentage of executes that resulted in a blocked strike.',
+        valueSuffix: '%'
+      },
+      {
+        key: 'uptimePct',
+        label: 'Up%',
+        tooltip: 'Amount of time a periodic effect was active on the target.',
+        valueSuffix: '%'
+      }
     ]
-    /* eslint-enable sort-keys */
 
     return (
       <SortableGroupedDataTable

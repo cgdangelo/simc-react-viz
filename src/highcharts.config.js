@@ -21,13 +21,6 @@ export default {
     enabled: false
   },
   plotOptions: {
-    /* eslint-disable sort-keys */
-    series: {
-      animation: false,
-      turboThreshold: 2000
-    },
-    /* eslint-enable sort-keys */
-
     areaspline: {
       fillOpacity: 0.25
     },
@@ -63,13 +56,13 @@ export default {
     pie: {
       center: ['50%', '50%'],
       dataLabels: {
-        useHTML: true,
         style: {
           color: '#fff',
           fontSize: '0.8rem',
           fontWeight: 'normal',
           textOverflow: 'none'
-        }
+        },
+        useHTML: true
       },
       minSize: 150
     },
@@ -78,6 +71,10 @@ export default {
       marker: {
         fillColor: 'transparent'
       }
+    },
+    series: {
+      animation: false,
+      turboThreshold: 2000
     }
   },
   title: {
