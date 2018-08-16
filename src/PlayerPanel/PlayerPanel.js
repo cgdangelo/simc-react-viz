@@ -23,7 +23,13 @@ import PropTypes from 'prop-types'
 import * as React from 'react'
 import * as sma from 'sma'
 import ChipMetrics from '../ChipMetrics'
-import { getColorByResource, getColorBySchool, getColorBySpecialization, getPrimaryResourceBySpecialization, getTalentTierLevel } from '../util'
+import {
+  getColorByResource,
+  getColorBySchool,
+  getColorBySpecialization,
+  getPrimaryResourceBySpecialization,
+  getTalentTierLevel
+} from '../util'
 import AbilitiesTable from './AbilitiesTable'
 import BuffsTable from './BuffsTable'
 import SortableGroupedDataTable from './SortableGroupedDataTable'
@@ -188,6 +194,8 @@ class PlayerPanel extends React.PureComponent {
       y: getFilledCollectedDataContainer(player, 'waiting_time').mean,
       color: '#fff'
     })
+
+    const constantBuffs = [...raidBuffs, ...player.buffs.filter(buff => !buff.quiet && buff.constant && buff.start_count > 0)]
 
     return (
       <ExpansionPanel
@@ -867,12 +875,12 @@ class PlayerPanel extends React.PureComponent {
                           </Grid>
                         )}
 
-                        {raidBuffs.length > 0 && (
+                        {constantBuffs.length > 0 && (
                           <Grid item xs={12}>
                             <BuffsTable
-                              buffs={raidBuffs}
+                              buffs={constantBuffs}
                               playerName={player.name}
-                              title='Dynamic Buffs'
+                              title='Constant Buffs'
                             />
                           </Grid>
                         )}
@@ -891,7 +899,12 @@ class PlayerPanel extends React.PureComponent {
                         columns={[
                           {key: 'name', label: 'Name', text: true, tooltip: 'Name or description of the proc.'},
                           {key: 'count', label: 'Count', tooltip: 'Average number of times the proc occurred.'},
-                          {key: 'interval', label: 'Interval', valueSuffix: 's', tooltip: 'Average amount of time between procs.'}
+                          {
+                            key: 'interval',
+                            label: 'Interval',
+                            valueSuffix: 's',
+                            tooltip: 'Average amount of time between procs.'
+                          }
                         ]}
                         data={player.procs.map(proc => ({
                           source: null,
