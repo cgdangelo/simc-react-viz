@@ -141,7 +141,7 @@ class SortableGroupedDataTable extends React.PureComponent {
           <TableBody>
             {[...dataSourceMap].map(([sourceName, actions], i) => (
               <React.Fragment key={`${sourceName}_${i}`}>
-                {Object.keys(dataSourceMap).length > 1 && (
+                {dataSourceMap.size > 1 && (
                   <TableRow>
                     <TableCell
                       className={classes.tableHeadRow}
