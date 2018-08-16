@@ -28,6 +28,10 @@ const styles = theme => createStyles({
 
   tooltip: {
     fontSize: theme.typography.pxToRem(14)
+  },
+
+  wowheadLink: {
+    color: theme.palette.primary.light
   }
 })
 
@@ -36,7 +40,12 @@ class SortableGroupedDataTable extends React.PureComponent {
   static propTypes = {
     columns: PropTypes.array.isRequired,
     data: PropTypes.array.isRequired,
+    spellData: PropTypes.array,
     title: PropTypes.string
+  }
+
+  static defaultProps = {
+    spellData: []
   }
 
   state = {
@@ -55,7 +64,7 @@ class SortableGroupedDataTable extends React.PureComponent {
   }
 
   render () {
-    const {classes, columns, data, title} = this.props
+    const {classes, columns, data, spellData, title} = this.props
     const {sortAsc, sortKey} = this.state
 
     const dataSourceMap = new Map()
@@ -111,7 +120,6 @@ class SortableGroupedDataTable extends React.PureComponent {
                     ? (
                       <Tooltip
                         classes={{tooltip: classes.tooltip}}
-                        placement='top'
                         title={column.tooltip}
                       >
                         <TableSortLabel
@@ -153,19 +161,27 @@ class SortableGroupedDataTable extends React.PureComponent {
                     </TableCell>
                   </TableRow>
                 )}
-                {actions.map(action => {
+                {actions.map((action, i) => {
                   const actionColumns = Object.values(action)
 
                   return (
                     <TableRow hover key={`${action.source}_${action.name}`}>
-                      {columns.map((column, i) => (
+                      {columns.map((column, j) => (
                         <TableCell
                           key={`${action.name}_${column.key}`}
                           numeric={!column.text}
                           padding='dense'
                         >
-                          {!column.text ? numberFormat(actionColumns[i + 1]) : actionColumns[i + 1]}
-                          {column.valueSuffix}
+                          {spellData.length > 0 && column.key === 'name' ? (
+                            <a className={classes.wowheadLink} data-wowhead={`spell=${spellData[i]}`}>
+                              {actionColumns[j + 1]}
+                            </a>
+                          ) : (
+                            <React.Fragment>
+                              {!column.text ? numberFormat(actionColumns[j + 1]) : actionColumns[j + 1]}
+                              {column.valueSuffix}
+                            </React.Fragment>
+                          )}
                         </TableCell>
                       ))}
                     </TableRow>

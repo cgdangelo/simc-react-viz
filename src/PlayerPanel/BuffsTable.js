@@ -27,6 +27,7 @@ const BuffsTable = ({buffs, playerName, title}) => (
       overflow: buff.overflow_total || 0,
       expiry: buff.expire_count || 0
     }))}
+    spellData={buffs.map(buff => buff.spell)}
     title={title}
   />
 )
