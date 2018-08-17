@@ -1,11 +1,20 @@
+import createStyles from '@material-ui/core/styles/createStyles'
+import withStyles from '@material-ui/core/styles/withStyles'
 import { numberFormat } from 'highcharts'
 import PropTypes from 'prop-types'
 import * as React from 'react'
 import Chip from './Chip'
 
+const styles = createStyles({
+  chip: {
+    cursor: 'pointer'
+  }
+})
+
 const ChipMetrics = (props) => {
   const {
     aps,
+    classes,
     dps,
     dtps,
     etmi,
@@ -21,6 +30,7 @@ const ChipMetrics = (props) => {
     <React.Fragment>
       {dps > 0 && (
         <Chip
+          className={classes.chip}
           label='DPS'
           value={numberFormat(dps, 0)}
         />
@@ -28,6 +38,7 @@ const ChipMetrics = (props) => {
 
       {priorityDps > 0 && (
         <Chip
+          className={classes.chip}
           label='Priority DPS'
           value={numberFormat(priorityDps, 0)}
         />
@@ -35,6 +46,7 @@ const ChipMetrics = (props) => {
 
       {totalDamage > 0 && (
         <Chip
+          className={classes.chip}
           label='Damage'
           value={numberFormat(totalDamage, 0)}
         />
@@ -42,6 +54,7 @@ const ChipMetrics = (props) => {
 
       {dtps > 0 && (
         <Chip
+          className={classes.chip}
           label='DTPS'
           value={numberFormat(dtps, 0)}
         />
@@ -49,6 +62,7 @@ const ChipMetrics = (props) => {
 
       {hps > 0 && (
         <Chip
+          className={classes.chip}
           label='HPS'
           value={numberFormat(hps, 0)}
         />
@@ -56,6 +70,7 @@ const ChipMetrics = (props) => {
 
       {totalHeal > 0 && (
         <Chip
+          className={classes.chip}
           label='Heals'
           value={numberFormat(totalHeal, 0)}
         />
@@ -63,6 +78,7 @@ const ChipMetrics = (props) => {
 
       {aps > 0 && (
         <Chip
+          className={classes.chip}
           label='APS'
           value={numberFormat(aps, 0)}
         />
@@ -70,6 +86,7 @@ const ChipMetrics = (props) => {
 
       {totalAbsorb > 0 && (
         <Chip
+          className={classes.chip}
           label='Absorbs'
           value={numberFormat(totalAbsorb, 0)}
         />
@@ -77,6 +94,7 @@ const ChipMetrics = (props) => {
 
       {tmi > 0 && (
         <Chip
+          className={classes.chip}
           label='TMI'
           value={numberFormat(tmi, 0)}
         />
@@ -84,6 +102,7 @@ const ChipMetrics = (props) => {
 
       {etmi > 0 && (
         <Chip
+          className={classes.chip}
           label='ETMI'
           value={numberFormat(tmi, 0)}
         />
@@ -105,4 +124,4 @@ ChipMetrics.propTypes = {
   totalHeal: PropTypes.number
 }
 
-export default ChipMetrics
+export default withStyles(styles)(ChipMetrics)
