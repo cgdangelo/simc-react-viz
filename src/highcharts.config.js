@@ -4,6 +4,7 @@ const localeNumber = new Intl.NumberFormat().formatToParts(1000.1)
 
 export default {
   chart: {
+    animation: false,
     backgroundColor: grey[900],
     spacing: [25, 50, 25, 25],
     style: {
