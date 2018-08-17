@@ -5,7 +5,7 @@ import * as React from 'react'
 
 const {numberFormat} = Highcharts
 
-export const StackedActorChart = ({boxPlot, series: {data, name, precision}, title}) => {
+export const StackedActorChart = ({boxPlot, series: {data, name, precision = 0}, title}) => {
   const benchMetric = data.slice(-1).shift().y
 
   const chartOptions = {
@@ -16,7 +16,7 @@ export const StackedActorChart = ({boxPlot, series: {data, name, precision}, tit
       {
         data,
         dataLabels: {
-          format: `{point.y:,.${precision || 0}f}`
+          format: `{point.y:,.${precision}f}`
         },
         name,
         type: 'bar'
